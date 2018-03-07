@@ -1,0 +1,132 @@
+/* 
+ * Side Menu 
+ */
+
+a {
+  color: #bbb;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: translate3d(-100%, 0, 0);
+  transition: all .25s ease-out;
+  background: rgba(65, 12, 51, 0.8);
+  padding-top: 35px;
+  height: 100%;
+  width: 250px;
+}
+
+.sideMenuElement {
+  text-transform: uppercase;
+  font-family: Arial;
+  font-size: 10.5px;
+  margin: 0px;
+  text-align: center;
+  font-weight: 800;
+}
+
+.title h5 {
+  margin: 0px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 800;
+  font-family: Arial;
+  font-size: 1.5em;
+  margin: 0 auto;
+  color: #CAA8F5;
+  border-bottom: 3px solid #230C33;
+}
+
+.menu-container {
+  position: absolute;
+  height: 100vh;
+  z-index: 25;
+}
+
+.AI-settings {
+  display: flex;   
+  flex-direction: column;
+}
+
+.nav-toggle {
+  position: absolute;
+  left: 15px;
+  top: 20px;
+  width: 500px;
+  cursor: pointer;
+  z-index: 35;
+}
+
+.nav-toggle.hamburger {
+  width: 35px;
+  height: 35px;
+}
+
+.nav-toggle.hamburger:hover {
+  cursor: pointer;
+}
+
+.nav-toggle.hamburger span {
+  width: 30px;
+  height: 2px;
+  background-color: #4e4e4e;
+  display: block;
+  margin: 5px auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-toggle.hamburger.open span:nth-child(1) {
+  width: 20px;
+  transform: translateX(-10px) rotate(-45deg);
+}
+
+.nav-toggle.hamburger.hamburger.open span:nth-child(3) {
+  width: 20px;
+  transform: translateX(-10px) rotate(45deg);
+}
+
+.nav-open nav {
+  transform: translate3d(0, 0, 0);
+  transition: all .4s ease;
+}
+
+.sideMenuButton {
+  width: 80%;
+  padding: 10px 0px;
+  background: transparent;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border: 2px solid #ababab;
+  color: #ababab;
+  height:40px;
+}
+
+.sideMenuButton:hover {
+  cursor: pointer;
+  border: 2px solid hotpink;
+  color: #CAA8F5;
+}
+
+.sideMenuButton .active,  {
+  color: #CAA8F5;
+  border: 2px solid hotpink;
+}
+
+.sideMenuButtonContainer a {
+  color: #230C33;
+  -webkit-transition: all 1.5s;
+  -webkit-transition: all .5s;
+  transition: all .5s;
+}
+
+.sideMenuButtonContainer.:hover a {
+  color: #CAA8F5;
+  transition: all .25s;
+}

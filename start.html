@@ -1,0 +1,390 @@
+<script>"use strict";</script>
+
+<html lang="en">
+	<head>
+		<title>AI-3D-Soccer xbe.at 1.0.1</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/Scene3D.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/virtualInput.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/sidemenu.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/AI.css">
+
+		<!-- original position: /build/OrbitControls.js -->
+		<script src="js/three.js"></script>
+		<!-- original position: /examples/js/controls/OrbitControls.js -->
+		<script src="js/OrbitControls.js"></script>
+		<!-- original position: /examples/js/libs/dat.gui.min.js -->
+		<script src="js/dat.gui.min.js"></script>		
+		<script src="js/CharacterController.js"></script>
+		<script src="js/ControlPanel.js"></script>
+
+	</head>
+	<body>
+		<div id="container"></div>
+		<div id="info">
+			<br>camera orbit/zoom/pan with left/middle/right mouse button
+			<br>orbit/zoom/pan with 1-finger move/pinch/3-finger move
+			<br><br>Note: crossfades are possible with blend weights being set to (1,0,0), (0,1,0) or (0,0,1)
+		</div>
+		<div id="data">****</div>
+
+		<div id="camera-presets">
+		  <div class="container">
+		    <div class="preset-button">1</div>
+		    <div class="preset-button">2</div>
+		    <div class="preset-button">3</div>
+		    <div class="preset-button">4</div>
+		    <div class="preset-button">5</div>
+		    <div class="preset-button">6</div>
+		    <div class="preset-button">F</div>
+		  </div>
+		</div>
+
+		<div class="nav-toggle open hamburger">
+		  <span></span>
+		  <span></span>
+		  <span></span>
+		</div>
+		
+		<div class="menu-container nav-open">
+			<nav>
+				<div>
+					<div class="title">
+						<h5>xbe.at</h5>
+					</div>
+				</div>
+
+			    <div id="stopRaf" class="sideMenuButtonContainer">
+					<a onClick="pause()" class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Stop RAF</p></button></a>
+			    </div>
+
+			    <div id="closeJoystick" class="sideMenuButtonContainer">
+					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Close Joystick</p></button></a>
+			    </div>	 
+
+			     <div id="clearConsole" class="sideMenuButtonContainer">
+					<a onClick="document.getElementById('myLog').innerHTML = '' " class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Clear Console</p></button></a>
+				</div>
+
+				<!-- --- AI Settings --- -->
+
+				<div class="AI-settings">
+
+					<form class="formParams">
+	
+					    <div class="switch-field">
+					      <div class="switch-title">Raf</div>
+					      <input type="radio" id="switch_raf_on" onclick = "EXECUTERAF = true" name="switch_raf" value="on" checked/>
+					      <label for="switch_raf_on">On</label>
+					      <input type="radio" id="switch_raf_off" onclick = "EXECUTERAF = false" name="switch_raf" value="off" />
+					      <label for="switch_raf_off">Off</label>
+					    </div>
+
+					    <div class="switch-field">
+					      <div class="switch-title">Show IDs</div>
+					      <input type="radio" id="switch_ids_on" onclick = "Prm.bIDs = true" name="switch_ids" value="on" checked/>
+					      <label for="switch_ids_on">On</label>
+					      <input type="radio" id="switch_ids_off" onclick = "Prm.bIDs = false" name="switch_ids" value="off" />
+					      <label for="switch_ids_off">Off</label>
+					    </div>
+					    <div class="switch-field">
+					      <div class="switch-title">Show States</div>
+					      <input type="radio" id="switch_states_on" onclick = "Prm.bStates = true" name="switch_states" value="on" checked/>
+					      <label for="switch_states_on">On</label>
+					      <input type="radio" id="switch_states_off" onclick = "Prm.bStates = false" name="switch_states" value="off" />
+					      <label for="switch_states_off">Off</label>
+					    </div>
+					    <div class="switch-field">
+					      <div class="switch-title">Show Regions</div>
+					      <input type="radio" id="switch_regions_on" onclick = "Prm.bRegions = true" name="switch_regions" value="on" checked/>
+					      <label for="switch_regions_on">On</label>
+					      <input type="radio" id="switch_regions_off" onclick = "Prm.bRegions = false" name="switch_regions" value="off" />
+					      <label for="switch_regions_off">Off</label>
+					    </div>
+					    <div class="switch-field">
+					      <div class="switch-title">Show Support Spots</div>
+					      <input type="radio" id="switch_support_on" onclick = "Prm.bSupportSpots = true" name="switch_support" value="on" checked/>
+					      <label for="switch_support_on">On</label>
+					      <input type="radio" id="switch_support_off" onclick = "Prm.bSupportSpots = false" name="switch_support" value="off" />
+					      <label for="switch_support_off">Off</label>
+					    </div>
+					    <div class="switch-field">
+					      <div class="switch-title">Show Targets</div>
+					      <input type="radio" id="switch_targets_on" onclick = "Prm.bViewTargets = true" name="switch_targets" value="on" checked/>
+					      <label for="switch_targets_on">On</label>
+					      <input type="radio" id="switch_targets_off" onclick = "Prm.bViewTargets = false" name="switch_targets" value="off" />
+					      <label for="switch_targets_off">Off</label>
+					    </div>
+					    <div class="switch-field">
+					      <div class="switch-title">Highlight if Threatened</div>
+					      <input type="radio" id="switch_threatened_on" onclick = "Prm.bHighlightIfThreatened = true" name="switch_threatened" value="on" checked/>
+					      <label for="switch_threatened_on">On</label>
+					      <input type="radio" id="switch_threatened_off" onclick = "Prm.bHighlightIfThreatened = false" name="switch_threatened" value="off" />
+					      <label for="switch_threatened_off">Off</label>
+					    </div>
+
+					</form>
+
+					<form class="formLogs">
+
+					    <div class="switch-field">
+					      <div class="switch-title">Log Team State</div>
+					      <input type="radio" id="switch_teamstate_on" onclick = "SHOW_TEAM_STATE = true" name="switch_teamstate" value="on" />
+					      <label for="switch_teamstate_on">On</label>
+					      <input type="radio" id="switch_teamstate_off" onclick = "SHOW_TEAM_STATE = false" name="switch_teamstate" value="off" checked/>
+					      <label for="switch_teamstate_off">Off</label>
+					    </div>
+					    <div class="switch-field">
+					      <div class="switch-title">Log Supporting Players Target</div>
+					      <input type="radio" id="switch_supporting_on" onclick = "SHOW_SUPPORTING_PLAYERS_TARGET = true" name="switch_supporting" value="on" />
+					      <label for="switch_supporting_on">On</label>
+					      <input type="radio" id="switch_supporting_off" onclick = "SHOW_SUPPORTING_PLAYERS_TARGET = false" name="switch_supporting" value="off" checked/>
+					      <label for="switch_supporting_off">Off</label>
+					    </div>
+					    <div class="switch-field">
+					      <div class="switch-title">Log Messaging Info</div>
+					      <input type="radio" id="switch_messaging_on" onclick = "SHOW_MESSAGING_INFO = true" name="switch_messaging" value="on" />
+					      <label for="switch_messaging_on">On</label>
+					      <input type="radio" id="switch_messaging_off" onclick = "SHOW_MESSAGING_INFO = false" name="switch_messaging" value="off" checked/>
+					      <label for="switch_messaging_off">Off</label>
+					    </div>
+					    <div class="switch-field">
+					      <div class="switch-title">Log Debug Team State</div>
+					      <input type="radio" id="switch_debugteam_on" onclick = "DEBUG_TEAM_STATES = true" name="switch_debugteam" value="on" />
+					      <label for="switch_debugteam_on">On</label>
+					      <input type="radio" id="switch_debugteam_off" onclick = "DEBUG_TEAM_STATES = false" name="switch_debugteam" value="off" checked/>
+					      <label for="switch_debugteam_off">Off</label>
+					    </div>
+					    <div class="switch-field">
+					      <div class="switch-title">Log Goaly State</div>
+					      <input type="radio" id="switch_goaly_on" onclick = "GOALY_STATE_INFO_ON = true" name="switch_goaly" value="on" />
+					      <label for="switch_goaly_on">On</label>
+					      <input type="radio" id="switch_goaly_off" onclick = "GOALY_STATE_INFO_ON = false" name="switch_goaly" value="off" checked/>
+					      <label for="switch_goaly_off">Off</label>
+					    </div>
+					    <div class="switch-field">
+					      <div class="switch-title">Log Player State</div>
+					      <input type="radio" id="switch_player_on" onclick = "PLAYER_STATE_INFO_ON = true" name="switch_player" value="on" />
+					      <label for="switch_player_on">On</label>
+					      <input type="radio" id="switch_player_off" onclick = "PLAYER_STATE_INFO_ON = false" name="switch_player" value="off" checked/>
+					      <label for="switch_player_off">Off</label>
+					    </div>
+					</form>
+				</div>
+			</nav>
+		</div>
+		<p id="myLog"></p>
+
+	</body>
+	<script src="js/Scene3D.js"></script>
+	<script src="js/VirtualInput.js"></script>
+	<script src="js/camera.js"></script>
+
+	<script>
+		
+		document.querySelector('#closeJoystick').addEventListener('click', function() {
+			if (document.querySelector(".virtualInput-joystick").style.visibility == "hidden") {
+				document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "visible";
+				document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "visible";
+				document.querySelectorAll(".virtualInput-button")[0].style.visibility = "visible";
+				document.querySelectorAll(".virtualInput-button")[1].style.visibility = "visible";
+				document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "visible";
+			} else {
+				document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "hidden";
+				document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "hidden";	
+				document.querySelectorAll(".virtualInput-button")[0].style.visibility = "hidden";
+				document.querySelectorAll(".virtualInput-button")[1].style.visibility = "hidden";
+				document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "hidden";			
+			};
+		});
+
+		document.querySelector('.nav-toggle').addEventListener( "click", function( e ){
+			e.currentTarget.classList.toggle('open');
+			document.querySelector('.menu-container').classList.toggle('nav-open');
+		});
+
+		// resize
+		window.addEventListener( 'resize', function () {
+			soccer3D.camera.aspect = window.innerWidth / window.innerHeight;
+			soccer3D.camera.updateProjectionMatrix();
+			soccer3D.renderer.setSize( window.innerWidth, window.innerHeight );
+		}, false);
+
+	</script>
+
+</html>
+
+<!-- --------    -------- -->
+<!-- -------- AI -------- -->
+<!-- --------    -------- -->
+
+<script>
+	"use strict";
+	function pause(){
+		cancelAnimationFrame( RAF );
+		cancelAnimationFrame( RAF_AI );
+	};
+
+	var selects = document.getElementsByClassName( "onoffbtn" );
+	for( let i = 0, il = selects.length; i < il; i++ ){
+		selects[i].addEventListener( "click", function(){
+			if ( this.classList )
+			this.classList.toggle( "active" );
+		});
+	};
+
+	window.console = {
+		log: function( str ){
+			var node = document.createElement( "div" );
+			node.appendChild( document.createTextNode( str ) );
+			document.getElementById("myLog").appendChild( node );
+			document.getElementById("myLog").scrollTop = document.getElementById("myLog").scrollHeight;
+		},
+		warn: function( str ){
+			console.log( str );
+		}
+	};
+
+</script>
+
+<!-- Globals -->
+<script type="text/javascript" src="js/AI/Global.js"></script>
+<script type="text/javascript" src="js/AI/DEFINE.js"></script>
+
+<!-- Class extended -->
+<script type="text/javascript" src="js/AI/BaseGameEntity.js"></script>
+<script type="text/javascript" src="js/AI/MovingEntity.js"></script>
+<script type="text/javascript" src="js/AI/PlayerBase.js"></script>
+
+<!-- SimpleSoccer -->
+<script type="text/javascript" src="js/AI/FieldPlayer.js"></script>
+<script type="text/javascript" src="js/AI/Goal.js"></script>
+<script type="text/javascript" src="js/AI/GoalKeeper.js"></script>
+<script type="text/javascript" src="js/AI/ParamLoader.js"></script>
+<script type="text/javascript" src="js/AI/SoccerBall.js"></script>
+<script type="text/javascript" src="js/AI/SoccerPitch.js"></script>
+<script type="text/javascript" src="js/AI/SoccerTeam.js"></script>
+<script type="text/javascript" src="js/AI/SteeringBehaviors.js"></script>
+<script type="text/javascript" src="js/AI/SupportSpotCalculator.js"></script>
+
+<!-- SimpleSoccer.FieldPlayerStates -->
+<script type="text/javascript" src="js/AI/ChaseBall.js"></script>
+<script type="text/javascript" src="js/AI/Dribble.js"></script>
+<script type="text/javascript" src="js/AI/GlobalPlayerState.js"></script>
+<script type="text/javascript" src="js/AI/KickBall.js"></script>
+<script type="text/javascript" src="js/AI/ReceiveBall.js"></script>
+<script type="text/javascript" src="js/AI/ReturnToHomeRegion.js"></script>
+<script type="text/javascript" src="js/AI/SupportAttacker.js"></script>
+<script type="text/javascript" src="js/AI/Wait.js"></script>
+
+<!-- SimpleSoccer.GoalKeeperStates -->
+<script type="text/javascript" src="js/AI/GlobalKeeperState.js"></script>
+<script type="text/javascript" src="js/AI/InterceptBall.js"></script>
+<script type="text/javascript" src="js/AI/PutBallBackInPlay.js"></script>
+<script type="text/javascript" src="js/AI/ReturnHome.js"></script>
+<script type="text/javascript" src="js/AI/TendGoal.js"></script>
+
+<!-- SimpleSoccer.TeamStates -->
+<script type="text/javascript" src="js/AI/Attacking.js"></script>
+<script type="text/javascript" src="js/AI/Defending.js"></script>
+<script type="text/javascript" src="js/AI/PrepareForKickOff.js"></script>
+<script type="text/javascript" src="js/AI/TeamStates.js"></script>
+
+<!-- Common.D2 -->
+<script type="text/javascript" src="js/AI/C2DMatrix.js"></script>
+<script type="text/javascript" src="js/AI/InvertedAABBox2D.js"></script>
+<script type="text/javascript" src="js/AI/Transformation.js"></script>
+<script type="text/javascript" src="js/AI/Vector2D.js"></script>
+<script type="text/javascript" src="js/AI/Wall2D.js"></script>
+<script type="text/javascript" src="js/AI/Geometry.js"></script>
+
+<!-- Common.FSM -->
+<script type="text/javascript" src="js/AI/StateMachine.js"></script>
+
+<!-- Common.Game -->
+<script type="text/javascript" src="js/AI/EntityFunctionTemplates.js"></script>
+<script type="text/javascript" src="js/AI/EntityManager.js"></script>
+<script type="text/javascript" src="js/AI/Region.js"></script>
+
+<!-- Common.Messaging -->
+<script type="text/javascript" src="js/AI/TreeSet.js"></script>
+<script type="text/javascript" src="js/AI/MessageDispatcher.js"></script>
+<script type="text/javascript" src="js/AI/Telegram.js"></script>
+
+<!-- Common.Time -->
+<script type="text/javascript" src="js/AI/CrudeTimer.js"></script>
+<script type="text/javascript" src="js/AI/PrecisionTimer.js"></script>
+<script type="text/javascript" src="js/AI/Regulator.js"></script>
+
+<!-- Common.Misc -->
+<script type="text/javascript" src="js/AI/Cgdi.js"></script>
+<script type="text/javascript" src="js/AI/CppToJava.js"></script>
+<script type="text/javascript" src="js/AI/FrameCounter.js"></script>
+<script type="text/javascript" src="js/AI/utils.js"></script>
+
+<script>
+	var cxClient = 460;//600
+	var cyClient = 290;//380
+
+	let Color = {
+		WHITE: "255, 255, 255",
+		BLACK: "0, 0, 0"
+	};
+
+	let canvas = document.createElement( "canvas" );
+	document.body.appendChild( canvas );
+	//canvas.style.position = "absolute";
+	//canvas.style.top = "20px";
+	//canvas.style.left = "20px";
+	//canvas.style.zIndex = "-97";
+
+    canvas.style.position = "fixed";
+    canvas.style.bottom = "10px";
+    canvas.style.left = "50%";
+    canvas.style.margin = "0 auto";
+    canvas.style.zIndex = "30";
+    canvas.style.transform = "translate( -50%, 0 )";
+
+	canvas.width = cxClient;
+	canvas.height = cyClient;
+	context = canvas.getContext( '2d' );
+	context.clearRect( 0, 0, canvas.width, canvas.height ); 
+
+	//---------------- init -----------------
+    gdi.StartDrawing( context );
+    
+    //gdi.fillRect( Color.WHITE, 0, 0, canvas.width, canvas.height );
+
+	var g_SoccerPitch = new SoccerPitch( cxClient, cyClient );
+	
+	//g_SoccerPitch.Render();
+
+    gdi.StopDrawing( context );
+
+    //--------------- update ---------------
+    let timer = new PrecisionTimer();
+    let RAF_AI;
+	let RAF;
+    let EXECUTERAF = true;
+    //start the timer
+    timer.Start();
+
+	( function step() {
+   		RAF_AI = requestAnimationFrame( step );
+
+	    //update
+	    if ( timer.ReadyForNextFrame() ) {
+	    	
+	    	if ( EXECUTERAF === true ){
+		        g_SoccerPitch.Update();
+		        //render
+		        g_SoccerPitch.Render();
+		        //panel.revalidate();
+		        //panel.repaint();
+	    	};
+	    };
+		
+	}() );
+
+</script>

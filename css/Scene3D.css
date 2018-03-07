@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
+html {
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: 300;
+  color:#fff;
+  font-family:sans-serif;
+  margin:0;
+}
+
+body {
+  color: #fff;
+  font-family: Monospace;
+  font-size: 13px;
+  text-align: center;
+  background-color: #fff;
+  margin: 0px;
+  overflow: hidden;
+}
+
+#camera-presets {
+  transition: opacity 0.5s linear;
+  user-select: none;
+  position: absolute;
+  top: 100px;
+  justify-content: center;
+  color: #fff;
+  margin: auto;
+  left: 0;
+  right: 0;
+  width: 600px;
+  display: flex;
+  z-index: 1;
+}
+
+.container {
+  font-size: 30px;
+  text-align: center;
+  display: flex;
+  -webkit-font-smoothing: antialiased
+}
+
+.preset-button {
+  font-size: 16px;
+  font-family: "arial";
+  font-weight: bold;
+  border-radius: 500px;
+  background: #fc0;
+  color: #fff;
+  box-sizing: border-box;
+  box-shadow: inset 0 -3px 0 #d58b1c;
+  text-shadow: 0 -1px 0 #d58b1c;
+  line-height: 33px;
+  width: 33px;
+  height: 36px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.presets:hover {
+  cursor: pointer;
+}
+
+.presets:active {
+  margin-top: 3px
+}
+
+#info {
+  position: absolute;
+  top: 0px; 
+  width: 100%;
+  padding: 5px;
+}
+
+#data {
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  padding: 5px;
+}
+
+
+.ac {  /* prevent dat-gui from being selected */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.no-pointer-events {
+  pointer-events: none;
+}
+
+.control-disabled {
+  color: #888;
+  text-decoration: line-through;
+}   
+
+.st1 {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-miterlimit: 10;
+}
+
+/* 
+ * Control Panel 
+ */
+ul.container-controls {
+  width: 200px;
+  margin: 0 auto;
+  padding: 25px 0px 0px 0px;
+}
+
+ul.container-controls li {
+  width: 60px;
+  display: inline-block;
+}
+
+ul.object-controls {
+  width: 100%;
+  display: block;
+  float: left;
+  margin-top: 0px;
+}
+
+ul.object-controls li {
+  width: 50%;
+  float: left;
+  text-align: center;
+  padding: 5px 0px;
+}
+
+ul.object-controls a.object > p {
+  margin: 0px;
+}
+
+ul.create-objects li {
+  width: 50%;
+  float: left;
+  padding: 10px 0px;
+}
+

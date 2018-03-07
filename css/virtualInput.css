@@ -1,0 +1,130 @@
+#joystick1,
+#joystick2{
+  bottom: 30px;
+}
+
+#joystick1{ left: 50px; }
+#joystick2{ right: 50px; }
+
+@media ( max-width: 768px ) {
+  #joystick1,
+  #joystick2{
+    bottom:0px;
+  }
+
+  #joystick1{ left: 0px; }
+  #joystick2{ right: 0px; }
+}
+
+#button1{
+  bottom: 240px;
+  right: 180px;
+}
+
+#button2{
+  bottom: 240px;
+  right: 80px;
+}
+
+#button3{
+  bottom: 340px;
+  right: 80px;
+}
+
+@media ( max-width: 768px ) {
+  #button1{
+    right: 160px;
+    bottom: 200px;
+  }
+
+  #button2{
+    right: 60px;
+    bottom: 200px;
+  }
+
+  #button3{
+    right: 60px;
+    bottom: 300px;
+  }        
+
+}
+
+.virtualInput-joystick{
+  position: absolute;
+  -ms-touch-action : none ;
+      touch-action : none ;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.virtualInput-joystick__frame{
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events:none;
+  opacity: .5;
+}
+
+.virtualInput-joystick__button{
+  cursor: pointer;
+  position: absolute;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: rgba( 204, 204, 204, .5 );
+}
+
+.virtualInput-joystick__arrowUp,
+.virtualInput-joystick__arrowRight,
+.virtualInput-joystick__arrowDown,
+.virtualInput-joystick__arrowLeft{
+  fill: #ccc;
+}
+
+.virtualInput-joystick__circle{
+  fill: none;
+  stroke: #ccc;
+}
+
+.virtualInput-button{
+  position: absolute;
+  box-sizing: border-box;
+  display: table;
+  -ms-touch-action: none ;
+      touch-action: none ;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.virtualInput-button__inner{
+  text-align: center;
+  cursor: pointer;
+  display: table-cell;
+  vertical-align: middle;
+  background: rgba( 255, 255, 255, .5 );
+  border-radius: 50%;
+}
+
+.virtualInput-squareButton{
+  position: absolute;
+  box-sizing: border-box;
+  display: table;
+  -ms-touch-action: none ;
+      touch-action: none ;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.virtualInput-squareButton__inner{
+  text-align: center;
+  cursor: pointer;
+  display: table-cell;
+  vertical-align: middle;
+  border-radius: 3px;
+  background: rgba( 255, 255, 255, .5 );
+}
