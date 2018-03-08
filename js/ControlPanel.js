@@ -88,19 +88,19 @@ function createPanel() {
 }
 
 function showModel( visibility ) {
-	soccer3D.mesh.visible = visibility;
+	scene3D.mesh.visible = visibility;
 }
 
 function showSkeleton( visibility ) {
-	soccer3D.skeleton.visible = visibility;
+	scene3D.skeleton.visible = visibility;
 }
 
 function useControls( useControls ) {
-	soccer3D.controls.enabled = useControls;
+	scene3D.controls.enabled = useControls;
 }
 
 function modifyTimeScale( speed ) {
-	soccer3D.mixer.timeScale = speed;
+	scene3D.mixer.timeScale = speed;
 }
 
 function deactivateAllActions() {
@@ -121,8 +121,8 @@ function activateAllActions() {
 }
 
 function pauseContinue() {
-	if ( soccer3D.singleStepMode ) {
-		soccer3D.singleStepMode = false;
+	if ( scene3D.singleStepMode ) {
+		scene3D.singleStepMode = false;
 		unPauseAllActions();
 	} else {
 		if ( idleAction.paused ) {
@@ -147,7 +147,7 @@ function unPauseAllActions() {
 
 function toSingleStepMode() {
 	unPauseAllActions();
-	soccer3D.singleStepMode = true;
+	scene3D.singleStepMode = true;
 	sizeOfNextStep = settings[ 'modify step size' ];
 };
 
@@ -155,7 +155,7 @@ function prepareCrossFade( startAction, endAction, defaultDuration ) {
 	// Switch default / custom crossfade duration (according to the user's choice)
 	var duration = setCrossFadeDuration( defaultDuration );
 	// Make sure that we don't go on in singleStepMode, and that all actions are unpaused
-	soccer3D.singleStepMode = false;
+	scene3D.singleStepMode = false;
 	unPauseAllActions();
 
 	// If the current action is 'idle' (duration 4 sec), execute the crossfade immediately;
@@ -177,10 +177,10 @@ function setCrossFadeDuration( defaultDuration ) {
 };
 
 function synchronizeCrossFade( startAction, endAction, duration ) {
-	soccer3D.mixer.addEventListener( 'loop', onLoopFinished );
+	scene3D.mixer.addEventListener( 'loop', onLoopFinished );
 	function onLoopFinished( event ) {
 		if ( event.action === startAction ) {
-			soccer3D.mixer.removeEventListener( 'loop', onLoopFinished );
+			scene3D.mixer.removeEventListener( 'loop', onLoopFinished );
 			executeCrossFade( startAction, endAction, duration );
 		};
 	};

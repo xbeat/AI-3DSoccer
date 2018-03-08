@@ -1,4 +1,10 @@
-<script>"use strict";</script>
+<script>
+	'use strict';
+    // ------------ Globals ------------
+    let RAF_AI;
+	let RAF;
+    let EXECUTERAF = false;
+</script>
 
 <html lang="en">
 	<head>
@@ -10,15 +16,6 @@
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/sidemenu.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/AI.css">
 
-		<!-- original position: /build/OrbitControls.js -->
-		<script src="js/three.js"></script>
-		<!-- original position: /examples/js/controls/OrbitControls.js -->
-		<script src="js/OrbitControls.js"></script>
-		<!-- original position: /examples/js/libs/dat.gui.min.js -->
-		<script src="js/dat.gui.min.js"></script>		
-		<script src="js/CharacterController.js"></script>
-		<script src="js/ControlPanel.js"></script>
-
 	</head>
 	<body>
 		<div id="container"></div>
@@ -27,7 +24,7 @@
 			<br>orbit/zoom/pan with 1-finger move/pinch/3-finger move
 			<br><br>Note: crossfades are possible with blend weights being set to (1,0,0), (0,1,0) or (0,0,1)
 		</div>
-		<div id="data">****</div>
+		<div id="data">####</div>
 
 		<div id="camera-presets">
 		  <div class="container">
@@ -177,41 +174,6 @@
 		<p id="myLog"></p>
 
 	</body>
-	<script src="js/Scene3D.js"></script>
-	<script src="js/VirtualInput.js"></script>
-	<script src="js/camera.js"></script>
-
-	<script>
-		
-		document.querySelector('#closeJoystick').addEventListener('click', function() {
-			if (document.querySelector(".virtualInput-joystick").style.visibility == "hidden") {
-				document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "visible";
-				document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "visible";
-				document.querySelectorAll(".virtualInput-button")[0].style.visibility = "visible";
-				document.querySelectorAll(".virtualInput-button")[1].style.visibility = "visible";
-				document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "visible";
-			} else {
-				document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "hidden";
-				document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "hidden";	
-				document.querySelectorAll(".virtualInput-button")[0].style.visibility = "hidden";
-				document.querySelectorAll(".virtualInput-button")[1].style.visibility = "hidden";
-				document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "hidden";			
-			};
-		});
-
-		document.querySelector('.nav-toggle').addEventListener( "click", function( e ){
-			e.currentTarget.classList.toggle('open');
-			document.querySelector('.menu-container').classList.toggle('nav-open');
-		});
-
-		// resize
-		window.addEventListener( 'resize', function () {
-			soccer3D.camera.aspect = window.innerWidth / window.innerHeight;
-			soccer3D.camera.updateProjectionMatrix();
-			soccer3D.renderer.setSize( window.innerWidth, window.innerHeight );
-		}, false);
-
-	</script>
 
 </html>
 
@@ -247,6 +209,54 @@
 	};
 
 </script>
+
+<script src="js/ControlPanel.js"></script>
+<!-- original position: /build/OrbitControls.js -->
+<script src="js/three.js"></script>
+<!-- original position: /examples/js/controls/OrbitControls.js -->
+<script src="js/OrbitControls.js"></script>
+<!-- original position: /examples/js/libs/dat.gui.min.js -->
+<script src="js/dat.gui.min.js"></script>
+<script src="js/CharacterController.js"></script>
+
+<!-- ----- Scene 3D ----- -->
+<script src="js/Scene3D.js"></script>
+<script src="js/VirtualInput.js"></script>
+<script src="js/camera.js"></script>
+
+<script>
+	
+	document.querySelector('#closeJoystick').addEventListener('click', function() {
+		if (document.querySelector(".virtualInput-joystick").style.visibility == "hidden") {
+			document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "visible";
+			document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "visible";
+			document.querySelectorAll(".virtualInput-button")[0].style.visibility = "visible";
+			document.querySelectorAll(".virtualInput-button")[1].style.visibility = "visible";
+			document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "visible";
+		} else {
+			document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "hidden";
+			document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "hidden";	
+			document.querySelectorAll(".virtualInput-button")[0].style.visibility = "hidden";
+			document.querySelectorAll(".virtualInput-button")[1].style.visibility = "hidden";
+			document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "hidden";			
+		};
+	});
+
+	document.querySelector('.nav-toggle').addEventListener( "click", function( e ){
+		e.currentTarget.classList.toggle('open');
+		document.querySelector('.menu-container').classList.toggle('nav-open');
+	});
+
+	// resize
+	window.addEventListener( 'resize', function () {
+		scene3D.camera.aspect = window.innerWidth / window.innerHeight;
+		scene3D.camera.updateProjectionMatrix();
+		scene3D.renderer.setSize( window.innerWidth, window.innerHeight );
+	}, false);
+
+</script>
+
+<!-- ----- AI ----- -->
 
 <!-- Globals -->
 <script type="text/javascript" src="js/AI/Global.js"></script>
@@ -362,29 +372,67 @@
 
     gdi.StopDrawing( context );
 
+    //--------------- 3D & Camera ------------
+	let presetButton = document.getElementsByClassName( "preset-button" );
+
+	let scene3D = new Camera();
+
+	presetButton[0].addEventListener( "click", function() {
+	 	scene3D.tween( cameraPresets[0], 1000, Easing.easeOutCubic );
+	}, false );
+
+	presetButton[1].addEventListener( "click", function() {
+	 	scene3D.tween( cameraPresets[1], 1000, Easing.easeOutCubic );
+	}, false );
+	 
+	presetButton[2].addEventListener( "click", function() {
+		scene3D.tween( cameraPresets[2], 1000, Easing.easeOutCubic );
+	}, false );
+
+	presetButton[3].addEventListener( "click", function() {
+		scene3D.tween( cameraPresets[3], 1000, Easing.easeOutCubic );
+	}, false );
+
+	presetButton[4].addEventListener( "click", function() {
+		scene3D.direct( hellPreset );
+	}, false );
+
+	presetButton[5].addEventListener( "click", function() {
+		scene3D.tween( cameraPresets[4], 1000, Easing.easeOutCubic );
+	}, false );
+
+	presetButton[6].addEventListener( "click", function() {
+		scene3D.followObject = scene3D.followObject == true ? false : true;
+	}, false );
+
     //--------------- update ---------------
     let timer = new PrecisionTimer();
-    let RAF_AI;
-	let RAF;
-    let EXECUTERAF = true;
     //start the timer
     timer.Start();
 
-	( function step() {
-   		RAF_AI = requestAnimationFrame( step );
+    window.addEventListener( "load", function(){
 
-	    //update
-	    if ( timer.ReadyForNextFrame() ) {
-	    	
-	    	if ( EXECUTERAF === true ){
-		        g_SoccerPitch.Update();
-		        //render
-		        g_SoccerPitch.Render();
-		        //panel.revalidate();
-		        //panel.repaint();
-	    	};
-	    };
-		
-	}() );
+		( function step() {
+	   		RAF_AI = requestAnimationFrame( step );
+
+		    //update
+		    if ( timer.ReadyForNextFrame() ) {
+		    	
+		    	if ( EXECUTERAF === true ){
+			        g_SoccerPitch.Update();
+			        //render
+			        g_SoccerPitch.Render();
+			        //panel.revalidate();
+			        //panel.repaint();
+
+			        // 3D render
+			        scene3D.scope.Render();
+
+		    	};
+		    };
+			
+		}());
+
+	});
 
 </script>

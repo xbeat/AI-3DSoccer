@@ -148,6 +148,9 @@ class SoccerBall extends MovingEntity {
 
         gdi.Circle( this.m_vPosition, this.m_dBoundingRadius );
 
+        const ballPos = scene3D.convertRange( this.m_vPosition );
+        scene3D.ball3D.position.set( ballPos.x, 5, ballPos.y );
+
         /*
         gdi.GreenBrush();
         for (int i=0; i<IPPoints.size(); ++i)
@@ -155,12 +158,12 @@ class SoccerBall extends MovingEntity {
         gdi.Circle(IPPoints[i], 3);
         }
          */
-    }
+    };
 
     //a soccer ball doesn't need to handle messages
     HandleMessage( msg ) {
         return false;
-    }
+    };
 
     /**
      * applys a force to the ball in the direction of heading. Truncates
@@ -245,7 +248,7 @@ class SoccerBall extends MovingEntity {
      */
     Trap() {
         this.m_vVelocity.Zero();
-    }
+    };
 
     OldPos() {
         return new Vector2D( this.m_vOldPos );

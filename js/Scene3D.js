@@ -1,16 +1,18 @@
 /**
- * Soccer3d.js
+ * Scene3d.js
  * Class to manage 3D
  */
 
 class Scene3D{
 
 	constructor(){
+		
+		this.scope = this;
 		this.scene = null;
 		this.camera = null;
 		this.controls = null; 
 		this.renderer = null;
-		this.mesh = null;
+		this.player = null;
 		this.skeleton = null;
 		this.mixer = null;
 		this.clock = new THREE.Clock();
@@ -40,8 +42,8 @@ class Scene3D{
 		this.scene.add( light );
 		this.scene.add( helper );
 
-		this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-		this.renderer.setClearColor("#dddddd", 1);
+		this.renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
+		this.renderer.setClearColor( "#dddddd", 1 );
 		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.setSize( window.innerWidth, window.innerHeight );
 		this.renderer.autoClear = false;
@@ -61,12 +63,12 @@ class Scene3D{
 		new THREE.ObjectLoader().load( url, function ( loadedObject ) {
 			loadedObject.traverse( function ( child ) {
 				if ( child instanceof THREE.SkinnedMesh ) {
-					scope.mesh = child;
+					scope.player = child;
 				}
 			} );
 
-			if ( scope.mesh === undefined ) {
-				alert( 'Unable to find a SkinnedMesh in this place:\n\n' + url + '\n\n' );
+			if ( scope.player === undefined ) {
+				alert( 'Unable to find a Player Model in this place:\n\n' + url + '\n\n' );
 				return;
 			};
 
@@ -75,9 +77,10 @@ class Scene3D{
 			//};
 
 		});
-
-		//Soccer Pitch
-		new THREE.ObjectLoader().load( "models/pitch/stadium.json", function( object ) {
+		
+		//  ------- Pitch ---------
+			
+		new THREE.ObjectLoader().load( "models/pitch/stadium.json", function( pitch ) {
 			
 			// Pitch Base look in the plus			
 			//materials[0].side = THREE.DoubleSide;					
@@ -86,9 +89,10 @@ class Scene3D{
 			//ground.receiveShadow = true;
 			//scope.scene.add( ground );
 
-			object.position.set( 0, -30, 0 );
-			object.scale.set( 800, 800, 800 );
-			scope.scene.add( object );
+			pitch.position.set( -50, -30, -100 );
+			pitch.scale.set( 800, 800, 800 );
+			scope.scene.add( pitch );
+			scope.pitch = pitch;
 
 		});
 
@@ -122,8 +126,8 @@ class Scene3D{
 		skyMesh.renderDepth = -10;
 		this.scene.add( skyMesh );
 
-
-		//Soccer Ball
+		
+		// --------- Soccer Ball ----------		
      	let buffgeoSphere = new THREE.BufferGeometry();
         buffgeoSphere.fromGeometry( new THREE.SphereGeometry( 1, 20, 10 ) );
 	    let ballTexture = new THREE.TextureLoader().load( 'models/ball/ball.png' );			        
@@ -132,13 +136,13 @@ class Scene3D{
             map: ballTexture
         });
         
-        let ballMesh = new THREE.Mesh( buffgeoSphere, ballMaterial );
-        let w = 10 + Math.random()*10; //???
-        ballMesh.scale.set( w/2, w/2, w/2 );
+        this.ball3D = new THREE.Mesh( buffgeoSphere, ballMaterial );
         
-        ballMesh.castShadow = true;
-		//meshs[i].receiveShadow = true;
-		this.scene.add( ballMesh ); 
+        this.ball3D.castShadow = true;
+		//ball[i].receiveShadow = true;
+		this.scene.add( this.ball3D );
+		this.ball3D.scale.set( 6, 6, 6 );
+		this.ball3D.position.set( 0, 5, 0 );
 
 		this.addVirtualJoystick();     
 
@@ -146,21 +150,21 @@ class Scene3D{
 
 	// add player
 	addPlayer(){
-		// Add mesh and skeleton helper to scene
-		//mesh.rotation.y = - 135 * Math.PI;
-		this.scene.add( this.mesh );
+		// Add player and skeleton helper to scene
+		//player.rotation.y = - 135 * Math.PI;
+		this.scene.add( this.player );
 
-		this.skeleton = new THREE.SkeletonHelper( this.mesh );
+		this.skeleton = new THREE.SkeletonHelper( this.player );
 		this.skeleton.visible = false;
 		this.scene.add( this.skeleton );
 
-	    //mesh.rotation.y = Math.PI * -135;
-		this.mesh.castShadow = true;
+	    //player.rotation.y = Math.PI * -135;
+		this.player.castShadow = true;
 
-		this.scene.add( this.mesh );
+		this.scene.add( this.player );
 
 		let aspect = window.innerWidth / window.innerHeight;
-		let radius = this.mesh.geometry.boundingSphere.radius;
+		let radius = this.player.geometry.boundingSphere.radius;
 
 		this.camera = new THREE.PerspectiveCamera( 45, aspect, 1, 20000 );
 		this.camera.position.set( 0.0, radius * 3, radius * 3.5 );
@@ -174,7 +178,7 @@ class Scene3D{
 		createPanel();
 
 		// Initialize mixer and clip actions
-		this.mixer = new THREE.AnimationMixer( this.mesh );
+		this.mixer = new THREE.AnimationMixer( this.player );
 
 		idleAction = this.mixer.clipAction( 'idle' );
 		walkAction = this.mixer.clipAction( 'walk' );
@@ -182,13 +186,16 @@ class Scene3D{
 		actions = [ idleAction, walkAction, runAction ];
 
 		activateAllActions();
-		this.characterController = new CharacterController( this.mesh );
+		this.characterController = new CharacterController( this.player );
 
 		window.addEventListener( 'keydown', this.characterController.onKeyDown.bind( this.characterController ), false );
 		window.addEventListener( 'keyup', this.characterController.onKeyUp.bind( this.characterController ), false );
 		window.addEventListener( 'change-duration', this.characterController.onDurationChange.bind( this.characterController ), false );
 
-		this.render();
+		//wait until all is loaded
+		EXECUTERAF = true;
+
+		//this.Render();
 
 	};
 
@@ -239,12 +246,48 @@ class Scene3D{
 		return obj;
 	};
 
+	convertRange( value ) {
+		//https://stackoverflow.com/questions/14224535/scaling-between-two-number-ranges
+		//https://stats.stackexchange.com/questions/178626/how-to-normalize-data-between-1-and-1/332414#332414
+
+
+		// Get the real pitch size
+		const pitchSize = new THREE.Box3().setFromObject( this.pitch );
+		//console.log( bbox );
+		const pitchBorder = 1000;
+
+		const rangeMinFrom = {
+				x: 0,
+				y: 0
+			},
+
+			rangeMaxFrom = {
+				x: cxClient,
+				y: cyClient
+			},
+
+			rangeMinTo = {
+				x: pitchSize.min.x + pitchBorder,
+				y: pitchSize.min.z + pitchBorder
+			},
+
+			rangeMaxTo = {
+				x: pitchSize.max.x - pitchBorder,
+				y: pitchSize.max.z - pitchBorder
+			};
+
+    	return {
+    		x: ( value.x - rangeMinFrom.x ) * ( rangeMaxTo.x - rangeMinTo.x ) / ( rangeMaxFrom.x - rangeMinFrom.x ) + rangeMinTo.x,
+    		y: ( value.y - rangeMinFrom.y ) * ( rangeMaxTo.y - rangeMinTo.y ) / ( rangeMaxFrom.y - rangeMinFrom.y ) + rangeMinTo.y
+    	};
+	
+	};
+
 	// render
- 	render() {
+ 	Render() {
 
 		// Render loop
-		let scope = this;
-		RAF = requestAnimationFrame( function() { scope.render(); } );
+		//RAF = requestAnimationFrame( function() { scope.render(); } );
 
 		idleWeight = idleAction.getEffectiveWeight();
 		walkWeight = walkAction.getEffectiveWeight();
@@ -323,13 +366,12 @@ class Scene3D{
 			//this.cube.rotation.y += this.ySpeed;
 		};
 
-
 	};
 
 	// update camera 
 	updateCamera(){
-	    this.controls.target.copy( this.mesh.position );
-	    this.controls.target.y += this.mesh.geometry.boundingSphere.radius * 2;
+	    this.controls.target.copy( this.player.position );
+	    this.controls.target.y += this.player.geometry.boundingSphere.radius * 2;
 	    this.controls.update();
 
 	    let camOffset = this.camera.position.clone().sub( this.controls.target );

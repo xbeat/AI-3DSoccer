@@ -1,5 +1,3 @@
-'use strict';
-
 /**
 * 3D Camera 
 */
@@ -112,42 +110,6 @@ let hellPreset = {
 	rotation: { x: -0.5436330948854619,	y: 0.6536657347543198, z: 0.35219959109808424 }
 };
 
-
-let presetButton = document.getElementsByClassName( "preset-button" );
-
-/*
-* Instanced Here
-*/
-
-let soccer3D = new Camera();
-
-presetButton[0].addEventListener( "click", function() {
- 	soccer3D.tween( cameraPresets[0], 1000, Easing.easeOutCubic );
-}, false );
-
-presetButton[1].addEventListener( "click", function() {
- 	soccer3D.tween( cameraPresets[1], 1000, Easing.easeOutCubic );
-}, false );
- 
-presetButton[2].addEventListener( "click", function() {
-	soccer3D.tween( cameraPresets[2], 1000, Easing.easeOutCubic );
-}, false );
-
-presetButton[3].addEventListener( "click", function() {
-	soccer3D.tween( cameraPresets[3], 1000, Easing.easeOutCubic );
-}, false );
-
-presetButton[4].addEventListener( "click", function() {
-	soccer3D.direct( hellPreset );
-}, false );
-
-presetButton[5].addEventListener( "click", function() {
-	soccer3D.tween( cameraPresets[4], 1000, Easing.easeOutCubic );
-}, false );
-
-presetButton[6].addEventListener( "click", function() {
-	soccer3D.followObject = soccer3D.followObject == true ? false : true;
-}, false );
 
 /*
 * Easing Functions
