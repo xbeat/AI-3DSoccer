@@ -19,7 +19,8 @@ class FieldPlayer extends PlayerBase {
                 max_speed,
                 max_turn_rate,
                 scale,
-                role ) {
+                role,
+                id ) {
 
         super( home_team,
                 home_region,
@@ -33,6 +34,8 @@ class FieldPlayer extends PlayerBase {
                 role);
 
     
+        this.id = id;
+
         //set up the state machine
         this.m_pStateMachine = new StateMachine( this );
 
@@ -136,13 +139,15 @@ class FieldPlayer extends PlayerBase {
                 this.Scale() );
         gdi.ClosedShape( this.m_vecPlayerVBTrans );
 
-        //and 'is 'ead
+        //and his head
         gdi.BrownBrush();
         if ( Prm.bHighlightIfThreatened && ( this.Team().ControllingPlayer() == this ) && this.isThreatened() ) {
             gdi.YellowBrush();
         };
         gdi.Circle( this.Pos(), 6 );
 
+        const playerPos = scene3D.convertRange( this.Pos() );
+        scene3D.players[ this.id ].position.set( playerPos.x, 5, playerPos.y );
 
         //render the state
         if ( Prm.bStates ) {

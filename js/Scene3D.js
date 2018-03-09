@@ -12,13 +12,13 @@ class Scene3D{
 		this.camera = null;
 		this.controls = null; 
 		this.renderer = null;
-		this.player = null;
 		this.skeleton = null;
 		this.mixer = null;
 		this.clock = new THREE.Clock();
 		this.singleStepMode = false;
 		this.sizeOfNextStep = 0;
-		this.characterController = null;
+		this.characterController = new Array();
+		this.players = new Array();
 
 		this.scene = new THREE.Scene();
 		this.scene.add ( new THREE.AmbientLight( 0xffffff ) );
@@ -49,6 +49,18 @@ class Scene3D{
 		this.renderer.autoClear = false;
 		this.renderer.shadowMap.enabled = true;
 		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+		let aspect = window.innerWidth / window.innerHeight;
+		//let radius = player.geometry.boundingSphere.radius;
+		let radius = 60;
+
+		this.camera = new THREE.PerspectiveCamera( 45, aspect, 1, 20000 );
+		this.camera.position.set( 0.0, radius * 3, radius * 3.5 );
+
+		this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
+		this.controls.target.set( 0, radius, 0 );
+		this.controls.enabled = false;
+		//controls.enablePan = true;	
 					
 		let ctx = this.renderer.context;
 		ctx.getShaderInfoLog = function () { return '' };
@@ -60,21 +72,23 @@ class Scene3D{
 		//var url = '../lib/three.js-master/examples/models/skinned/marine/marine_anims_core.json';
 		let url = 'models/player/Player.json';
 		let scope = this;
+		let player;
+
 		new THREE.ObjectLoader().load( url, function ( loadedObject ) {
 			loadedObject.traverse( function ( child ) {
 				if ( child instanceof THREE.SkinnedMesh ) {
-					scope.player = child;
+					player = child;
 				}
 			} );
 
-			if ( scope.player === undefined ) {
+			if ( player === undefined ) {
 				alert( 'Unable to find a Player Model in this place:\n\n' + url + '\n\n' );
 				return;
 			};
 
-			//for ( let i = 0; i < 22; i++){ 
-				scope.addPlayer();
-			//};
+			for ( let i = 0; i < 10; i++ ){ 
+				scope.addPlayer( i, player );
+			};
 
 		});
 		
@@ -149,48 +163,42 @@ class Scene3D{
 	};
 
 	// add player
-	addPlayer(){
+	addPlayer( id, player ){
 		// Add player and skeleton helper to scene
-		//player.rotation.y = - 135 * Math.PI;
-		this.scene.add( this.player );
+		this.players[ id ] = player.clone(); 
 
-		this.skeleton = new THREE.SkeletonHelper( this.player );
+		this.skeleton = new THREE.SkeletonHelper( this.players[ id ] );
 		this.skeleton.visible = false;
 		this.scene.add( this.skeleton );
 
 	    //player.rotation.y = Math.PI * -135;
-		this.player.castShadow = true;
+		this.players[ id ].castShadow = true;
 
-		this.scene.add( this.player );
+		//player.rotation.y = - 135 * Math.PI;
+		//this.scene.add( player );
 
-		let aspect = window.innerWidth / window.innerHeight;
-		let radius = this.player.geometry.boundingSphere.radius;
-
-		this.camera = new THREE.PerspectiveCamera( 45, aspect, 1, 20000 );
-		this.camera.position.set( 0.0, radius * 3, radius * 3.5 );
-
-		this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
-		this.controls.target.set( 0, radius, 0 );
-		this.controls.enabled = false;
-		//controls.enablePan = true;
+		this.scene.add( this.players[ id ] );
 
 		// Create the control panel
-		createPanel();
+		if ( id == 0 ){
 
-		// Initialize mixer and clip actions
-		this.mixer = new THREE.AnimationMixer( this.player );
+			createPanel();
 
-		idleAction = this.mixer.clipAction( 'idle' );
-		walkAction = this.mixer.clipAction( 'walk' );
-		runAction = this.mixer.clipAction( 'run' );
-		actions = [ idleAction, walkAction, runAction ];
+			// Initialize mixer and clip actions
+			this.mixer = new THREE.AnimationMixer( this.players[ id ] );
 
-		activateAllActions();
-		this.characterController = new CharacterController( this.player );
+			idleAction = this.mixer.clipAction( 'idle' );
+			walkAction = this.mixer.clipAction( 'walk' );
+			runAction = this.mixer.clipAction( 'run' );
+			actions = [ idleAction, walkAction, runAction ];
+	
+			activateAllActions();
+			this.characterController[ id ] = new CharacterController( this.players[ id ] );
 
-		window.addEventListener( 'keydown', this.characterController.onKeyDown.bind( this.characterController ), false );
-		window.addEventListener( 'keyup', this.characterController.onKeyUp.bind( this.characterController ), false );
-		window.addEventListener( 'change-duration', this.characterController.onDurationChange.bind( this.characterController ), false );
+			window.addEventListener( 'keydown', this.characterController[ id ].onKeyDown.bind( this.characterController[ id ] ), false );
+			window.addEventListener( 'keyup', this.characterController[ id ].onKeyUp.bind( this.characterController[ id ] ), false );
+			window.addEventListener( 'change-duration', this.characterController[ id ].onDurationChange.bind( this.characterController[ id ] ), false );
+		};
 
 		//wait until all is loaded
 		EXECUTERAF = true;
@@ -235,7 +243,7 @@ class Scene3D{
 
 		    if ( typeof prop === 'object' ) {
 		        if( prop.constructor === Array ) {
-		            obj[i] = deepClone( prop, [] );
+		            obj[i] = this.deepClone( prop, [] );
 		        } else {
 		            obj[i] = Object.create( prop );
 		        };
@@ -319,8 +327,10 @@ class Scene3D{
 	    let stepSize = delta * scale;
 
 		//console.log(`delta ${delta} scale ${scale} stepsize ${stepSize}`);
+		for ( let i = 0; i < this.players.length; i++ ){ 
+	    	this.characterController[ 0 ].update( stepSize, scale );
+		};
 
-	    this.characterController.update( stepSize, scale );
 	    //gui.setSpeed( blendMesh.speed );
 
 	    //THREE.AnimationHandler.update( stepSize );

@@ -16,7 +16,8 @@ class GoalKeeper extends PlayerBase {
                 max_force,
                 max_speed,
                 max_turn_rate,
-                scale ) {
+                scale,
+                id ) {
 
         super( home_team,
                 home_region,
@@ -29,6 +30,8 @@ class GoalKeeper extends PlayerBase {
                 scale,
                 PlayerBase.player_role().goal_keeper );
 
+
+        this.id = id;
 
         this.m_vLookAt = new Vector2D();
 
@@ -94,6 +97,7 @@ class GoalKeeper extends PlayerBase {
             gdi.RedPen();
         };
 
+        //render the player's body
         this.m_vecPlayerVBTrans = Transformation.WorldTransform( this.m_vecPlayerVB,
                 this.Pos(),
                 this.m_vLookAt,
@@ -102,9 +106,12 @@ class GoalKeeper extends PlayerBase {
 
         gdi.ClosedShape( this.m_vecPlayerVBTrans );
 
-        //draw the head
+        //anf his head
         gdi.BrownBrush();
         gdi.Circle( this.Pos(), 6 );
+        
+        const playerPos = scene3D.convertRange( this.Pos() );
+        scene3D.players[ this.id ].position.set( playerPos.x, 5, playerPos.y );
 
         //draw the ID
         if ( Prm.bIDs ) {

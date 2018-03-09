@@ -23,7 +23,8 @@ class SoccerTeam {
                     Prm.PlayerMaxForce,
                     Prm.PlayerMaxSpeedWithoutBall,
                     Prm.PlayerMaxTurnRate,
-                    Prm.PlayerScale ) );
+                    Prm.PlayerScale,
+                    0 ) );
 
             //create the players
             this.m_Players.push( new FieldPlayer( this,
@@ -36,8 +37,8 @@ class SoccerTeam {
                     Prm.PlayerMaxSpeedWithoutBall,
                     Prm.PlayerMaxTurnRate,
                     Prm.PlayerScale,
-                    PlayerBase.player_role().attacker ) );
-
+                    PlayerBase.player_role().attacker,
+                    1 ) );
 
             this.m_Players.push( new FieldPlayer( this,
                     8,
@@ -49,8 +50,8 @@ class SoccerTeam {
                     Prm.PlayerMaxSpeedWithoutBall,
                     Prm.PlayerMaxTurnRate,
                     Prm.PlayerScale,
-                    PlayerBase.player_role().attacker ) );
-
+                    PlayerBase.player_role().attacker,
+                    2 ) );
 
             this.m_Players.push( new FieldPlayer( this,
                     3,
@@ -62,8 +63,8 @@ class SoccerTeam {
                     Prm.PlayerMaxSpeedWithoutBall,
                     Prm.PlayerMaxTurnRate,
                     Prm.PlayerScale,
-                    PlayerBase.player_role().defender ) );
-
+                    PlayerBase.player_role().defender,
+                    3 ) );
 
             this.m_Players.push( new FieldPlayer( this,
                     5,
@@ -75,7 +76,8 @@ class SoccerTeam {
                     Prm.PlayerMaxSpeedWithoutBall,
                     Prm.PlayerMaxTurnRate,
                     Prm.PlayerScale,
-                    PlayerBase.player_role().defender ) );
+                    PlayerBase.player_role().defender,
+                    4 ) );
 
         } else {
             //goalkeeper
@@ -88,8 +90,8 @@ class SoccerTeam {
                     Prm.PlayerMaxForce,
                     Prm.PlayerMaxSpeedWithoutBall,
                     Prm.PlayerMaxTurnRate,
-                    Prm.PlayerScale ) );
-
+                    Prm.PlayerScale,
+                    5 ) );
 
             //create the players
             this.m_Players.push( new FieldPlayer( this,
@@ -102,7 +104,8 @@ class SoccerTeam {
                     Prm.PlayerMaxSpeedWithoutBall,
                     Prm.PlayerMaxTurnRate,
                     Prm.PlayerScale,
-                    PlayerBase.player_role().attacker ) );
+                    PlayerBase.player_role().attacker,
+                    6 ) );
 
             this.m_Players.push( new FieldPlayer( this,
                     11,
@@ -114,8 +117,8 @@ class SoccerTeam {
                     Prm.PlayerMaxSpeedWithoutBall,
                     Prm.PlayerMaxTurnRate,
                     Prm.PlayerScale,
-                    PlayerBase.player_role().attacker ) );
-
+                    PlayerBase.player_role().attacker,
+                    7 ) );
 
             this.m_Players.push( new FieldPlayer( this,
                     12,
@@ -127,8 +130,8 @@ class SoccerTeam {
                     Prm.PlayerMaxSpeedWithoutBall,
                     Prm.PlayerMaxTurnRate,
                     Prm.PlayerScale,
-                    PlayerBase.player_role().defender ) );
-
+                    PlayerBase.player_role().defender,
+                    8 ) );
 
             this.m_Players.push( new FieldPlayer( this,
                     14,
@@ -140,7 +143,8 @@ class SoccerTeam {
                     Prm.PlayerMaxSpeedWithoutBall,
                     Prm.PlayerMaxTurnRate,
                     Prm.PlayerScale,
-                    PlayerBase.player_role().defender ) );
+                    PlayerBase.player_role().defender,
+                    9 ) );
 
         };
 
@@ -269,11 +273,8 @@ class SoccerTeam {
     //
     //------------------------------------------------------------------------
     finalize() {
-        super.finalize();
         this.m_pStateMachine = null;
-
         this.m_Players.clear();
-
         this.m_pSupportSpotCalc = null;
     };
 

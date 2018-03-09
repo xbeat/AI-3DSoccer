@@ -19,7 +19,7 @@ function createPanel() {
 	settings = {
 		'show model':            true,
 		'show skeleton':         false,
-		'use controls':          false,
+		'use controls':          true,
 		'speed by menu':         false,
 		'deactivate all':        deactivateAllActions,
 		'activate all':          activateAllActions,
