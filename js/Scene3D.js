@@ -6,6 +6,14 @@
 class Scene3D{
 
 	constructor(){
+
+		this.idleAction = new Array();
+		this.walkAction = new Array();
+		this.runAction = new Array();
+		this.idleWeight = new Array();
+		this.walkWeight = new Array();
+		this.runWeight = new Array();
+		this.actions = new Array();
 		
 		this.scope = this;
 		this.scene = null;
@@ -13,12 +21,14 @@ class Scene3D{
 		this.controls = null; 
 		this.renderer = null;
 		this.skeleton = null;
-		this.mixer = null;
+		this.mixer = new Array();
 		this.clock = new THREE.Clock();
 		this.singleStepMode = false;
 		this.sizeOfNextStep = 0;
 		this.characterController = new Array();
 		this.players = new Array();
+		this.skeleton = new Array();
+		this.playerManual = 0;
 
 		this.scene = new THREE.Scene();
 		this.scene.add ( new THREE.AmbientLight( 0xffffff ) );
@@ -59,7 +69,7 @@ class Scene3D{
 
 		this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
 		this.controls.target.set( 0, radius, 0 );
-		this.controls.enabled = false;
+		this.controls.enabled = true;
 		//controls.enablePan = true;	
 					
 		let ctx = this.renderer.context;
@@ -139,7 +149,6 @@ class Scene3D{
 		let skyMesh = new THREE.Mesh( new THREE.CubeGeometry( 10000, 10000, 10000, 1, 1, 1 ), material );
 		skyMesh.renderDepth = -10;
 		this.scene.add( skyMesh );
-
 		
 		// --------- Soccer Ball ----------		
      	let buffgeoSphere = new THREE.BufferGeometry();
@@ -158,18 +167,22 @@ class Scene3D{
 		this.ball3D.scale.set( 6, 6, 6 );
 		this.ball3D.position.set( 0, 5, 0 );
 
+		this.controlPanel = new ControlPanel( this );
+		this.controlPanel.setPlayerId( this.playerManual );
+
 		this.addVirtualJoystick();     
 
 	};
 
 	// add player
 	addPlayer( id, player ){
+
 		// Add player and skeleton helper to scene
 		this.players[ id ] = player.clone(); 
 
-		this.skeleton = new THREE.SkeletonHelper( this.players[ id ] );
-		this.skeleton.visible = false;
-		this.scene.add( this.skeleton );
+		this.skeleton[ id ] = new THREE.SkeletonHelper( this.players[ id ] );
+		this.skeleton[ id ].visible = false;
+		this.scene.add( this.skeleton[ id ] );
 
 	    //player.rotation.y = Math.PI * -135;
 		this.players[ id ].castShadow = true;
@@ -180,24 +193,23 @@ class Scene3D{
 		this.scene.add( this.players[ id ] );
 
 		// Create the control panel
-		if ( id == 0 ){
-
-			createPanel();
+		if ( id == this.playerManual ){
 
 			// Initialize mixer and clip actions
-			this.mixer = new THREE.AnimationMixer( this.players[ id ] );
+			this.mixer[ id ] = new THREE.AnimationMixer( this.players[ id ] );
 
-			idleAction = this.mixer.clipAction( 'idle' );
-			walkAction = this.mixer.clipAction( 'walk' );
-			runAction = this.mixer.clipAction( 'run' );
-			actions = [ idleAction, walkAction, runAction ];
+			this.idleAction[ id ] = this.mixer[ id ].clipAction( 'idle' );
+			this.walkAction[ id ] = this.mixer[ id ].clipAction( 'walk' );
+			this.runAction[ id ] = this.mixer[ id ].clipAction( 'run' );
+			this.actions[ id ] = [ this.idleAction[ id ], this.walkAction[ id ], this.runAction[ id ] ];
 	
-			activateAllActions();
-			this.characterController[ id ] = new CharacterController( this.players[ id ] );
+			this.controlPanel.activateAllActions( id );
+			this.characterController[ id ] = new CharacterController( this.players[ id ], this.actions[ id ], this.controlPanel );
 
 			window.addEventListener( 'keydown', this.characterController[ id ].onKeyDown.bind( this.characterController[ id ] ), false );
 			window.addEventListener( 'keyup', this.characterController[ id ].onKeyUp.bind( this.characterController[ id ] ), false );
 			window.addEventListener( 'change-duration', this.characterController[ id ].onDurationChange.bind( this.characterController[ id ] ), false );
+		
 		};
 
 		//wait until all is loaded
@@ -258,7 +270,6 @@ class Scene3D{
 		//https://stackoverflow.com/questions/14224535/scaling-between-two-number-ranges
 		//https://stats.stackexchange.com/questions/178626/how-to-normalize-data-between-1-and-1/332414#332414
 
-
 		// Get the real pitch size
 		const pitchSize = new THREE.Box3().setFromObject( this.pitch );
 		//console.log( bbox );
@@ -297,27 +308,31 @@ class Scene3D{
 		// Render loop
 		//RAF = requestAnimationFrame( function() { scope.render(); } );
 
-		idleWeight = idleAction.getEffectiveWeight();
-		walkWeight = walkAction.getEffectiveWeight();
-		runWeight = runAction.getEffectiveWeight();
+		//for ( let i = 0; i < this.players.length; i++ ){ 
+		
+			this.idleWeight[ 0 ] = this.idleAction[ 0 ].getEffectiveWeight();
+			this.walkWeight[ 0 ] = this.walkAction[ 0 ].getEffectiveWeight();
+			this.runWeight[ 0 ] = this.runAction[ 0 ].getEffectiveWeight();
+		
+		//};
 
 		// Update the panel values if weights are modified from "outside" (by crossfadings)
-		updateWeightSliders();
+		this.controlPanel.updateWeightSliders();
 
 		// Enable/disable crossfade controls according to current weight values
-		updateCrossFadeControls();
+		this.controlPanel.updateCrossFadeControls();
 
 		// Get the time elapsed since the last frame, used for mixer update (if not in single step mode)
 		let mixerUpdateDelta = this.clock.getDelta();
 
 		// If in single step mode, make one step and then do nothing (until the user clicks again)
 		if ( this.singleStepMode ) {
-			mixerUpdateDelta = sizeOfNextStep;
-			sizeOfNextStep = 0;
+			mixerUpdateDelta = this.sizeOfNextStep;
+			this.sizeOfNextStep = 0;
 		};
 
 		// Update the animation mixer, and render this frame
-		this.mixer.update( mixerUpdateDelta );
+		this.mixer[ this.playerManual ].update( mixerUpdateDelta );
 		
 		//updateCamera();
 		
@@ -327,16 +342,18 @@ class Scene3D{
 	    let stepSize = delta * scale;
 
 		//console.log(`delta ${delta} scale ${scale} stepsize ${stepSize}`);
-		for ( let i = 0; i < this.players.length; i++ ){ 
+		
+		//for ( let i = 0; i < this.players.length; i++ ){ 
+	    
 	    	this.characterController[ 0 ].update( stepSize, scale );
-		};
+		
+		//};
 
 	    //gui.setSpeed( blendMesh.speed );
 
 	    //THREE.AnimationHandler.update( stepSize );
 	    //blendMesh.updateSkeletonHelper();		
 		this.renderer.render( this.scene, this.camera );
-
 
 
 		if ( this.joystick1.isActive == true ){

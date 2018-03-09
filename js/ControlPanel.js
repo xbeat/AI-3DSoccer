@@ -1,231 +1,239 @@
 // Controls
-let crossFadeControls = [];
-let idleAction, walkAction, runAction;
-let idleWeight, walkWeight, runWeight;
-let actions;
-let settings;
 
-function createPanel() {
+class ControlPanel {
 
-	let panel = new dat.GUI( { width: 310 } );
+	constructor( scene3D ){
 
-	let folder1 = panel.addFolder( 'Visibility' );
-	let folder2 = panel.addFolder( 'Activation/Deactivation' );
-	let folder3 = panel.addFolder( 'Pausing/Stepping' );
-	let folder4 = panel.addFolder( 'Crossfading' );
-	let folder5 = panel.addFolder( 'Blend Weights' );
-	let folder6 = panel.addFolder( 'General Speed' );
+		this.crossFadeControls = new Array;
+		this.settings = new Object;
+		this.scene3D = scene3D;
+		this.playerId;
+		let scope = this;
 
-	settings = {
-		'show model':            true,
-		'show skeleton':         false,
-		'use controls':          true,
-		'speed by menu':         false,
-		'deactivate all':        deactivateAllActions,
-		'activate all':          activateAllActions,
-		'pause/continue':        pauseContinue,
-		'make single step':      toSingleStepMode,
-		'modify step size':      0.05,
-		'from walk to idle':     function () { prepareCrossFade( walkAction, idleAction, 1.0 ) },
-		'from idle to walk':     function () { prepareCrossFade( idleAction, walkAction, 0.5 ) },
-		'from walk to run':      function () { prepareCrossFade( walkAction, runAction, 2.5 ) },
-		'from run to walk':      function () { prepareCrossFade( runAction, walkAction, 5.0 ) },
-		'use default duration':  true,
-		'set custom duration':   3.5,
-		'modify idle weight':    0.0,
-		'modify walk weight':    1.0,
-		'modify run weight':     0.0,
-		'modify time scale':     1.0
+		let panel = new dat.GUI( { width: 310 } );
+
+		let folder1 = panel.addFolder( 'Visibility' );
+		let folder2 = panel.addFolder( 'Activation/Deactivation' );
+		let folder3 = panel.addFolder( 'Pausing/Stepping' );
+		let folder4 = panel.addFolder( 'Crossfading' );
+		let folder5 = panel.addFolder( 'Blend Weights' );
+		let folder6 = panel.addFolder( 'General Speed' );
+
+		this.settings = {
+			'show model':            true,
+			'show skeleton':         false,
+			'use controls':          true,
+			'speed by menu':         false,
+			'deactivate all':        this.deactivateAllActions.bind( this ),
+			'activate all':          this.activateAllActions.bind( this ),
+			'pause/continue':        this.pauseContinue.bind( this ),
+			'make single step':      this.toSingleStepMode.bind( this ),
+			'modify step size':      0.05,
+			'from walk to idle':     function () { scope.prepareCrossFade( scope.scene3D.walkAction[ scope.playerId ], scope.scene3D.idleAction[ scope.playerId ], 1.0 ) },
+			'from idle to walk':     function () { scope.prepareCrossFade( scope.scene3D.idleAction[ scope.playerId ], scope.scene3D.walkAction[ scope.playerId ], 0.5 ) },
+			'from walk to run':      function () { scope.prepareCrossFade( scope.scene3D.walkAction[ scope.playerId ], scope.scene3D.runAction[ scope.playerId ], 2.5 ) },
+			'from run to walk':      function () { scope.prepareCrossFade( scope.scene3D.runAction[ scope.playerId ], scope.scene3D.walkAction[ scope.playerId ], 5.0 ) },
+			'use default duration':  true,
+			'set custom duration':   3.5,
+			'modify idle weight':    0.0,
+			'modify walk weight':    1.0,
+			'modify run weight':     0.0,
+			'modify time scale':     1.0
+		};
+
+		folder1.add( this.settings, 'show model' ).onChange( this.showModel.bind( this ) );
+		folder1.add( this.settings, 'show skeleton' ).onChange( this.showSkeleton.bind( this ) );
+		folder1.add( this.settings, 'use controls' ).onChange( this.useControls.bind( this ) );
+		folder1.add( this.settings, 'speed by menu' );
+		folder2.add( this.settings, 'deactivate all' );
+		folder2.add( this.settings, 'activate all' );
+		folder3.add( this.settings, 'pause/continue' );
+		folder3.add( this.settings, 'make single step' );
+		folder3.add( this.settings, 'modify step size', 0.01, 0.1, 0.001 );
+		this.crossFadeControls.push( folder4.add( this.settings, 'from walk to idle' ) );
+		this.crossFadeControls.push( folder4.add( this.settings, 'from idle to walk' ) );
+		this.crossFadeControls.push( folder4.add( this.settings, 'from walk to run' ) );
+		this.crossFadeControls.push( folder4.add( this.settings, 'from run to walk' ) );
+		folder4.add( this.settings, 'use default duration' );
+		folder4.add( this.settings, 'set custom duration', 0, 10, 0.01 );
+		folder5.add( this.settings, 'modify idle weight', 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) { scope.setWeight( scope.scene3D.idleAction[ scope.playerId ], weight ) } );
+		folder5.add( this.settings, 'modify walk weight', 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) { scope.setWeight( scope.scene3D.walkAction[ scope.playerId ], weight ) } );
+		folder5.add( this.settings, 'modify run weight', 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) { scope.setWeight( scope.scene3D.runAction[ scope.playerId ], weight ) } );
+		folder6.add( this.settings, 'modify time scale', 0.0, 1.5, 0.01 ).onChange( this.modifyTimeScale.bind( this ) );
+
+		folder1.open();
+		folder2.open();
+		folder3.open();
+		folder4.open();
+		folder5.open();
+		folder6.open();
+
+		this.crossFadeControls.forEach( function ( control ) {
+
+			control.classList1 = control.domElement.parentElement.parentElement.classList;
+			control.classList2 = control.domElement.previousElementSibling.classList;
+
+			control.setDisabled = function () {
+
+				control.classList1.add( 'no-pointer-events' );
+				control.classList2.add( 'control-disabled' );
+
+			};
+
+			control.setEnabled = function () {
+
+				control.classList1.remove( 'no-pointer-events' );
+				control.classList2.remove( 'control-disabled' );
+
+			};
+
+		} );
 	};
 
-	folder1.add( settings, 'show model' ).onChange( showModel );
-	folder1.add( settings, 'show skeleton' ).onChange( showSkeleton );
-	folder1.add( settings, 'use controls' ).onChange( useControls );
-	folder1.add( settings, 'speed by menu' );
-	folder2.add( settings, 'deactivate all' );
-	folder2.add( settings, 'activate all' );
-	folder3.add( settings, 'pause/continue' );
-	folder3.add( settings, 'make single step' );
-	folder3.add( settings, 'modify step size', 0.01, 0.1, 0.001 );
-	crossFadeControls.push( folder4.add( settings, 'from walk to idle' ) );
-	crossFadeControls.push( folder4.add( settings, 'from idle to walk' ) );
-	crossFadeControls.push( folder4.add( settings, 'from walk to run' ) );
-	crossFadeControls.push( folder4.add( settings, 'from run to walk' ) );
-	folder4.add( settings, 'use default duration' );
-	folder4.add( settings, 'set custom duration', 0, 10, 0.01 );
-	folder5.add( settings, 'modify idle weight', 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) { setWeight( idleAction, weight ) } );
-	folder5.add( settings, 'modify walk weight', 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) { setWeight( walkAction, weight ) } );
-	folder5.add( settings, 'modify run weight', 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) { setWeight( runAction, weight ) } );
-	folder6.add( settings, 'modify time scale', 0.0, 1.5, 0.01 ).onChange( modifyTimeScale );
+	setPlayerId( id ){
+		this.playerId = id;
+	};
 
-	folder1.open();
-	folder2.open();
-	folder3.open();
-	folder4.open();
-	folder5.open();
-	folder6.open();
+	showModel( visibility ) {
+		this.scene3D.players[ this.playerId ].visible = visibility;
+	};
 
-	crossFadeControls.forEach( function ( control ) {
+	showSkeleton( visibility ) {
+		this.scene3D.skeleton[ this.playerId ].visible = visibility;
+	};
 
-		control.classList1 = control.domElement.parentElement.parentElement.classList;
-		control.classList2 = control.domElement.previousElementSibling.classList;
+	useControls( useControls ) {
+		this.scene3D.controls.enabled = useControls;
+	};
 
-		control.setDisabled = function () {
+	modifyTimeScale( speed ) {
+		this.scene3D.mixer[ this.playerId ].timeScale = speed;
+	};
 
-			control.classList1.add( 'no-pointer-events' );
-			control.classList2.add( 'control-disabled' );
+	deactivateAllActions() {
+		this.scene3D.actions[ this.playerId ].forEach( function ( action ) {
+			action.stop();
+		} );
+	};
 
-		};
+	activateAllActions() {
+		this.setWeight( this.scene3D.idleAction[ this.playerId ], this.settings[ 'modify idle weight' ] );
+		this.setWeight( this.scene3D.walkAction[ this.playerId ], this.settings[ 'modify walk weight' ] );
+		this.setWeight( this.scene3D.runAction[ this.playerId ], this.settings[ 'modify run weight' ] );
 
-		control.setEnabled = function () {
+		this.scene3D.actions[ this.playerId ].forEach( function ( action ) {
+			action.play();
+		} );
+	};
 
-			control.classList1.remove( 'no-pointer-events' );
-			control.classList2.remove( 'control-disabled' );
-
-		};
-
-	} );
-}
-
-function showModel( visibility ) {
-	scene3D.mesh.visible = visibility;
-}
-
-function showSkeleton( visibility ) {
-	scene3D.skeleton.visible = visibility;
-}
-
-function useControls( useControls ) {
-	scene3D.controls.enabled = useControls;
-}
-
-function modifyTimeScale( speed ) {
-	scene3D.mixer.timeScale = speed;
-}
-
-function deactivateAllActions() {
-	actions.forEach( function ( action ) {
-		action.stop();
-	} );
-}
-
-
-function activateAllActions() {
-	setWeight( idleAction, settings[ 'modify idle weight' ] );
-	setWeight( walkAction, settings[ 'modify walk weight' ] );
-	setWeight( runAction, settings[ 'modify run weight' ] );
-
-	actions.forEach( function ( action ) {
-		action.play();
-	} );
-}
-
-function pauseContinue() {
-	if ( scene3D.singleStepMode ) {
-		scene3D.singleStepMode = false;
-		unPauseAllActions();
-	} else {
-		if ( idleAction.paused ) {
-			unPauseAllActions();
+	pauseContinue() {
+		if ( this.scene3D.singleStepMode ) {
+			this.scene3D.singleStepMode = false;
+			this.unPauseAllActions();
 		} else {
-			pauseAllActions();
+			if ( this.scene3D.idleAction[ this.playerId ].paused ) {
+				this.unPauseAllActions();
+			} else {
+				this.pauseAllActions();
+			};
 		};
 	};
-};
 
-function pauseAllActions() {
-	actions.forEach( function ( action ) {
-		action.paused = true;
-	} );
-};
-
-function unPauseAllActions() {
-	actions.forEach( function ( action ) {
-		action.paused = false;
-	} );
-};
-
-function toSingleStepMode() {
-	unPauseAllActions();
-	scene3D.singleStepMode = true;
-	sizeOfNextStep = settings[ 'modify step size' ];
-};
-
-function prepareCrossFade( startAction, endAction, defaultDuration ) {
-	// Switch default / custom crossfade duration (according to the user's choice)
-	var duration = setCrossFadeDuration( defaultDuration );
-	// Make sure that we don't go on in singleStepMode, and that all actions are unpaused
-	scene3D.singleStepMode = false;
-	unPauseAllActions();
-
-	// If the current action is 'idle' (duration 4 sec), execute the crossfade immediately;
-	// else wait until the current action has finished its current loop
-	if ( startAction === idleAction ) {
-		executeCrossFade( startAction, endAction, duration );
-	} else {
-		synchronizeCrossFade( startAction, endAction, duration );
+	pauseAllActions() {
+		this.scene3D.actions[ this.playerId ].forEach( function ( action ) {
+			action.paused = true;
+		} );
 	};
-};
 
-function setCrossFadeDuration( defaultDuration ) {
-	// Switch default crossfade duration <-> custom crossfade duration
-	if ( settings[ 'use default duration' ] ) {
-		return defaultDuration;
-	} else {
-		return settings[ 'set custom duration' ];
+	unPauseAllActions() {
+		this.scene3D.actions[ this.playerId ].forEach( function ( action ) {
+			action.paused = false;
+		} );
 	};
-};
 
-function synchronizeCrossFade( startAction, endAction, duration ) {
-	scene3D.mixer.addEventListener( 'loop', onLoopFinished );
-	function onLoopFinished( event ) {
-		if ( event.action === startAction ) {
-			scene3D.mixer.removeEventListener( 'loop', onLoopFinished );
-			executeCrossFade( startAction, endAction, duration );
+	toSingleStepMode() {
+		this.unPauseAllActions();
+		this.scene3D.singleStepMode = true;
+		this.scene3D.sizeOfNextStep = this.settings[ 'modify step size' ];
+	};
+
+	prepareCrossFade( startAction, endAction, defaultDuration ) {
+		// Switch default / custom crossfade duration (according to the user's choice)
+		let duration = this.setCrossFadeDuration( defaultDuration );
+		// Make sure that we don't go on in singleStepMode, and that all actions are unpaused
+		this.scene3D.singleStepMode = false;
+		this.unPauseAllActions();
+
+		// If the current action is 'idle' (duration 4 sec), execute the crossfade immediately;
+		// else wait until the current action has finished its current loop
+		if ( startAction === this.scene3D.idleAction[ this.playerId ] ) {
+			this.executeCrossFade( startAction, endAction, duration );
+		} else {
+			this.synchronizeCrossFade( startAction, endAction, duration );
 		};
 	};
-};
 
-function executeCrossFade( startAction, endAction, duration ) {
-	// Not only the start action, but also the end action must get a weight of 1 before fading
-	// (concerning the start action this is already guaranteed in this place)
-	setWeight( endAction, 1 );
-	endAction.time = 0;
-	// Crossfade with warping - you can also try without warping by setting the third parameter to false
-	startAction.crossFadeTo( endAction, duration, true );
-};
-
-// This function is needed, since animationAction.crossFadeTo() disables its start action and sets
-// the start action's timeScale to ((start animation's duration) / (end animation's duration))
-function setWeight( action, weight ) {
-	action.enabled = true;
-	action.setEffectiveTimeScale( 1 );
-	action.setEffectiveWeight( weight );
-};
-
-// Called by the render loop
-function updateWeightSliders() {
-	settings[ 'modify idle weight' ] = idleWeight;
-	settings[ 'modify walk weight' ] = walkWeight;
-	settings[ 'modify run weight' ] = runWeight;
-};
-
-// Called by the render loop
-function updateCrossFadeControls() {
-	crossFadeControls.forEach( function ( control ) {
-		control.setDisabled();
-	} );
-
-	if ( idleWeight === 1 && walkWeight === 0 && runWeight === 0 ) {
-		crossFadeControls[ 1 ].setEnabled();
+	setCrossFadeDuration( defaultDuration ) {
+		// Switch default crossfade duration <-> custom crossfade duration
+		if ( this.settings[ 'use default duration' ] ) {
+			return defaultDuration;
+		} else {
+			return this.settings[ 'set custom duration' ];
+		};
 	};
 
-	if ( idleWeight === 0 && walkWeight === 1 && runWeight === 0 ) {
-		crossFadeControls[ 0 ].setEnabled();
-		crossFadeControls[ 2 ].setEnabled();
+	synchronizeCrossFade( startAction, endAction, duration ) {
+		let scope = this;
+		scope.scene3D.mixer[ this.playerId ].addEventListener( 'loop', onLoopFinished );
+		function onLoopFinished( event ) {
+			if ( event.action === startAction ) {
+				scope.scene3D.mixer[ scope.playerId ].removeEventListener( 'loop', onLoopFinished );
+				scope.executeCrossFade( startAction, endAction, duration );
+			};
+		};
 	};
 
-	if ( idleWeight === 0 && walkWeight === 0 && runWeight === 1 ) {
-		crossFadeControls[ 3 ].setEnabled();
+	executeCrossFade( startAction, endAction, duration ) {
+		// Not only the start action, but also the end action must get a weight of 1 before fading
+		// (concerning the start action this is already guaranteed in this place)
+		this.setWeight( endAction, 1 );
+		endAction.time = 0;
+		// Crossfade with warping - you can also try without warping by setting the third parameter to false
+		startAction.crossFadeTo( endAction, duration, true );
+	};
+
+	// This function is needed, since animationAction.crossFadeTo() disables its start action and sets
+	// the start action's timeScale to ((start animation's duration) / (end animation's duration))
+	setWeight( action, weight ) {
+		action.enabled = true;
+		action.setEffectiveTimeScale( 1 );
+		action.setEffectiveWeight( weight );
+	};
+
+	// Called by the render loop
+	updateWeightSliders() {
+		this.settings[ 'modify idle weight' ] = this.scene3D.idleWeight[ this.playerId ];
+		this.settings[ 'modify walk weight' ] = this.scene3D.walkWeight[ this.playerId ];
+		this.settings[ 'modify run weight' ] = this.scene3D.runWeight[ this.playerId ];
+	};
+
+	// Called by the render loop
+	updateCrossFadeControls() {
+		this.crossFadeControls.forEach( function ( control ) {
+			control.setDisabled();
+		} );
+
+		if ( this.scene3D.idleWeight[ this.playerId ] === 1 && this.scene3D.walkWeight[ this.playerId ] === 0 && this.scene3D.runWeight[ this.playerId ] === 0 ) {
+			this.crossFadeControls[ 1 ].setEnabled();
+		};
+
+		if ( this.scene3D.idleWeight[ this.playerId ] === 0 && this.scene3D.walkWeight[ this.playerId ] === 1 && this.scene3D.runWeight[ this.playerId ] === 0 ) {
+			this.crossFadeControls[ 0 ].setEnabled();
+			this.crossFadeControls[ 2 ].setEnabled();
+		};
+
+		if ( this.scene3D.idleWeight[ this.playerId ] === 0 && this.scene3D.walkWeight[ this.playerId ] === 0 && this.scene3D.runWeight[ this.playerId ] === 1 ) {
+			this.crossFadeControls[ 3 ].setEnabled();
+		};
 	};
 };

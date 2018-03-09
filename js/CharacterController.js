@@ -1,10 +1,16 @@
 //==============================================================================
-class CharacterController{
+class CharacterController {
 
-	constructor( speedBlendCharacter ) {
+	constructor( speedBlendCharacter, actions, controlPanel ) {
+
+		this.idleAction = actions[ 0 ];
+		this.walkAction = actions[ 1 ];
+		this.runAction = actions[ 2 ];
 
 		this.scope = this;
-		this.duration = 2;
+		this.controlPanel = controlPanel;
+
+		this.duration = 1;
 		this.keys = {
 			LEFT:  { code: 37, isPressed: false },
 			UP:    { code: 38, isPressed: false },
@@ -26,7 +32,7 @@ class CharacterController{
 	// ---------------------------------------------------------------------------
 	update( dt ) {
 
-		if ( settings[ 'speed by menu' ] == true ) return;
+		if ( this.controlPanel.settings[ 'speed by menu' ] == true ) return;
 
 		if ( this.keys.UP.isPressed || this.keys.W.isPressed )
 			this.newSpeed += dt / this.duration;
@@ -50,29 +56,29 @@ class CharacterController{
 		let finalSpeed = ( this.newSpeed > 0.5 ) ? this.newSpeed * this.runSpeed : ( this.newSpeed / 0.5 ) * this.walkSpeed;
 
 		if( this.newSpeed == 0 ) {   //idle
-			idleAction.setEffectiveWeight( 1 );    				
-			walkAction.setEffectiveWeight( 0 );
-			runAction.setEffectiveWeight( 0 );
+			this.idleAction.setEffectiveWeight( 1 );    				
+			this.walkAction.setEffectiveWeight( 0 );
+			this.runAction.setEffectiveWeight( 0 );
 		};
 
 		if( this.newSpeed == 1 ) {   //max
-			idleAction.setEffectiveWeight( 0 );    				
-			walkAction.setEffectiveWeight( 0 );
-			runAction.setEffectiveWeight( 1 );
+			this.idleAction.setEffectiveWeight( 0 );    				
+			this.walkAction.setEffectiveWeight( 0 );
+			this.runAction.setEffectiveWeight( 1 );
 		};
 
-		document.getElementById("data").innerText = this.newSpeed;
+		document.getElementById( "data" ).innerText = this.newSpeed;
 
 		if( this.newSpeed > 0 && this.newSpeed <= 0.5 ) { // from idle to walk < - > from walk to idle
-			idleAction.setEffectiveWeight( 1 - ( this.newSpeed / 0.5 ) );    				
-			walkAction.setEffectiveWeight( this.newSpeed / 0.5  );
-			runAction.setEffectiveWeight( 0 );
+			this.idleAction.setEffectiveWeight( 1 - ( this.newSpeed / 0.5 ) );    				
+			this.walkAction.setEffectiveWeight( this.newSpeed / 0.5  );
+			this.runAction.setEffectiveWeight( 0 );
 		};
 
 		if( this.newSpeed > 0.5 && this.newSpeed < 1 ) {  // from walk to run < - > from run to walk
-			idleAction.setEffectiveWeight( 0 );    				
-			walkAction.setEffectiveWeight( 1 - ( ( this.newSpeed - 0.5 ) / 0.5 ) );
-			runAction.setEffectiveWeight(( this.newSpeed - 0.5 ) / 0.5 );
+			this.idleAction.setEffectiveWeight( 0 );    				
+			this.walkAction.setEffectiveWeight( 1 - ( ( this.newSpeed - 0.5 ) / 0.5 ) );
+			this.runAction.setEffectiveWeight(( this.newSpeed - 0.5 ) / 0.5 );
 		};
 
 		this.lastSpeed = this.newSpeed;
