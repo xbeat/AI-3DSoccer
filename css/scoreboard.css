@@ -1,0 +1,236 @@
+/*
+*  Timer
+*/
+.scoreboardTimer {
+    position: absolute;
+    top: 35px;
+    left: 155px;
+    display: flex;
+    background-color: rgba( 38, 38, 38, 0.8 );
+    border-radius: 5px;
+    display: flex;
+    width: 600px;    
+    height: 65px;
+    font-family:"Roboto";
+    color: #fff;
+    border-radius: 5px;
+    transition: 0.6s all cubic-bezier( 0.77, 0, 0.175, 1 );
+    opacity: 1;
+}
+
+.scoreboardTimerHide{
+    opacity: 0;
+}
+
+.timer {
+    position: absolute;
+    top: 10px;
+    left: 75px;
+    font-size: 35px;
+}
+
+.teamAContainer{
+    position: absolute;
+    top: 5px;
+    font-size: 35px;
+    left: 190px;
+    display:flex;
+    flex-direction: column;
+}
+
+.nameTeamA{
+    position: absolute;
+    left: 30px;
+    height: 30px;
+    width: 50px;
+    display: flex;
+    color: #669999;
+}
+
+.colorTeamA{
+    position: absolute;
+    top: 45px;
+    display: flex;
+}
+
+.colorTeamAbar1{
+    height: 7px;
+    width: 62px;
+    background-color: red;
+}
+
+.colorTeamAbar2{
+    height: 7px;
+    width: 62px;
+    background-color: blue;
+}
+
+.scoreTeamA{
+    position: absolute;
+    padding-top: 10px;
+    left: 320px;
+    height: 50px;
+    width: 65px;
+    border: 2px solid #669999;
+    border-radius: 5px;
+    display:flex;
+    justify-content: center;
+    font-size: 35px;
+}
+
+.scoreTeamB{
+    position: absolute;
+    padding-top: 10px;
+    left: 390px;
+    height: 50px;
+    width: 65px;
+    border: 2px solid #669999;
+    border-radius: 5px;
+    display:flex;
+    justify-content: center;
+    font-size: 35px;
+}
+
+.teamBContainer{
+    position: absolute;
+    top: 5px;
+    font-size: 35px;
+    left: 465px;
+    display:flex;
+    flex-direction: column;
+}
+
+.nameTeamB{
+    position: absolute;
+    left: 30px;
+    height: 30px;
+    width: 50px;
+    display: flex;
+    color: #669999;
+}
+
+.colorTeamB{
+    position: absolute;
+    top: 45px;
+    display: flex;
+}
+
+.colorTeamBbar1{
+    height: 7px;
+    width: 62px;
+    background-color: red;
+}
+
+.colorTeamBbar2{
+    height: 7px;
+    width: 62px;
+    background-color: white;
+}
+
+/*
+*  Player Info
+*/
+.playerInfo {
+    position: absolute;
+    bottom: 150px;
+    display: flex;
+    justify-content: space-between;
+    flex: 0 0 100%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    transition: 0.6s all cubic-bezier( 0.77, 0, 0.175, 1 );
+    opacity: 1;
+}
+
+.playerInfoHide{
+    opacity: 0;
+}
+
+.greenbar-left {
+    position: absolute;
+    background-color: rgb( 0, 255, 32 );
+    width: 300px;
+    height: 3px;
+    z-index: 10;
+    left: 220px;
+    border-radius: 0px 2px 2px 0px;
+}
+
+.greenbar-right {
+    position: absolute;
+    background-color: rgb( 0, 255, 32 );
+    width: 300px;
+    height: 3px;
+    z-index: 10;
+    right: 250px;
+    border-radius: 2px 0px 0px 2px;
+}
+
+.redbar-left {
+    position: absolute;
+    background-color: rgb( 255, 0, 32 );
+    top: 42px;
+    width: 300px;
+    height: 3px;
+    z-index: 10;
+    left: 220px;
+    border-radius: 0px 2px 2px 0px;
+}
+
+.redbar-right {
+    position: absolute;
+    background-color: rgb( 255, 0, 32 );
+    top: 42px;
+    width: 300px;
+    height: 3px;
+    z-index: 10;
+    right: 250px;
+    border-radius: 0px 2px 2px 0px;
+}    
+
+.left-text {
+    position: relative;
+    background-color: rgba( 78, 78, 78, 0.6 );
+    border-radius: 0px 30px 30px 0px;
+    display: flex;
+    width: 440px;
+    height: 30px;
+    justify-content: center;
+    flex-direction: column;
+    text-align: left;
+    padding: 9px 10px 10px 70px;
+    line-height: 28px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #fff;
+    left: 150px;
+}
+
+.right-text {
+    position: relative;
+    background-color: rgba( 78, 78, 78, 0.6 );
+    border-radius: 30px 0px 0px 30px; 
+    display: flex;
+    width: 440px;
+    height: 30px;
+    justify-content: center;
+    flex-direction: column;
+    text-align: right;
+    padding: 9px 70px 10px 10px;
+    line-height: 28px;    
+    font-size: 28px;
+    font-weight: 600;    
+    color: #fff;
+    right: 180px;  
+}
+
+/*
+* Hide / Show Pitch
+*/
+.canvasPitch{
+    visibility: hidden;
+}
+
+/*
+*  Player Info
+*/

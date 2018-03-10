@@ -3,7 +3,6 @@
 html {
   font-family: "Roboto";
   font-size: 14px;
-  font-weight: 300;
   color:#fff;
   font-family:sans-serif;
   margin:0;
@@ -23,6 +22,25 @@ body {
   background-color: #fff;
   margin: 0px;
   overflow: hidden;
+}
+
+.xbeat-logo-wrapper{
+    position: absolute;
+    top: 40px;
+    right: 60px;
+    width: 160px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    opacity: .9;
+    border-radius: 44px;
+}
+ 
+.xbeat-logo-up {
+    position: relative;
+    width: 120px;
+    margin: auto;
 }
 
 #camera-presets {
