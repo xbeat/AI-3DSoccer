@@ -292,53 +292,84 @@ class SoccerTeam {
            this.m_Players[it].Render();
         };
 
-        //show the controlling team and player at the top of the display
-        if ( Prm.bShowControllingTeam ) {
-            gdi.TextColor( 255, 255, 255 );
-
-            if ( ( this.Color() == this.blue ) && this.InControl() ) {
-                gdi.TextAtPos( 20, 13, "Blue in Control" );
-            } else if ( ( this.Color() == this.red ) && this.InControl() ) {
-                gdi.TextAtPos( 20, 13, "Red in Control" );
-            }
-            if ( this.m_pControllingPlayer != null ) {
-                gdi.TextAtPos( this.Pitch().cxClient() - 150, 13,
-                        "Controlling Player: " + ttos( this.m_pControllingPlayer.ID() ) );
-            };
-        };
-
-        //render the sweet spots
-        if ( Prm.bSupportSpots && this.InControl() ) {
-            this.m_pSupportSpotCalc.Render();
-        };
+        let blueTeamState = "";
+        let redTeamState = "";
 
         //define(SHOW_TEAM_STATE);
-        if ( def( SHOW_TEAM_STATE ) ) {
+        //if ( def( SHOW_TEAM_STATE ) ) {
             if ( this.Color() == this.red ) {
-                gdi.TextColor( 255, 0, 0 );
+                //gdi.TextColor( 255, 0, 0 );
 
                 if ( this.m_pStateMachine.CurrentState().constructor.name == Attacking.Instance().constructor.name ) {
-                    gdi.TextAtPos( 160, 15, "Attacking" );
+                    //gdi.TextAtPos( 160, 15, "Attacking" );
+                    redTeamState = "Attacking";
+                    blueTeamState = "Defending";
                 };
                 if ( this.m_pStateMachine.CurrentState().constructor.name == Defending.Instance().constructor.name ) {
-                    gdi.TextAtPos( 160, 15, "Defending" );
+                    //gdi.TextAtPos( 160, 15, "Defending" );
+                    redTeamState = "Defending";
+                    blueTeamState = "Attacking";
                 };
                 if ( this.m_pStateMachine.CurrentState().constructor.name == PrepareForKickOff.Instance().constructor.name ) {
-                    gdi.TextAtPos( 160, 15, "Kickoff" );
+                    //gdi.TextAtPos( 160, 15, "Kickoff" );
+                    redTeamState = "Kickoff";
+                    blueTeamState = "Kickoff";
                 };
+
             } else {
 
                 gdi.TextColor( 0, 0, 255 );
                 if ( this.m_pStateMachine.CurrentState().constructor.name == Attacking.Instance().constructor.name ) {
-                    gdi.TextAtPos( 160, this.Pitch().cyClient() - 10, "Attacking" );
+                    //gdi.TextAtPos( 160, this.Pitch().cyClient() - 10, "Attacking" );
+                    blueTeamState = "Attacking";
+                    redTeamState = "Defending";
                 };
                 if ( this.m_pStateMachine.CurrentState().constructor.name == Defending.Instance().constructor.name ) {
-                    gdi.TextAtPos( 160, this.Pitch().cyClient() - 10, "Defending" );
+                    //gdi.TextAtPos( 160, this.Pitch().cyClient() - 10, "Defending" );
+                    blueTeamState = "Defending";
+                    redTeamState = "Attacking";
                 };
                 if ( this.m_pStateMachine.CurrentState().constructor.name == PrepareForKickOff.Instance().constructor.name ) {
-                    gdi.TextAtPos( 160, this.Pitch().cyClient() - 10, "Kickoff" );
+                    //gdi.TextAtPos( 160, this.Pitch().cyClient() - 10, "Kickoff" );
+                    blueTeamState = "Kickoff";
+                    redTeamState = "Kickoff";
                 };
             };
+        //};
+
+
+        //show the controlling team and player at the top of the display
+        //if ( Prm.bShowControllingTeam ) {
+
+        //    gdi.TextColor( 255, 255, 255 );
+
+            let controllingPlayer = "";
+
+            if ( this.m_pControllingPlayer != null ) {
+                //gdi.TextAtPos( this.Pitch().cxClient() - 150, 13,
+                //        "Controlling Player: " + ttos( this.m_pControllingPlayer.ID() ) );
+                
+                controllingPlayer = this.m_pControllingPlayer.ID();                
+
+            };
+
+            if ( ( this.Color() == this.blue ) && this.InControl() ) {
+                //gdi.TextAtPos( 20, 13, "Blue in Control" );
+                document.getElementById("playerInfoRedText").innerText = "Red Team " + redTeamState; 
+                document.getElementById("playerInfoBlueText").innerText = "Blue Team Player # " + controllingPlayer + " " + blueTeamState; 
+
+            } else if ( ( this.Color() == this.red ) && this.InControl() ) {
+                //gdi.TextAtPos( 20, 13, "Red in Control" );
+                document.getElementById("playerInfoRedText").innerText = "Red Team Player # " + controllingPlayer; + " " + redTeamState;
+                document.getElementById("playerInfoBlueText").innerText = "Blue Team " + blueTeamState;
+
+            };            
+        
+        //};
+
+        //render the sweet spots
+        if ( Prm.bSupportSpots && this.InControl() ) {
+            this.m_pSupportSpotCalc.Render();
         };
 
         // define(SHOW_SUPPORTING_PLAYERS_TARGET)

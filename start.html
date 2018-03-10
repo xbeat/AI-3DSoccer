@@ -8,13 +8,15 @@
 
 <html lang="en">
 	<head>
+
 		<title>AI-3D-Soccer xbe.at 1.0.1</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/Scene3D.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/virtualInput.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/sidemenu.css" />
-		<link rel="stylesheet" href="css/scoreboard.css">
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/menu.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/scoreboard.css">
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/AI.css">
 
 	</head>
@@ -38,16 +40,16 @@
 	            <span class="minute">00</span>:<span class="second">00</span>
 	        </div>
 	        <div class="teamAContainer">
-	            <div class="nameTeamA">FCB</div>
+	            <div class="nameTeamA">RED</div>
 	            <div class="colorTeamA">
 	                <div class="colorTeamAbar1"></div>
 	                <div class="colorTeamAbar2"></div>                
 	            </div>
 	        </div>
-	        <div class="scoreTeamA">3</div>
-	        <div class="scoreTeamB">1</div>
+	        <div id="scoreTeamA">0</div>
+	        <div id="scoreTeamB">0</div>
 	        <div class="teamBContainer">
-	            <div class="nameTeamB">ATM</div>
+	            <div class="nameTeamB">BLUE</div>
 	            <div class="colorTeamB">
 	                <div class="colorTeamBbar1"></div>
 	                <div class="colorTeamBbar2"></div>
@@ -58,24 +60,36 @@
 	    <!-- Player Info -->
 	    <div id="playerInfo" class="playerInfo">
 	        <div class="greenbar-left"></div>
-	        <div class="left-text">PLAYER 1 RED</div>
+	        <div id="playerInfoRedText" class="left-text"></div>
 	        <div class="redbar-left"></div>
 	        <div class="greenbar-right"></div>
-	        <div class="right-text">PLAYER 8 BLUE</div>
+	        <div id="playerInfoBlueText" class="right-text"></div>
 	        <div class="redbar-right"></div>
 	    </div>
 
-	    <!-- Camera Preset -->
-		<div id="camera-presets">
-		  <div class="container">
-		    <div class="preset-button">1</div>
-		    <div class="preset-button">2</div>
-		    <div class="preset-button">3</div>
-		    <div class="preset-button">4</div>
-		    <div class="preset-button">5</div>
-		    <div class="preset-button">6</div>
-		    <div class="preset-button">F</div>
-		  </div>
+		<!-- MAIN MENU -->
+		<div id="wrapperMain" class="wrapperMain">
+			<div class="icon settings" id="tabPlayerData">A</div><!-- PLAYER BIO -->
+			<div class="icon mail" id="tabPlayerStatistics">B</div><!-- PLAYER STATISTICS -->
+			<div class="icon phone" id="tabTeamStatistics">C</div><!-- TEAMS STATISTICS -->
+			<div class="icon mail" id="tabPlayerComparison">D</div><!-- PLAYER COMPARISON -->
+			<div class="icon phone" id="tabGameStatistics">E</div><!-- GAME STATISTICS -->
+			<div class="icon" id="camera">F</div><!-- CAMERA -->
+			<div class="icon phone" id="tabGameTactics">G</div><!-- GAME TACTICS -->
+			<div class="icon phone" id="tabGameStrategy">H</div><!-- GAME STRATEGY -->
+			<div id="closeMenu" class="icon phone">X</div><!-- CLOSE -->
+		</div>
+
+		<!-- CAMERA MENU -->
+		<div id="wrapperCamera" class="wrapperCamera">
+			<div class="preset-button icon phone">1</div>
+			<div class="preset-button icon phone">2</div>
+			<div class="preset-button icon phone">3</div>
+			<div class="preset-button icon phone">4</div>
+			<div class="preset-button icon phone">5</div>
+			<div class="preset-button icon phone">6</div>
+			<div class="preset-button icon phone">F</div>	
+			<div id="closeCamera" class="icon phone">X</div>		
 		</div>
 
 		<!-- Sidebar Menu -->
@@ -141,44 +155,44 @@
 
 					    <div class="switch-field">
 					      <div class="switch-title">Show IDs</div>
-					      <input type="radio" id="switch_ids_on" onclick = "Prm.bIDs = true" name="switch_ids" value="on" checked/>
+					      <input type="radio" id="switch_ids_on" onclick = "Prm.bIDs = true" name="switch_ids" value="on" />
 					      <label for="switch_ids_on">On</label>
-					      <input type="radio" id="switch_ids_off" onclick = "Prm.bIDs = false" name="switch_ids" value="off" />
+					      <input type="radio" id="switch_ids_off" onclick = "Prm.bIDs = false" name="switch_ids" value="off" checked/>
 					      <label for="switch_ids_off">Off</label>
 					    </div>
 					    <div class="switch-field">
 					      <div class="switch-title">Show States</div>
-					      <input type="radio" id="switch_states_on" onclick = "Prm.bStates = true" name="switch_states" value="on" checked/>
+					      <input type="radio" id="switch_states_on" onclick = "Prm.bStates = true" name="switch_states" value="on" />
 					      <label for="switch_states_on">On</label>
-					      <input type="radio" id="switch_states_off" onclick = "Prm.bStates = false" name="switch_states" value="off" />
+					      <input type="radio" id="switch_states_off" onclick = "Prm.bStates = false" name="switch_states" value="off" checked/>
 					      <label for="switch_states_off">Off</label>
 					    </div>
 					    <div class="switch-field">
 					      <div class="switch-title">Show Regions</div>
-					      <input type="radio" id="switch_regions_on" onclick = "Prm.bRegions = true" name="switch_regions" value="on" checked/>
+					      <input type="radio" id="switch_regions_on" onclick = "Prm.bRegions = true" name="switch_regions" value="on" />
 					      <label for="switch_regions_on">On</label>
-					      <input type="radio" id="switch_regions_off" onclick = "Prm.bRegions = false" name="switch_regions" value="off" />
+					      <input type="radio" id="switch_regions_off" onclick = "Prm.bRegions = false" name="switch_regions" value="off" checked/>
 					      <label for="switch_regions_off">Off</label>
 					    </div>
 					    <div class="switch-field">
 					      <div class="switch-title">Show Support Spots</div>
-					      <input type="radio" id="switch_support_on" onclick = "Prm.bSupportSpots = true" name="switch_support" value="on" checked/>
+					      <input type="radio" id="switch_support_on" onclick = "Prm.bSupportSpots = true" name="switch_support" value="on" />
 					      <label for="switch_support_on">On</label>
-					      <input type="radio" id="switch_support_off" onclick = "Prm.bSupportSpots = false" name="switch_support" value="off" />
+					      <input type="radio" id="switch_support_off" onclick = "Prm.bSupportSpots = false" name="switch_support" value="off" checked/>
 					      <label for="switch_support_off">Off</label>
 					    </div>
 					    <div class="switch-field">
 					      <div class="switch-title">Show Targets</div>
-					      <input type="radio" id="switch_targets_on" onclick = "Prm.bViewTargets = true" name="switch_targets" value="on" checked/>
+					      <input type="radio" id="switch_targets_on" onclick = "Prm.bViewTargets = true" name="switch_targets" value="on" />
 					      <label for="switch_targets_on">On</label>
-					      <input type="radio" id="switch_targets_off" onclick = "Prm.bViewTargets = false" name="switch_targets" value="off" />
+					      <input type="radio" id="switch_targets_off" onclick = "Prm.bViewTargets = false" name="switch_targets" value="off" checked/>
 					      <label for="switch_targets_off">Off</label>
 					    </div>
 					    <div class="switch-field">
 					      <div class="switch-title">Highlight if Threatened</div>
-					      <input type="radio" id="switch_threatened_on" onclick = "Prm.bHighlightIfThreatened = true" name="switch_threatened" value="on" checked/>
+					      <input type="radio" id="switch_threatened_on" onclick = "Prm.bHighlightIfThreatened = true" name="switch_threatened" value="on" />
 					      <label for="switch_threatened_on">On</label>
-					      <input type="radio" id="switch_threatened_off" onclick = "Prm.bHighlightIfThreatened = false" name="switch_threatened" value="off" />
+					      <input type="radio" id="switch_threatened_off" onclick = "Prm.bHighlightIfThreatened = false" name="switch_threatened" value="off" checked/>
 					      <label for="switch_threatened_off">Off</label>
 					    </div>
 
@@ -186,6 +200,7 @@
 
 					<form class="formLogs">
 
+						<!--
 					    <div class="switch-field">
 					      <div class="switch-title">Log Team State</div>
 					      <input type="radio" id="switch_teamstate_on" onclick = "SHOW_TEAM_STATE = true" name="switch_teamstate" value="on" />
@@ -193,6 +208,8 @@
 					      <input type="radio" id="switch_teamstate_off" onclick = "SHOW_TEAM_STATE = false" name="switch_teamstate" value="off" checked/>
 					      <label for="switch_teamstate_off">Off</label>
 					    </div>
+						-->
+
 					    <div class="switch-field">
 					      <div class="switch-title">Log Supporting Players Target</div>
 					      <input type="radio" id="switch_supporting_on" onclick = "SHOW_SUPPORTING_PLAYERS_TARGET = true" name="switch_supporting" value="on" />
@@ -288,6 +305,7 @@
 <script src="js/CharacterController.js"></script>
 <script src="js/VirtualInput.js"></script>
 <script src="js/camera.js"></script>
+<script src="js/menu.js"></script>
 
 <script>
 	
@@ -318,6 +336,39 @@
 		scene3D.camera.updateProjectionMatrix();
 		scene3D.renderer.setSize( window.innerWidth, window.innerHeight );
 	}, false);
+
+    //--------------- 3D & Camera ------------
+	let presetButton = document.getElementsByClassName( "preset-button" );
+
+	let scene3D = new Camera();
+
+	presetButton[0].addEventListener( "click", function() {
+	 	scene3D.tween( cameraPresets[0], 1000, Easing.easeOutCubic );
+	}, false );
+
+	presetButton[1].addEventListener( "click", function() {
+	 	scene3D.tween( cameraPresets[1], 1000, Easing.easeOutCubic );
+	}, false );
+	 
+	presetButton[2].addEventListener( "click", function() {
+		scene3D.tween( cameraPresets[2], 1000, Easing.easeOutCubic );
+	}, false );
+
+	presetButton[3].addEventListener( "click", function() {
+		scene3D.tween( cameraPresets[3], 1000, Easing.easeOutCubic );
+	}, false );
+
+	presetButton[4].addEventListener( "click", function() {
+		scene3D.direct( hellPreset );
+	}, false );
+
+	presetButton[5].addEventListener( "click", function() {
+		scene3D.tween( cameraPresets[4], 1000, Easing.easeOutCubic );
+	}, false );
+
+	presetButton[6].addEventListener( "click", function() {
+		scene3D.followObject = scene3D.followObject == true ? false : true;
+	}, false );	
 
 </script>
 
@@ -414,6 +465,7 @@
 	//canvas.style.left = "20px";
 	//canvas.style.zIndex = "-97";
 
+	canvas.id = "canvasPitchAI";
     canvas.style.position = "fixed";
     canvas.style.bottom = "10px";
     canvas.style.left = "50%";
@@ -436,39 +488,6 @@
 	//g_SoccerPitch.Render();
 
     gdi.StopDrawing( context );
-
-    //--------------- 3D & Camera ------------
-	let presetButton = document.getElementsByClassName( "preset-button" );
-
-	let scene3D = new Camera();
-
-	presetButton[0].addEventListener( "click", function() {
-	 	scene3D.tween( cameraPresets[0], 1000, Easing.easeOutCubic );
-	}, false );
-
-	presetButton[1].addEventListener( "click", function() {
-	 	scene3D.tween( cameraPresets[1], 1000, Easing.easeOutCubic );
-	}, false );
-	 
-	presetButton[2].addEventListener( "click", function() {
-		scene3D.tween( cameraPresets[2], 1000, Easing.easeOutCubic );
-	}, false );
-
-	presetButton[3].addEventListener( "click", function() {
-		scene3D.tween( cameraPresets[3], 1000, Easing.easeOutCubic );
-	}, false );
-
-	presetButton[4].addEventListener( "click", function() {
-		scene3D.direct( hellPreset );
-	}, false );
-
-	presetButton[5].addEventListener( "click", function() {
-		scene3D.tween( cameraPresets[4], 1000, Easing.easeOutCubic );
-	}, false );
-
-	presetButton[6].addEventListener( "click", function() {
-		scene3D.followObject = scene3D.followObject == true ? false : true;
-	}, false );
 
     //--------------- update ---------------
     let timer = new PrecisionTimer();

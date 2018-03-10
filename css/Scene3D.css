@@ -43,53 +43,6 @@ body {
     margin: auto;
 }
 
-#camera-presets {
-  transition: opacity 0.5s linear;
-  user-select: none;
-  position: absolute;
-  top: 100px;
-  justify-content: center;
-  color: #fff;
-  margin: auto;
-  left: 0;
-  right: 0;
-  width: 600px;
-  display: flex;
-  z-index: 1;
-}
-
-.container {
-  font-size: 30px;
-  text-align: center;
-  display: flex;
-  -webkit-font-smoothing: antialiased
-}
-
-.preset-button {
-  font-size: 16px;
-  font-family: "arial";
-  font-weight: bold;
-  border-radius: 500px;
-  background: #fc0;
-  color: #fff;
-  box-sizing: border-box;
-  box-shadow: inset 0 -3px 0 #d58b1c;
-  text-shadow: 0 -1px 0 #d58b1c;
-  line-height: 33px;
-  width: 33px;
-  height: 36px;
-  cursor: pointer;
-  margin: 10px;
-}
-
-.presets:hover {
-  cursor: pointer;
-}
-
-.presets:active {
-  margin-top: 3px
-}
-
 #info {
   position: absolute;
   top: 0px; 

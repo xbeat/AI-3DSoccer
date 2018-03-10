@@ -24,7 +24,7 @@
 
 .timer {
     position: absolute;
-    top: 10px;
+    top: 13px;
     left: 75px;
     font-size: 35px;
 }
@@ -65,7 +65,7 @@
     background-color: blue;
 }
 
-.scoreTeamA{
+#scoreTeamA{
     position: absolute;
     padding-top: 10px;
     left: 320px;
@@ -78,7 +78,7 @@
     font-size: 35px;
 }
 
-.scoreTeamB{
+#scoreTeamB{
     position: absolute;
     padding-top: 10px;
     left: 390px;
@@ -227,10 +227,6 @@
 /*
 * Hide / Show Pitch
 */
-.canvasPitch{
+.hidePitch{
     visibility: hidden;
 }
-
-/*
-*  Player Info
-*/

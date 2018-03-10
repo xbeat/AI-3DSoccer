@@ -129,6 +129,12 @@ class SoccerPitch {
         if ( this.m_pBlueGoal.Scored( this.m_pBall ) || this.m_pRedGoal.Scored( this.m_pBall ) ) {
             this.m_bGameOn = false;
 
+            //update score
+            // the score is inversed because the team that make the score 
+            // has not access to the other team object ( Goal.js:25 )
+            document.getElementById("scoreTeamA").innerText = this.m_pBlueGoal.m_iNumGoalsScored;
+            document.getElementById("scoreTeamB").innerText = this.m_pRedGoal.m_iNumGoalsScored;            
+
             //reset the ball                                                      
             this.m_pBall.PlaceAtPosition( new Vector2D( this.m_cxClient / 2.0, this.m_cyClient / 2.0 ) );
 
@@ -187,13 +193,13 @@ class SoccerPitch {
         //};
 
         //show the score
-        gdi.TextColor( 255, 0, 0 ); // red
-        gdi.TextAtPos( ( this.m_cxClient / 2 ) - 50, this.m_cyClient - 8,
-                "Red: " + ttos( this.m_pBlueGoal.NumGoalsScored() ) );
+        //gdi.TextColor( 255, 0, 0 ); // red
+        //gdi.TextAtPos( ( this.m_cxClient / 2 ) - 50, this.m_cyClient - 8,
+        //        "Red: " + ttos( this.m_pBlueGoal.NumGoalsScored() ) );
 
-        gdi.TextColor( 0, 0, 255 ); // blue
-        gdi.TextAtPos( ( this.m_cxClient / 2 ) + 10, this.m_cyClient - 8, 
-                "Blue: " + ttos( this.m_pRedGoal.NumGoalsScored() ) );
+        //gdi.TextColor( 0, 0, 255 ); // blue
+        //gdi.TextAtPos( ( this.m_cxClient / 2 ) + 10, this.m_cyClient - 8, 
+        //        "Blue: " + ttos( this.m_pRedGoal.NumGoalsScored() ) );
 
         return true;
     };

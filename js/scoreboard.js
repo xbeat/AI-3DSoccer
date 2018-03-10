@@ -7,7 +7,8 @@ function manageScoreboard(){
 };
 
 function managePitch(){
-	document.getElementById( "canvasPitch" ).classList.toggle( "canvasPitch" );
+	document.getElementById( "canvasPitch" ).classList.toggle( "hidePitch" );
+	document.getElementById( "canvasPitchAI" ).classList.toggle( "hidePitch" );
 };
 
 /*
@@ -15,7 +16,7 @@ function managePitch(){
 */
 class ScoreboardTimer{
 	constructor( callback ) {
-		this.time = 5400;
+		this.time = 0;
 		this.status = 0;
 		this.timer_id;
 		this.callback = callback;
@@ -26,7 +27,7 @@ class ScoreboardTimer{
 		if( this.status == 0 ) {
 			this.status = 1;
 			this.timer_id = setInterval( function() {
-				this.time--;
+				this.time++;
 				this.generateTime();
 				if( typeof( this.callback ) === 'function') this.callback( this.time );
 			}.bind( this ), 1000);
@@ -41,7 +42,7 @@ class ScoreboardTimer{
 	};
 
 	reset()	{
-		this.time = 5400;
+		this.time = 0;
 		this.generateTime();
 	};
 
@@ -66,7 +67,7 @@ class ScoreboardTimer{
 
 let	scoreboardTimer = new ScoreboardTimer(
 	function( time ) {
-		if( time <= 0 ) { 
+		if( time >= 2700 ) { 
 			timer.stop();
 			alert('time out');
 		};
