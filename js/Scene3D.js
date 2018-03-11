@@ -25,10 +25,10 @@ class Scene3D{
 		this.clock = new THREE.Clock();
 		this.singleStepMode = false;
 		this.sizeOfNextStep = 0;
-		this.characterController = new Array();
+		this.playerController = new Array();
 		this.players = new Array();
 		this.skeleton = new Array();
-		this.playerManual = 0;
+		this.playerManual = 1;
 
 		this.scene = new THREE.Scene();
 		this.scene.add ( new THREE.AmbientLight( 0xffffff ) );
@@ -47,11 +47,11 @@ class Scene3D{
 		light.shadow.camera.top = 4000;
 		light.shadow.camera.bottom = -4000;
 
-		let helper = new THREE.CameraHelper( light.shadow.camera );
+		//let helper = new THREE.CameraHelper( light.shadow.camera );
+		//this.scene.add( helper );
 
 		this.scene.add( light );
-		this.scene.add( helper );
-
+		
 		this.renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 		this.renderer.setClearColor( "#dddddd", 1 );
 		this.renderer.setPixelRatio( window.devicePixelRatio );
@@ -72,6 +72,9 @@ class Scene3D{
 		this.controls.enabled = true;
 		//controls.enablePan = true;	
 					
+		this.controlPanel = new ControlPanel( this );
+		let skill = new Skill( this.controlPanel );
+
 		let ctx = this.renderer.context;
 		ctx.getShaderInfoLog = function () { return '' };
 
@@ -87,7 +90,8 @@ class Scene3D{
 			loadedObject.traverse( function ( child ) {
 				if ( child instanceof THREE.SkinnedMesh ) {
 					player = child;
-				}
+				};
+				
 			} );
 
 			if ( player === undefined ) {
@@ -145,8 +149,9 @@ class Scene3D{
 		} );
 
 		// The box dimension size doesn't matter that much when the camera is in the center.  Experiment with the values.
-		let skyMesh = new THREE.Mesh( new THREE.CubeGeometry( 10000, 10000, 10000, 1, 1, 1 ), material );
-		skyMesh.renderDepth = -10;
+		let skyMesh = new THREE.Mesh( new THREE.CubeGeometry( 7300, 7300, 7300, 1, 1, 1 ), material );
+		//skyMesh.renderDepth = -10;
+		skyMesh.position.set( 0, -500, 0)
 		this.scene.add( skyMesh );
 		
 		// --------- Soccer Ball ----------		
@@ -166,9 +171,6 @@ class Scene3D{
 		this.ball3D.scale.set( 6, 6, 6 );
 		this.ball3D.position.set( 0, 5, 0 );
 
-		this.controlPanel = new ControlPanel( this );
-		this.controlPanel.setPlayerId( this.playerManual );
-
 		this.addVirtualJoystick();     
 
 	};
@@ -176,9 +178,17 @@ class Scene3D{
 	// add player
 	addPlayer( id, player ){
 
-		// Add player and skeleton helper to scene
-		this.players[ id ] = player.clone(); 
+		let scope = this;
 
+		// Add player and skeleton helper to scene
+		this.players[ id ] = player.clone();
+		
+		player.traverse( function ( child ) {
+			if ( child instanceof THREE.SkinnedMesh ) { 
+				scope.players[ id ].material = child.material.clone(); 
+			};
+		} );
+		
 		this.skeleton[ id ] = new THREE.SkeletonHelper( this.players[ id ] );
 		this.skeleton[ id ].visible = false;
 		this.scene.add( this.skeleton[ id ] );
@@ -192,25 +202,30 @@ class Scene3D{
 		this.scene.add( this.players[ id ] );
 
 		// Create the control panel
-		if ( id == this.playerManual ){
-
-			// Initialize mixer and clip actions
-			this.mixer[ id ] = new THREE.AnimationMixer( this.players[ id ] );
-
-			this.idleAction[ id ] = this.mixer[ id ].clipAction( 'idle' );
-			this.walkAction[ id ] = this.mixer[ id ].clipAction( 'walk' );
-			this.runAction[ id ] = this.mixer[ id ].clipAction( 'run' );
-			this.actions[ id ] = [ this.idleAction[ id ], this.walkAction[ id ], this.runAction[ id ] ];
-	
-			this.controlPanel.activateAllActions( id );
-			this.characterController[ id ] = new CharacterController( this.players[ id ], this.actions[ id ], this.controlPanel );
-
-			window.addEventListener( 'keydown', this.characterController[ id ].onKeyDown.bind( this.characterController[ id ] ), false );
-			window.addEventListener( 'keyup', this.characterController[ id ].onKeyUp.bind( this.characterController[ id ] ), false );
-			window.addEventListener( 'change-duration', this.characterController[ id ].onDurationChange.bind( this.characterController[ id ] ), false );
+		if ( id > 4 && id < 10 ){
+		
+			//https://stackoverflow.com/questions/11919694/how-to-clone-an-object3d-in-three-js
+			this.players[ id ].material.map = new THREE.TextureLoader().load( 'models/player/BodyDressed_UnitedUniformRed.png' );
 		
 		};
 
+		// Initialize mixer and clip actions
+		this.mixer[ id ] = new THREE.AnimationMixer( this.players[ id ] );
+
+		this.idleAction[ id ] = this.mixer[ id ].clipAction( 'idle' );
+		this.walkAction[ id ] = this.mixer[ id ].clipAction( 'walk' );
+		this.runAction[ id ] = this.mixer[ id ].clipAction( 'run' );
+		this.actions[ id ] = [ this.idleAction[ id ], this.walkAction[ id ], this.runAction[ id ] ];
+
+		this.controlPanel.setPlayerId( id );
+		this.controlPanel.activateAllActions();
+		
+		this.playerController[ id ] = new PlayerController( this.players[ id ], this.actions[ id ], this.controlPanel );
+
+		window.addEventListener( 'keydown', this.playerController[ id ].onKeyDown.bind( this.playerController[ id ] ), false );
+		window.addEventListener( 'keyup', this.playerController[ id ].onKeyUp.bind( this.playerController[ id ] ), false );
+		window.addEventListener( 'change-duration', this.playerController[ id ].onDurationChange.bind( this.playerController[ id ] ), false );
+		
 		//wait until all is loaded
 		EXECUTERAF = true;
 
@@ -301,19 +316,25 @@ class Scene3D{
 	
 	};
 
+	getAngle( vector ){
+		let angle = Math.atan2( vector.y, vector.x );
+   		if ( angle < 0 ) angle += 2 * Math.PI;
+    	return angle;
+	};
+
 	// render
  	Render() {
 
 		// Render loop
 		//RAF = requestAnimationFrame( function() { scope.render(); } );
 
-		//for ( let i = 0; i < this.players.length; i++ ){ 
+		for ( let i = 0; i < this.players.length; i++ ){ 
 		
-			this.idleWeight[ 0 ] = this.idleAction[ 0 ].getEffectiveWeight();
-			this.walkWeight[ 0 ] = this.walkAction[ 0 ].getEffectiveWeight();
-			this.runWeight[ 0 ] = this.runAction[ 0 ].getEffectiveWeight();
+			this.idleWeight[ i ] = this.idleAction[ i ].getEffectiveWeight();
+			this.walkWeight[ i ] = this.walkAction[ i ].getEffectiveWeight();
+			this.runWeight[ i ] = this.runAction[ i ].getEffectiveWeight();
 		
-		//};
+		};
 
 		// Update the panel values if weights are modified from "outside" (by crossfadings)
 		this.controlPanel.updateWeightSliders();
@@ -331,8 +352,10 @@ class Scene3D{
 		};
 
 		// Update the animation mixer, and render this frame
-		this.mixer[ this.playerManual ].update( mixerUpdateDelta );
-		
+		for ( let i = 0; i < this.players.length; i++ ){ 
+			this.mixer[ i ].update( mixerUpdateDelta );
+		};
+
 		//updateCamera();
 		
 		// update character position
@@ -344,7 +367,7 @@ class Scene3D{
 		
 		//for ( let i = 0; i < this.players.length; i++ ){ 
 	    
-	    	this.characterController[ 0 ].update( stepSize, scale );
+	    	this.playerController[ this.playerManual ].update( stepSize, scale );
 		
 		//};
 

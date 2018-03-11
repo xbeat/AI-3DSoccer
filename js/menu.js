@@ -24,6 +24,29 @@ class Menu{
 
 		});
 
+
+		// Hover during close reopen use  ## getBoundingClientRect ##
+		// https://stackoverflow.com/questions/33490811/js-get-current-position-of-animated-element
+		/*
+		var moving = false,
+		el = document.getElementById( "mover" );
+		el.className = el.className + " move-right";
+		el.addEventListener( 'transitionend', function () {
+			moving = true;
+		});
+
+		function getPosition() {
+			var rect = el.getBoundingClientRect()
+			console.log( rect.top, rect.left );
+			if ( !moving ) {
+				window.requestAnimationFrame( getPosition );
+			}
+		};
+		window.requestAnimationFrame( getPosition );
+		*/
+		//---------------- end example -----------------
+		
+
 		document.getElementById("closeMenu").addEventListener( "click", function(){
 			document.getElementById("wrapperMain").style.margin = "-100px auto";
 			if ( cameraMenuIsOpen == true ){

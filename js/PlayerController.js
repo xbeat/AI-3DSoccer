@@ -1,7 +1,7 @@
 //==============================================================================
-class CharacterController {
+class PlayerController {
 
-	constructor( speedBlendCharacter, actions, controlPanel ) {
+	constructor( player, actions, controlPanel ) {
 
 		this.idleAction = actions[ 0 ];
 		this.walkAction = actions[ 1 ];
@@ -20,7 +20,7 @@ class CharacterController {
 			W:     { code: 87, isPressed: false }
 		};
 
-		this.character = speedBlendCharacter;
+		this.player = player;
 		this.walkSpeed = 3;
 		this.runSpeed = 7;
 		this.forward = new THREE.Vector3(); 
@@ -42,15 +42,15 @@ class CharacterController {
 		this.newSpeed = Math.min( 1, Math.max( this.newSpeed, 0 ) );
 
 		if ( this.keys.LEFT.isPressed || this.keys.A.isPressed )
-			this.character.rotation.y += dt * 2;
+			this.player.rotation.y += dt * 2;
 		else if ( this.keys.RIGHT.isPressed || this.keys.D.isPressed )
-			this.character.rotation.y -= dt * 2;
+			this.player.rotation.y -= dt * 2;
 
 
 		this.forward.set(
-			this.character.matrixWorld.elements[ 8 ],
-			this.character.matrixWorld.elements[ 9 ],
-			this.character.matrixWorld.elements[ 10 ]
+			this.player.matrixWorld.elements[ 8 ],
+			this.player.matrixWorld.elements[ 9 ],
+			this.player.matrixWorld.elements[ 10 ]
 		);
 
 		let finalSpeed = ( this.newSpeed > 0.5 ) ? this.newSpeed * this.runSpeed : ( this.newSpeed / 0.5 ) * this.walkSpeed;
@@ -83,8 +83,8 @@ class CharacterController {
 
 		this.lastSpeed = this.newSpeed;
 
-		//this.character.setSpeed( newSpeed );    
-		this.character.position.add( this.forward.multiplyScalar( finalSpeed ) );
+		//this.player.setSpeed( newSpeed );    
+		this.player.position.add( this.forward.multiplyScalar( finalSpeed ) );
 	};
 
 	onKeyDown( event ) {

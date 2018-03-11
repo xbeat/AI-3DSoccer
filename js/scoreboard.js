@@ -1,3 +1,7 @@
+function manageConsole(){
+	document.getElementById( "myConsoleLog" ).classList.toggle( "myConsoleLogHide" );
+};
+
 function managePlayerInfo(){
 	document.getElementsByClassName( "playerInfo" )[ 0 ].classList.toggle( "playerInfoHide" );
 };

@@ -146,8 +146,12 @@ class FieldPlayer extends PlayerBase {
         };
         gdi.Circle( this.Pos(), 6 );
 
+        //Player Position
         const playerPos = scene3D.convertRange( this.Pos() );
         scene3D.players[ this.id ].position.set( playerPos.x, 5, playerPos.y );
+
+        //Player Heading
+        scene3D.players[ this.id ].rotation.y = scene3D.getAngle( this.Heading() );
 
         //render the state
         if ( Prm.bStates ) {

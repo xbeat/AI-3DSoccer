@@ -3,13 +3,15 @@
 * Change skill value
 */
 class Skill{
-	constructor(){
+	constructor( controlPanel ){
 
 		this.buttonContainer;
-		this.buttonSelected;		
+		this.buttonSelected;	
 		this.updating = false;
 		this.skillOpen = false;
 		this.skillValue = document.getElementsByClassName( "skill-value" );
+		this.controlPanel = controlPanel;
+		let scope = this;
 
 		document.getElementById( "qty-subtract" ).addEventListener( "click", function() {
 			
@@ -31,11 +33,15 @@ class Skill{
 		// button skills value
 		for ( let i = 0; i < this.skillValue.length; i++ ){
 
-			document.getElementsByClassName( "skill-value" )[i].getElementsByTagName( "p" )[0].innerText = 10;
-			document.getElementsByClassName( "skill-wrap" )[i].addEventListener( "click", function( event ) {
+			document.getElementsByClassName( "skill-value" )[ i ].getElementsByTagName( "p" )[ 0 ].innerText = 10;
+			document.getElementsByClassName( "skill-wrap" )[ i ].addEventListener( "click", function( event ) {
 				
 				this.buttonContainer = event.currentTarget;
 				this.buttonSelected = event.currentTarget.getElementsByTagName( "p" )[0];
+
+				//https://stackoverflow.com/questions/10003683/javascript-get-number-from-string
+				this.SkillId = this.buttonSelected.id.replace( /^\D+/g, '' );
+				scope.controlPanel.setPlayerId( this.SkillId );
 
 				if ( this.skillOpen == false ){
 					this.skillOpen = true;
@@ -49,7 +55,7 @@ class Skill{
 				var autoClose = setInterval( function(){ 
 					if ( this.updating == false ){
 						document.getElementById( "skill-change-value-container" ).style.opacity = 0;
-						document.getElementById( "skill-change-value-container" ).style.zIndex = 0;
+						document.getElementById( "skill-change-value-container" ).style.zIndex = -100;
 						clearInterval( autoClose );
 						this.skillOpen = false;
 					} else {
@@ -105,7 +111,6 @@ class Skill{
 
 		});
 
-
 		// button skills
 		for( let i = 0, il = selects.length; i < il; i++ ){
 			selects[i].addEventListener( "mouseenter", function( event ) {
@@ -124,6 +129,7 @@ class Skill{
 	};
    
 	addQty( val ) {
+
 		if( isNaN( val ) ) {
 			return 20;
 		} else {
@@ -137,6 +143,7 @@ class Skill{
 	};
 
 	subtractQty( val ) {
+
 		if( isNaN( val ) ) {
 			return 0;
 		} else {  
@@ -150,12 +157,12 @@ class Skill{
 	};
 
 	getColor( value, min, max ){
+
 	    if ( value > max ) value = max;
 	    	var v = ( value - min) / ( max - min );
 	    	var hue = ( ( 1 - v )* 120 ).toString( 10 );
 	    return [ "hsl(", hue, ", 100%, 50% )" ].join( "" );
+
 	};
 
 };
-
-let skill = new Skill();

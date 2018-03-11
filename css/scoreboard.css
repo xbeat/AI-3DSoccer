@@ -319,6 +319,7 @@
 
 .scoreBoardBigContainerHide {
     opacity: 0;
+    z-index: -100;
     transform: rotateX( 40deg ) translateY( -80px );
 }
 

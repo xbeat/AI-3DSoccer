@@ -124,8 +124,12 @@
 					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Toggle Joystick</p></button></a>
 			    </div>	 
 
+			     <div id="toggleConsole" class="sideMenuButtonContainer">
+					<a onClick="manageConsole()" class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Toggle Console</p></button></a>
+				</div>
+
 			     <div id="clearConsole" class="sideMenuButtonContainer">
-					<a onClick="document.getElementById('myLog').innerHTML = '' " class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Clear Console</p></button></a>
+					<a onClick="document.getElementById('myConsoleLog').innerHTML = 'Console Ready' " class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Clear Console</p></button></a>
 				</div>
 
 				<!-- --- AI Settings --- -->
@@ -239,7 +243,10 @@
 				<div style="height: 100px;"></div>
 			</nav>
 		</div>
-		<p id="myLog"></p>
+
+
+		<!-- ---- Console ---- -->
+		<p id="myConsoleLog" class="myConsoleLogHide"></p>
 
 		<!--
 		  --------------
@@ -865,74 +872,47 @@
 	        <div id="cross-close" class="cross-close">&larr;</div>
 	        <div class="skill-wrap lost">
 	            <div class="skill-value">
-	                <p>20.00</p>
-	                <div class="letter-holder">
-	                    Off-side
-	                </div>
+	                <p id="SK0">20.00</p><div class="letter-holder">Off-side</div>
 	            </div>
 	        </div>
 	        <div class="skill-wrap lost">
 	            <div class="skill-value">
-	                <p>15.00</p>
-	                <div class="letter-holder">
-	                    Pressing
-	                </div>
+	                <p id="SK1">15.00</p><div class="letter-holder">Pressing</div>
 	            </div>
 	        </div>
 	        <div class="skill-wrap lost">
 	            <div class="skill-value">
-	                <p>18.00</p>
-	                <div class="letter-holder">
-	                    Aggressive defense
-	                </div>
+	                <p id="SK2">18.00</p><div class="letter-holder">Aggressive defense</div>
 	            </div>
 	        </div>
 	        <div class="skill-wrap gain">
 	            <div class="skill-value">
-	                <p>17.00</p>
-	                <div class="letter-holder">
-	                    Clearance
-	                </div>
+	                <p id="SK3">17.00</p><div class="letter-holder">Clearance</div>
 	            </div>
 	        </div>
 	        <div class="skill-wrap lost">
 	            <div class="skill-value">
-	                <p>20.00</p>
-	                <div class="letter-holder">
-	                    Defensive possesion
-	                </div>
+	                <p id="SK4">20.00</p><div class="letter-holder">Defensive possesion</div>
 	            </div>
 	        </div>
 	        <div class="skill-wrap gain">
 	            <div class="skill-value">
-	                <p>15.00</p>
-	                <div class="letter-holder">
-	                    Wing play
-	                </div>
+	                <p id="SK5">15.00</p><div class="letter-holder">Wing play</div>
 	            </div>
 	        </div>
 	        <div class="skill-wrap gain">
 	            <div class="skill-value">
-	                <p>11.00</p>
-	                <div class="letter-holder">
-	                    Through ball
-	                </div>
+	                <p id="SK6">11.00</p><div class="letter-holder">Through ball</div>
 	            </div>
 	        </div>
 	        <div class="skill-wrap gain">
 	            <div class="skill-value">
-	                <p>20.00</p>
-	                <div class="letter-holder">
-	                    Give-and-go offense
-	                </div>
+	                <p id="SK7">20.00</p><div class="letter-holder">Give-and-go offense</div>
 	            </div>
 	        </div>
 	        <div class="skill-wrap lost">
 	            <div class="skill-value">
-	                <p>18.00</p>
-	                <div class="letter-holder">
-	                    Direct football
-	                </div>
+	                <p id="SK8">18.00</p><div class="letter-holder">Direct football</div>
 	            </div>
 	        </div>
 	    </div>
@@ -970,24 +950,26 @@
 			});
 		};
 
+		/*
 		window.console = {
 			log: function( str ){
 				var node = document.createElement( "div" );
 				node.appendChild( document.createTextNode( str ) );
-				document.getElementById("myLog").appendChild( node );
-				document.getElementById("myLog").scrollTop = document.getElementById("myLog").scrollHeight;
+				document.getElementById("myConsoleLog").appendChild( node );
+				document.getElementById("myConsoleLog").scrollTop = document.getElementById("myConsoleLog").scrollHeight;
 			},
 			warn: function( str ){
 				console.log( str );
 			}
 		};
+		*/
 
 	</script>
 
 	<!-- ----- Scene 3D ----- -->
 	<script type="text/javascript" src="js/Scene3D.js"></script>
 	<script type="text/javascript" src="js/ControlPanel.js"></script>
-	<script type="text/javascript" src="js/CharacterController.js"></script>
+	<script type="text/javascript" src="js/PlayerController.js"></script>
 	<script type="text/javascript" src="js/VirtualInput.js"></script>
 	<script type="text/javascript" src="js/camera.js"></script>
 	<script type="text/javascript" src="js/menu.js"></script>

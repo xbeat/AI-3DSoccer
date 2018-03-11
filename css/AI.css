@@ -54,7 +54,7 @@
   border-radius: 0 4px 4px 0;
 }
 
-#myLog{
+#myConsoleLog{
 	position: absolute;
 	top:440px;
 	left: 520px;
@@ -62,4 +62,10 @@
 	height: 400px;
 	font-family: "Monospace", sans-serif;
 	font-size: 12px;
+  opacity: 1;
+}
+
+.myConsoleLogHide{
+  opacity: 0;
+  z-index: -100;
 }
