@@ -1,0 +1,25 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400);
+
+.gauge-text {
+  font: 16px/1.4em "Montserrat", Arial, sans-serif;
+  fill: #000;
+  transform: translateY(0.25em);
+}
+
+.gauge-number {
+  font-size: 1.2em;
+  line-height: 1;
+  text-anchor: middle;
+  transform: translateY(-0.25em);
+}
+
+.gauge-label {
+  font-size: .8em;
+  text-transform: uppercase;
+  text-anchor: middle;
+  transform: translateY(0.7em);
+}
+
+button {
+  height: 20px;
+}

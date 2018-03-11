@@ -217,6 +217,7 @@ class SoccerPitch {
         canvasPitch.style.transform = "translate( -50%, 0 )";
         canvasPitch.style.zIndex = "20";
         canvasPitch.id = "canvasPitch";
+        //canvasPitch.style.transform = "scale(0.7)";
 
         //canvasPitch.style.transform = "translate( -50%, 0 )";
         canvasPitch.style.backgroundColor = "#009900";    

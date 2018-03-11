@@ -2,8 +2,32 @@ function managePlayerInfo(){
 	document.getElementsByClassName( "playerInfo" )[ 0 ].classList.toggle( "playerInfoHide" );
 };
 
+function manageBigScoreboard(){
+	document.getElementsByClassName( "scoreBoardBigContainer" )[ 0 ].classList.toggle( "scoreBoardBigContainerHide" );
+};
+
 function manageScoreboard(){
 	document.getElementsByClassName( "scoreboardTimer" )[ 0 ].classList.toggle( "scoreboardTimerHide" );
+};
+
+function displayBgGame(){	
+	document.getElementsByTagName( "body" )[0].style.background = "url('img/big.jpg') no-repeat fixed top left / cover";
+    document.getElementsByTagName( "body" )[0].style.zIndex = "-1";
+};
+
+function displayBgData(){	
+	document.getElementsByTagName( "body" )[0].style.background = "url('img/stadiums-33.jpg') no-repeat fixed top left / cover";
+    document.getElementsByTagName( "body" )[0].style.zIndex = "-1";
+};
+
+
+function manageStatistics(){
+	document.getElementsByClassName( "centerStat" )[ 0 ].classList.toggle( "centerStatShow" );
+	document.getElementsByClassName( "scoreBoardBigContainer" )[ 0 ].classList.toggle( "scoreBoardBigContainerUp" );
+	document.getElementsByClassName( "scoreBoardBigTop" )[ 0 ].classList.toggle( "scoreBoardBigTopHide" );
+	if ( document.getElementsByClassName( "scoreBoardBigContainer" )[ 0 ].classList.contains("scoreBoardBigContainerHide") ){
+		document.getElementsByClassName( "scoreBoardBigContainer" )[ 0 ].classList.toggle( "scoreBoardBigContainerHide" );
+	}; 
 };
 
 function managePitch(){

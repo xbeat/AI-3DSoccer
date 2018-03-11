@@ -5,7 +5,6 @@ class Menu{
 
 		let cameraMenuIsOpen = false;
 		let mainMenuIsOpen = false;
-		let closeTab = document.getElementsByClassName("closeTab");
 
 		document.getElementById("wrapperMain").addEventListener( "mouseover", function(){
 			this.addEventListener("transitionend", function(event) {
@@ -50,13 +49,14 @@ class Menu{
 			cameraMenuIsOpen = true;
 		});
 
+		let closeTab = document.getElementsByClassName("closeTab");
 		for( let i = 0; i < closeTab.length; i++ ){
 			closeTab[i].addEventListener( "click", function(){
-				resetMenu();
+				resetTab();
 			});
 		};
 
-		function resetMenu(){
+		function resetTab(){
 			let content = document.getElementsByClassName("content");
 			for( let i = 0; i < content.length; i++ ){
 					content[i].style.display = "none";
@@ -64,37 +64,37 @@ class Menu{
 		};
 
 		document.getElementById("tabPlayerData").addEventListener( "click", function(){
-			resetMenu();
+			resetTab();
 			document.getElementById( "playerData" ).style.display = "flex";
 		});
 
 		document.getElementById("tabPlayerStatistics").addEventListener( "click", function(){
-			resetMenu();
+			resetTab();
 			document.getElementById( "playerStatistics" ).style.display = "flex";
 		});
 
 		document.getElementById("tabTeamStatistics").addEventListener( "click", function(){
-			resetMenu();
+			resetTab();
 			document.getElementById( "teamStatistics" ).style.display = "flex";
 		});
 
 		document.getElementById("tabPlayerComparison").addEventListener( "click", function(){
-			resetMenu();
+			resetTab();
 			document.getElementById( "playerComparison" ).style.display = "flex";
 		});
 
 		document.getElementById("tabGameStatistics").addEventListener( "click", function(){
-			resetMenu();
+			resetTab();
 			document.getElementById( "gameStatistics" ).style.display = "flex";
 		});
 
 		document.getElementById("tabGameTactics").addEventListener( "click", function(){
-			resetMenu();
+			resetTab();
 			document.getElementById( "gameTactics" ).style.display = "flex";
 		});
 
 		document.getElementById("tabGameStrategy").addEventListener( "click", function(){
-			resetMenu();
+			resetTab();
 			document.getElementById( "gameStrategy" ).style.display = "flex";
 		});
 

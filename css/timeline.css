@@ -1,0 +1,98 @@
+#lineContainer {
+  position: absolute;
+  left: auto;
+  top: 800px;
+  width: 900px;
+}
+
+#lineBack {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 10px;
+  width: 900px;
+  background: #e61921;
+  border-radius: 5px;
+  margin: auto;
+}
+
+#lineProgress {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 10px; 
+  background: #aabe21;
+  border-radius: 5px;
+}
+
+#halfTime {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  height: 50px;
+  width: 2px;
+  background: #aabe21;
+  border-radius: 5px;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  background: #4e4e4e;
+  border-radius: 15px;
+  position: absolute;
+  top: -5px;
+  border: 1px solid #4e4e4e;
+  cursor: pointer;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.circle:before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: #4e4e4e;
+  position: absolute;
+  border-radius: 100%;
+  top: 2px;
+  left: 2px;
+  border: 2px solid white;
+}
+
+.labelUp {
+  display: flex;
+  color: #fff;
+  position: absolute;
+  top: -25px;
+  padding
+}
+
+.eventUp {
+  display: flex;
+  flex-direction: column;
+  line-height: 30px;
+  align-items: left;
+  color: #fff;
+  position: absolute;
+  top: -65px;
+}
+
+.labelDown {
+  display: flex;
+  color: #fff;
+  position: absolute;
+  top: 25px;
+}
+
+.eventDown {
+  display: flex;
+  flex-direction: column;
+  line-height: 30px;
+  align-items: left;
+  color: #fff;
+  position: absolute;
+  top: 25px;
+  padding
+}
+

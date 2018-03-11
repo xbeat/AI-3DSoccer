@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Barlow+Condensed:400,700');
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 
 html {
@@ -5,9 +6,10 @@ html {
   font-size: 14px;
   color:#fff;
   font-family:sans-serif;
+  height: 100%
   margin:0;
    -ms-touch-action : none;
-      touch-action : none;
+      touch-action  : none;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -15,13 +17,14 @@ html {
 }
 
 body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Barlow Condensed', sans-serif;  
   color: #fff;
-  font-family: Monospace;
-  font-size: 13px;
   text-align: center;
-  background-color: #fff;
+  background-color: #000;
   margin: 0px;
-  overflow: hidden;
+  z-index: -1;
 }
 
 .xbeat-logo-wrapper{
@@ -56,7 +59,6 @@ body {
   width: 100%;
   padding: 5px;
 }
-
 
 .ac {  /* prevent dat-gui from being selected */
   -webkit-user-select: none;
@@ -119,4 +121,3 @@ ul.create-objects li {
   float: left;
   padding: 10px 0px;
 }
-

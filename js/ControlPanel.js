@@ -11,6 +11,7 @@ class ControlPanel {
 		let scope = this;
 
 		let panel = new dat.GUI( { width: 310 } );
+		panel.closed = true;
 
 		let folder1 = panel.addFolder( 'Visibility' );
 		let folder2 = panel.addFolder( 'Activation/Deactivation' );

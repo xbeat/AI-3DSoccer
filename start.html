@@ -12,12 +12,27 @@
 		<title>AI-3D-Soccer xbe.at 1.0.1</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link rel="stylesheet" type="text/css" media="screen,print" href="css/Scene3D.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/gauge.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/skill.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/bar.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/timeline.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/tactics.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/comparison.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/gamestat.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/slider.css" />
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/userInterface.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/virtualInput.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/sidemenu.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/menu.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/scoreboard.css">
+		<link rel="stylesheet" type="text/css" media="screen,print" href="css/dashboard.css">
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/AI.css">
+
+		<!-- ----- Dashboard ----- -->		
+		<script type="text/javascript" src="js/gauge.js"></script>
+		<script type="text/javascript" src="js/bar.js"></script>
+		<script type="text/javascript" src="js/slider.js"></script>
+		<script type="text/javascript" src="js/timeline.js"></script>
 
 	</head>
 	<body>
@@ -26,47 +41,13 @@
 			<img class="xbeat-logo-up" src="../img/LogoBeat.svg" title="logo">
 		</div>
 
-		<div id="container"></div>
 		<div id="info">
 			<br>camera orbit/zoom/pan with left/middle/right mouse button
 			<br>orbit/zoom/pan with 1-finger move/pinch/3-finger move
 			<br><br>Note: crossfades are possible with blend weights being set to (1,0,0), (0,1,0) or (0,0,1)
 		</div>
 		<div id="data">####</div>
-
-	    <!-- Scoreboard Timer -->
-	    <div id="scoreboardTimer" class="scoreboardTimer">
-	        <div class="timer">
-	            <span class="minute">00</span>:<span class="second">00</span>
-	        </div>
-	        <div class="teamAContainer">
-	            <div class="nameTeamA">RED</div>
-	            <div class="colorTeamA">
-	                <div class="colorTeamAbar1"></div>
-	                <div class="colorTeamAbar2"></div>                
-	            </div>
-	        </div>
-	        <div id="scoreTeamA">0</div>
-	        <div id="scoreTeamB">0</div>
-	        <div class="teamBContainer">
-	            <div class="nameTeamB">BLUE</div>
-	            <div class="colorTeamB">
-	                <div class="colorTeamBbar1"></div>
-	                <div class="colorTeamBbar2"></div>
-	            </div>
-	        </div>  
-	    </div>
-
-	    <!-- Player Info -->
-	    <div id="playerInfo" class="playerInfo">
-	        <div class="greenbar-left"></div>
-	        <div id="playerInfoRedText" class="left-text"></div>
-	        <div class="redbar-left"></div>
-	        <div class="greenbar-right"></div>
-	        <div id="playerInfoBlueText" class="right-text"></div>
-	        <div class="redbar-right"></div>
-	    </div>
-
+   
 		<!-- MAIN MENU -->
 		<div id="wrapperMain" class="wrapperMain">
 			<div class="icon settings" id="tabPlayerData">A</div><!-- PLAYER BIO -->
@@ -93,13 +74,13 @@
 		</div>
 
 		<!-- Sidebar Menu -->
-		<div class="nav-toggle open hamburger">
+		<div class="nav-toggle hamburger">
 		  <span></span>
 		  <span></span>
 		  <span></span>
 		</div>
 		
-		<div class="menu-container nav-open">
+		<div class="menu-container">
 
 			<nav>
 			    <div id="stopRaf" class="sideMenuButtonContainer">
@@ -122,6 +103,14 @@
 			    <div class="sideMenuButtonContainer">
 					<a class="btn"><button onClick="manageScoreboard()" class="sideMenuButton"><p class="sideMenuElement">Toggle Scoreboard</p></button></a>
 			    </div>			    
+
+			    <div class="sideMenuButtonContainer">
+					<a class="btn"><button onClick="manageBigScoreboard()" class="sideMenuButton"><p class="sideMenuElement">Toggle Big Scoreboard</p></button></a>
+			    </div>
+
+			    <div class="sideMenuButtonContainer">
+					<a class="btn"><button onClick="manageStatistics()" class="sideMenuButton"><p class="sideMenuElement">Toggle Statistics</p></button></a>
+			    </div>
 
 			    <div class="sideMenuButtonContainer">
 					<a class="btn"><button onClick="managePlayerInfo()" class="sideMenuButton"><p class="sideMenuElement">Toggle Player Info</p></button></a>
@@ -252,271 +241,969 @@
 		</div>
 		<p id="myLog"></p>
 
+		<!--
+		  --------------
+			DASHBOARD 
+		  --------------
+		-->
+
+		<!-- ----------- -->
+		<!-- Player Data -->
+		<div class="content" id="playerData">
+
+			<div class="closeTab">X</div>
+			<div class="container">
+				<div class="table">
+					<div class="head">PLAYER ATTRIBUTE</div>
+
+					<div class="playerBio">
+						<ul>
+							<li>Name</li>
+							<li>Ben Foster</li>
+							<li>Know As</li>
+							<li>-</li>
+							<li>Date of Birth</li>
+							<li>03/04/1983</li>
+							<li>Height</li>
+							<li>6'4"</li>
+							<li>Save Technique</li>
+							<li>Traditional</li>
+							<li>Preferred Foot</li>
+							<li>Left</li>
+							<li>Weak Foot</li>
+							<li>***--</li>
+							<li>Skill Moves</li>
+							<li>*----</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="table">
+					<div class="head">PLAYER DETAIL</div>
+
+					<div class="playerDetail">
+						<ul>
+							<li>Bought For</li>
+							<li>-</li>
+							<li>Number of Owners</li>
+							<li>2</li>
+							<li>Trade Status</li>
+							<li>Tradable</li>
+							<li>Games Played (Other Clubs/Your Club)</li>
+							<li>0 (0/0)</li>
+							<li>Goal Scored (Other Clubs/Your Club)</li>
+							<li>0 (0/0)</li>
+							<li>Assists (Other Clubs/Your Club)</li>
+							<li>0 (0/0)</li>
+							<li>Yellow Card (Other Clubs/Your Club)</li>
+							<li>0 (0/0)</li>
+							<li>Red Card (Other Clubs/Your Club)</li>
+							<li>0 (0/0)</li>
+						</ul>
+					</div>
+				</div>			  
+			</div>
+
+		</div>
+
+		<!-- ----------- -->
+		<!-- Player Statistics -->
+		<div class="content" id="playerStatistics">
+
+			<div class="titleHead">PLAYER STATISTICS</div>
+			<div class="closeTab">X</div>
+			<div class="container">
+				<div id="attribute-Pace" class="playerStatisticsColumn"></div>
+				<script>
+					let attributeDetails = new Array();
+					attributeDetails.push( new Array() );
+					attributeDetails[0].push( new Gauge( 100, 6, 20, 80, 1500, "half", "-HalfA0", "PACE", "#ce4b99", document.getElementById( "attribute-Pace" ) ) ); 
+					attributeDetails[0].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfA1", "Acceleration", "#ce4b99", document.getElementById( "attribute-Pace" ) ) );
+					attributeDetails[0].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfA2", "Sprint Speed", "#ce4b99", document.getElementById( "attribute-Pace" ) ) );
+				</script>
+
+				<div id="attribute-Shooting" class="playerStatisticsColumn"></div>
+				<script>
+					attributeDetails.push( new Array() );
+					attributeDetails[1].push( new Gauge( 100, 6, 45, 100, 1500, "full", "-HalfB0", "SHOOTING", "#b1c94e", document.getElementById( "attribute-Shooting" ) ) );
+					attributeDetails[1].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfB1", "Att. Position", "#ce4b99", document.getElementById( "attribute-Shooting" ) ) );
+					attributeDetails[1].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfB2", "Finishing", "#ce4b99", document.getElementById( "attribute-Shooting" ) ) );
+					attributeDetails[1].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfB3", "Shot Power", "#ce4b99", document.getElementById( "attribute-Shooting" ) ) );
+					attributeDetails[1].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfB4", "Long Shot", "#ce4b99", document.getElementById( "attribute-Shooting" ) ) );
+					attributeDetails[1].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfB5", "Volleys", "#ce4b99", document.getElementById( "attribute-Shooting" ) ) );
+					attributeDetails[1].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfB6", "Penalties", "#ce4b99", document.getElementById( "attribute-Shooting" ) ) );
+				</script>
+			
+				<div id="attribute-Passing" class="playerStatisticsColumn"></div>
+
+				<script>
+					attributeDetails.push( new Array() );
+					attributeDetails[2].push ( new Gauge( 100, 6, 20, 65, 1500, "half", "-Half3C0", "PASSING", "#377bbc", document.getElementById( "attribute-Passing" ) ) );
+					attributeDetails[2].push ( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfC1", "Vision", "#ce4b99", document.getElementById( "attribute-Passing" ) ) );
+					attributeDetails[2].push ( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfC2", "Crossing", "#ce4b99", document.getElementById( "attribute-Passing" ) ) );
+					attributeDetails[2].push ( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfC3", "FK Acc.", "#ce4b99", document.getElementById( "attribute-Passing" ) ) );
+					attributeDetails[2].push ( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfC4", "Short Pass", "#ce4b99", document.getElementById( "attribute-Passing" ) ) );
+					attributeDetails[2].push ( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfC5", "Long Pass", "#ce4b99", document.getElementById( "attribute-Passing" ) ) );
+					attributeDetails[2].push ( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfC6", "Curve", "#ce4b99", document.getElementById( "attribute-Passing" ) ) );
+				</script>
+
+				<div id="attribute-Dribbling" class="playerStatisticsColumn"></div>
+
+				<script>
+					attributeDetails.push( new Array() ); 
+					attributeDetails[3].push( new Gauge( 100, 6, 20, 65, 1500, "half", "-HalfD0", "DRIBBLING", "#377bbc", document.getElementById( "attribute-Dribbling" ) ) );
+					attributeDetails[3].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfD1", "Agility", "#ce4b99", document.getElementById( "attribute-Dribbling" ) ) );
+					attributeDetails[3].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfD2", "Balance", "#ce4b99", document.getElementById( "attribute-Dribbling" ) ) );
+					attributeDetails[3].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfD3", "Reactions", "#ce4b99", document.getElementById( "attribute-Dribbling" ) ) );
+					attributeDetails[3].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfD4", "Ball Control", "#ce4b99", document.getElementById( "attribute-Dribbling" ) ) );
+					attributeDetails[3].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfD5", "Dribbling", "#ce4b99", document.getElementById( "attribute-Dribbling" ) ) );
+					attributeDetails[3].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfD6", "Composure", "#ce4b99", document.getElementById( "attribute-Dribbling" ) ) ); 
+				</script>
+
+				<div id="attribute-Defending" class="playerStatisticsColumn"></div>
+
+				<script>
+					attributeDetails.push( new Array() );
+					attributeDetails[4].push( new Gauge( 100, 6, 20, 65, 1500, "half", "-HalfE0", "DEFENDING", "#377bbc", document.getElementById( "attribute-Defending" ) ) );
+					attributeDetails[4].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfE1", "Interceptions", "#ce4b99", document.getElementById( "attribute-Defending" ) ) );
+					attributeDetails[4].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfE2", "Heading Acc.", "#ce4b99", document.getElementById( "attribute-Defending" ) ) );
+					attributeDetails[4].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfE3", "Marking", "#ce4b99", document.getElementById( "attribute-Defending" ) ) );
+					attributeDetails[4].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfE4", "Stand Tackle", "#ce4b99", document.getElementById( "attribute-Defending" ) ) );
+					attributeDetails[4].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfE5", "Slide Tackle", "#ce4b99", document.getElementById( "attribute-Defending" ) ) );
+				</script>
+
+				<div id="attribute-Physical" class="playerStatisticsColumn"></div>
+
+				<script>
+					attributeDetails.push( new Array() );
+					attributeDetails[5].push( new Gauge( 100, 6, 20, 65, 1500, "half", "-HalfF0", "PHYSICAL", "#377bbc", document.getElementById( "attribute-Physical" ) ) );
+					attributeDetails[5].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfF1", "Jumping", "#ce4b99", document.getElementById( "attribute-Physical" ) ) );
+					attributeDetails[5].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfF2", "Stamina", "#ce4b99", document.getElementById( "attribute-Physical" ) ) );
+					attributeDetails[5].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfF3", "Strength", "#ce4b99", document.getElementById( "attribute-Physical" ) ) );
+					attributeDetails[5].push( new Bar( 150, 40, 10, 5, 100, 1500, "-HalfF4", "Aggresion", "#ce4b99", document.getElementById( "attribute-Physical" ) ) );
+				</script>
+
+				<button onclick = "updateAttributeDetails();">Animate</button>
+				<script>
+
+					function updateAttributeDetails(){
+						for( let i = 0, elem = attributeDetails.length; i < elem; i++ ){
+							for( let j = 0, subElem = attributeDetails[i].length; j < subElem; j++ ){
+								attributeDetails[i][j].animate();
+							};
+						};
+					};
+
+				</script>
+			</div>		
+		</div>
+
+		<!-- ----------- -->
+		<!-- Team Stat -->
+		<div class="content" id="teamStatistics">
+
+			<div class="closeTab">X</div>
+			<div class="container">
+				<div class="table">
+					<div class="head">TEAM RANK</div>
+
+					<div class="teamRank">
+						<ul>
+							<li>Name</li>
+							<li>Ben Foster</li>
+							<li>Know As</li>
+							<li>-</li>
+							<li>Date of Birth</li>
+							<li>03/04/1983</li>
+							<li>Height</li>
+							<li>6'4"</li>
+							<li>Save Technique</li>
+							<li>Traditional</li>
+							<li>Preferred Foot</li>
+							<li>Left</li>
+							<li>Weak Foot</li>
+							<li>***--</li>
+							<li>Skill Moves</li>
+							<li>*----</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="table" >
+					<div class="head">TEAM STAT</div>
+
+					<div class="teamStat">
+						<ul>
+							<li>Bought For</li>
+							<li>-</li>
+							<li>Number of Owners</li>
+							<li>2</li>
+							<li>Trade Status</li>
+							<li>Tradable</li>
+							<li>Games Played (Other Clubs/Your Club)</li>
+							<li>0 (0/0)</li>
+							<li>Goal Scored (Other Clubs/Your Club)</li>
+							<li>0 (0/0)</li>
+							<li>Assists (Other Clubs/Your Club)</li>
+							<li>0 (0/0)</li>
+							<li>Yellow Card (Other Clubs/Your Club)</li>
+							<li>0 (0/0)</li>
+							<li>Red Card (Other Clubs/Your Club)</li>
+							<li>0 (0/0)</li>
+						</ul>
+					</div>
+				</div>			  
+			</div>
+
+		</div>
+
+		<!-- ----------- -->
+		<!-- Player Comparison -->
+		<div class="content" id="playerComparison">
+
+			<div class="titleHead">PLAYER COMPARISON</div>
+			<div class="closeTab">X</div>
+			<div class="container">
+		        <div class="comparisonTitleContainer">
+		            <div class="comparisonTitleLeft">PLAYER A</div>
+		            <div class="comparisonTitleRight">PLAYER B</div>
+		        </div>
+
+			    <div class="centerComparison">
+			        <div class="centerComparisonRow">
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">PACE</div>
+			            <div class="rightComparison">2</div>
+			        </div>
+			        <div class="centerComparisonRow">
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">PHYSICAL</div>
+			            <div class="rightComparison">2</div>
+			        </div>
+			        <div class="centerComparisonRow">  
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">DEFENDING</div>
+			            <div class="rightComparison">2</div>
+			        </div>
+			        <div class="centerComparisonRow">  
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">SHOOTING</div>
+			            <div class="rightComparison">2</div>
+			        </div>
+			        <div class="centerComparisonRow">  
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">PASSING</div>
+			            <div class="rightComparison">2</div>
+			        </div>
+			        <div class="centerComparisonRow">  
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">DRIBBLING</div>
+			            <div class="rightComparison">2</div>
+			        </div>
+			        <div class="centerComparisonRow">  
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">GOALKEEPING</div>
+			            <div class="rightComparison">2</div>
+			        </div>
+			        <div class="centerComparisonRow">  
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">SHOT</div>
+			            <div class="rightComparison">2</div>
+			        </div>
+			        <div class="centerComparisonRow">  
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">GOALS</div>
+			            <div class="rightComparison">2</div>
+			        </div>
+			        <div class="centerComparisonRow">  
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">LEAGUE GOALS</div>
+			            <div class="rightComparison">2</div>
+			        </div>
+			        <div class="centerComparisonRow">  
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">DISTANCE</div>
+			            <div class="rightComparison">2</div>   
+			        </div>
+			        <div class="centerComparisonRow">  
+			            <div class="leftComparison">1</div>
+			            <div class="comparisonContainer">AVERAGE SPEED</div>
+			            <div class="rightComparison">2</div>   
+			        </div>		        
+			    </div>
+			</div>
+
+		</div>
+
+		<!-- ----------- -->
+		<!-- Game Stat -->
+		<div class="content" id="gameStatistics">
+
+			<div class="titleHead">GAME STATISTICS</div>
+			<div class="closeTab">X</div>
+			<div class="container">
+		        <div class="scoreGameStatistics">
+		            <div class="leftPartGameStatistics">FC INTERNAZIONALE</div>
+		            <div class="scoreStatContainer">
+		                <div class="scoreLeft">0</div>
+		                <div class="scoreRight">1</div>
+		            </div>
+		            <div class="rightPartGameStatistics">VILLARREAL CF</div>
+		        </div>
+
+				<div class="gameStatisticsContainer">
+					<div id="gameStat-leftPart" class="gameStat-leftPart">
+						<div id="bar-gameStat-left"></div>
+						<div class="gauge-gameStat-container">
+							<div id="gauge-gameStat-leftL"></div>
+							<div id="gauge-gameStat-leftR"></div>
+						</div>
+					</div>
+					<div id="gameStat-rightPart" class="gameStat-rightPart">
+						<div id="bar-gameStat-right"></div>
+						<div class="gauge-gameStat-container">
+							<div id="gauge-gameStat-rightL"></div>
+							<div id="gauge-gameStat-rightR"></div>
+						</div>
+					</div>
+				</div>
+
+				<script>
+
+					let gameStat = new Array();
+					gameStat.push( new Array() );
+					gameStat[0].push( new Bar( 500, 60, 25, 10, 100, 1500, "-gameStat0", "Possessions %", "#ce4b99", document.getElementById( "bar-gameStat-left" ) ) );
+					gameStat[0].push( new Gauge( 170, 9, 20, 100, 1500, "full", "-gameStat1", "Shot Accuracy", "#ce4b99", document.getElementById( "gauge-gameStat-leftL") ) );
+					gameStat[0].push( new Gauge( 170, 9, 20, 100, 1500, "full", "-gameStat2", "Pass Accuracy", "#ce4b99", document.getElementById( "gauge-gameStat-leftR") ) );
+
+					gameStat.push( new Array() );
+					gameStat[1].push( new Bar( 500, 60, 25, 10, 100, 1500, "-gameStat3", "Possessions %", "#ce4b99", document.getElementById( "bar-gameStat-right" ) ) );
+					gameStat[1].push( new Gauge( 170, 9, 20, 100, 1500, "full", "-gameStat4", "Shot Accuracy", "#ce4b99", document.getElementById( "gauge-gameStat-rightL" ) ) );
+					gameStat[1].push( new Gauge( 170, 9, 20, 100, 1500, "full", "-gameStat5", "Pass Accuracy", "#ce4b99", document.getElementById( "gauge-gameStat-rightR" ) ) );
+
+				</script>
+
+				<button style="z-index: 10" onclick = "updateGameStat();">Animate</button>
+
+				<script>
+					function updateGameStat(){
+						for( let i = 0, elem = gameStat.length; i < elem; i++ ){
+							for( let j = 0, subElem = gameStat[i].length; j < subElem; j++ ){
+								gameStat[i][j].animate();
+							};
+						};
+					};
+				</script>		
+				
+				<div id="lineContainer"> 
+				  <div id="lineBack"></div>
+				  <div id="lineProgress"></div>
+				  <div id="halfTime"></div>
+				</div>
+
+				<script>
+					let timeline = new TimeLine();
+					timeline.addEvent( 1, 'U', 'yellowCard', "player1" );
+					timeline.addEvent( 17, 'D', 'goal', "playerA" );
+					timeline.addEvent( 22, 'U', 'redCard', "playerK" ); 
+					timeline.addEvent( 35, 'D', 'goal', "player11" );
+					timeline.addEvent( 38, 'U', 'yellowCard', "playerZB" );
+					timeline.addEvent( 49, 'D', 'goal', "player2" );
+					timeline.addEvent( 90, 'D', 'redCard', "player3" );
+					timeline.addEvent( 94, 'U', 'goal', "player7" );
+
+					timeline.upddateTime( 45 );
+				</script>
+			</div>
+
+		</div>
+
+		<!-- ------------ -->
+		<!-- Game Tactics -->
+		<div class="content" id="gameTactics">
+
+			<div id="gameTacticsTitle" class="titleHead">GAME TACTICS</div>
+			<div class="closeTab">X</div>
+			<div class="containerTactics">
+				<div class="pitch">
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="599.21" height="998" viewBox="0 0 599.21 998">
+						<defs>				
+							<pattern id="pitchGrass" width="512" height="512" patternUnits="userSpaceOnUse" viewBox="0 0 512 512">
+								<rect class="pitchGrass" width="512" height="512"/>
+								<image width="512" height="512" xlink:href="img/material_5pow2.jpg"/>
+							</pattern>
+						</defs>
+						<polygon class="pitchRect" points="599.21 0 599.21 998 0 998 0 0 599.21 0"/>
+						<rect class="pitchSegment" x="-147.65" y="218.45" width="899.16" height="562.15" transform="translate(-197.6 801.45) rotate(-90)"/>
+						<line class="pitchSegment" x1="80.31" y1="969.24" x2="80.31" y2="948.51"/>
+						<line class="pitchSegment" x1="19.91" y1="499" x2="582.05" y2="499"/>
+						<line class="pitchSegment" x1="123.55" y1="949.27" x2="124.24" y2="812.7"/>
+						<line class="pitchSegment" x1="479.4" y1="814.05" x2="123.28" y2="813.36"/>
+						<line class="pitchSegment" x1="477.72" y1="948.5" x2="478.41" y2="813.28"/>
+						<line class="pitchSegment" x1="225.82" y1="949.27" x2="225.82" y2="903.97"/>
+						<line class="pitchSegment" x1="376.98" y1="903.49" x2="224.77" y2="903.49"/>
+						<line class="pitchSegment" x1="376.03" y1="949.27" x2="376.03" y2="903.97"/>
+						<circle class="pitchSegment" cx="301.99" cy="499.02" r="74.83"/>
+						<line class="pitchSegment" x1="123.89" y1="50.11" x2="123.89" y2="185.62"/>
+						<line class="pitchSegment" x1="478.07" y1="184.64" x2="123.25" y2="184.64"/>
+						<line class="pitchSegment" x1="478.07" y1="50.46" x2="478.07" y2="185.67"/>
+						<line class="pitchSegment" x1="522.34" y1="50.29" x2="522.34" y2="29.57"/>
+						<line class="pitchSegment" x1="80.85" y1="50.32" x2="80.85" y2="29.59"/>
+						<line class="pitchSegment" x1="523.13" y1="969.24" x2="523.13" y2="948.51"/>
+						<line class="pitchSegment" x1="263.57" y1="949.27" x2="263.57" y2="969.48"/>
+						<line class="pitchSegment" x1="343.19" y1="968.49" x2="263.57" y2="968.49"/>
+						<line class="pitchSegment" x1="343.19" y1="949.41" x2="343.19" y2="969.48"/>
+						<line class="pitchSegment" x1="225.82" y1="50.25" x2="225.82" y2="95.1"/>
+						<line class="pitchSegment" x1="376.82" y1="94.18" x2="224.94" y2="94.18"/>
+						<line class="pitchSegment" x1="376.03" y1="50.11" x2="376.03" y2="95.1"/>
+						<line class="pitchSegment" x1="263.57" y1="49.96" x2="263.57" y2="29.29"/>
+						<line class="pitchSegment" x1="343.19" y1="30.11" x2="262.78" y2="30.13"/>
+						<line class="pitchSegment" x1="343.19" y1="50.25" x2="343.19" y2="29.16"/>
+						<circle class="pitchSegment" cx="302.22" cy="498.93" r="3.75"/>
+						<circle class="pitchSegment" cx="301.93" cy="858.58" r="3.62"/>
+						<circle class="pitchSegment" cx="302.26" cy="139.52" r="3.79"/>
+						<path class="pitchSegment" d="M232.4,813.28c73-65.73,140.1.2,139.9,0"/>
+						<path class="pitchSegment" d="M231.73,184.64c74.32,66.53,140.81,0,140.81,0"/>
+						<path class="pitchSegment" d="M21.26,66.66a16.76,16.76,0,0,0,17-16.55"/>
+						<path class="pitchSegment" d="M582.05,66.91a16.53,16.53,0,0,1-16.26-16.8"/>
+						<path class="pitchSegment" d="M582.05,930.52c-9.13,0-16.51,8.38-16.51,18.74"/>
+						<path class="pitchSegment" d="M21,931c9.52,0,17.23,8.16,17.23,18.24"/>
+					</svg>
+				</div>
+			
+				<div id="formationJerseyContainerV"></div>
+				<div id="formationV"></div>
+			</div>
+		</div>
+
+		<!-- ------------- -->
+		<!-- Team strategy -->
+		<div class="content" id="gameStrategy">
+			
+			<div class="titleHead">GAME STRATEGY</div>
+			<div class="closeTab">X</div>
+			<div class="gameStrategyContainer">
+				<div class="strategyPlayContainer" id="strategyPlayContainer">
+					<div class="strategyLabel">Play</div>
+				</div>
+				
+				<div class="strategyAttackContainer" id="strategyAttackContainer">
+					<div class="strategyLabel">Attack</div>
+				</div>
+
+				<div class="strategyDefenseContainer" id="strategyDefenseContainer">
+					<div class="strategyLabel">Defense</div>
+				</div>
+				<div class="teamTendency" id="teamTendency"></div>
+			</div>
+			<script>
+
+				let gameStrategyPlay = new Array();
+				gameStrategyPlay.push( new Slider( 0, 100, 50, "gameStrategy0", "Speed", document.getElementById( "strategyPlayContainer" ) ) );
+				gameStrategyPlay.push( new Slider( 0, 100, 50, "gameStrategy1", "Pass", document.getElementById( "strategyPlayContainer" ) ) );
+
+				let gameStrategyAttack = new Array();
+				gameStrategyAttack.push( new Slider( 0, 100, 50, "gameStrategy2", "Pass", document.getElementById( "strategyAttackContainer" ) ) );
+				gameStrategyAttack.push( new Slider( 0, 100, 50, "gameStrategy3", "Cross", document.getElementById( "strategyAttackContainer" ) ) );
+				gameStrategyAttack.push( new Slider( 0, 100, 50, "gameStrategy4", "Shoot", document.getElementById( "strategyAttackContainer" ) ) );
+
+				let gameStrategyDefense = new Array();
+				gameStrategyDefense.push( new Slider( 0, 100, 50, "gameStrategy5", "Pressure", document.getElementById( "strategyDefenseContainer" ) ) );
+				gameStrategyDefense.push( new Slider( 0, 100, 50, "gameStrategy6", "Aggresion", document.getElementById( "strategyDefenseContainer" ) ) );
+				gameStrategyDefense.push( new Slider( 0, 100, 50, "gameStrategy7", "Player Interval", document.getElementById( "strategyDefenseContainer" ) ) );
+
+				let teamTendency  = new Slider( 0, 10, 5, "gameStrategy8", "Team Tendency", document.getElementById( "teamTendency" ) );
+
+			</script>
+
+		</div>
+
+		<!--
+		  --------------
+			SCOREBOARD 
+		  --------------
+		-->
+		 <!-- Game Statistics -->
+	    <div class="centerStat">
+	        <div class="centerstatRow">
+	            <div class="leftStat">1</div>
+	            <div class="statContainer">SHOT ON GOAL</div>
+	            <div class="rightStat">2</div>
+	        </div>
+	        <div class="centerstatRow">
+	            <div class="leftStat">1</div>
+	            <div class="statContainer">SHOT OFF GOAL</div>
+	            <div class="rightStat">2</div>
+	        </div>
+	        <div class="centerstatRow">  
+	            <div class="leftStat">1</div>
+	            <div class="statContainer">ASSIST</div>
+	            <div class="rightStat">2</div>
+	        </div>
+	        <div class="centerstatRow">  
+	            <div class="leftStat">1</div>
+	            <div class="statContainer">OFFSIDES</div>
+	            <div class="rightStat">2</div>
+	        </div>
+	        <div class="centerstatRow">  
+	            <div class="leftStat">1</div>
+	            <div class="statContainer">LOST POSSESSION</div>
+	            <div class="rightStat">2</div>
+	        </div>
+	        <div class="centerstatRow">  
+	            <div class="leftStat">1</div>
+	            <div class="statContainer">REGAINED POSSESSION</div>
+	            <div class="rightStat">2</div>
+	        </div>
+	        <div class="centerstatRow">  
+	            <div class="leftStat">1</div>
+	            <div class="statContainer">CORNERS</div>
+	            <div class="rightStat">2</div>
+	        </div>
+	        <div class="centerstatRow">  
+	            <div class="leftStat">1</div>
+	            <div class="statContainer">FOULS SUFFERED</div>
+	            <div class="rightStat">2</div>
+	        </div>
+	        <div class="centerstatRow">  
+	            <div class="leftStat">1</div>
+	            <div class="statContainer">YELLOW CARDS</div>
+	            <div class="rightStat">2</div>
+	        </div>
+	        <div class="centerstatRow">  
+	            <div class="leftStat">1</div>
+	            <div class="statContainer">RED CARDS</div>
+	            <div class="rightStat">2</div>
+	        </div>
+	        <div class="centerstatRow">  
+	            <div class="leftStat">1</div>
+	            <div class="statContainer">POSSESSION</div>
+	            <div class="rightStat">2</div>   
+	        </div>
+	    </div>
+	    
+	    <!-- ------------- -->
+	    <!-- Scoreboard central big -->
+	    <div class="scoreBoardBigContainer scoreBoardBigContainerHide">
+	        <div class="scoreBoardBigTop">
+	            <div class="scoreBoardBigTopRow">            
+	                <div class="leftScorer" style="visibility:hidden; display:block">33' Player</div>
+	                <div class="rightScorer">Player 18'</div>   
+	            </div>
+	            <div class="scoreBoardBigTopRow">
+	                <div class="leftScorer">33' Player</div>
+	                <div class="rightScorer">Player 18'</div>   
+	            </div>
+	            <div class="scoreBoardBigTopRow">
+	                <div class="leftScorer">33' Player</div>
+	                <div class="rightScorer">Player 18'</div>   
+	            </div>
+	            <div class="scoreBoardBigTopRow">
+	                <div class="leftScorer">33' Player</div>
+	                <div class="leagueContainer">Soccer League</div>
+	                <div class="rightScorer">Player 18'</div>   
+	            </div>
+	        </div>
+	        <div class="scoreBoardBigBottom">
+	            <div class="leftPartBottom">FC INTERNAZIONALE</div>
+	            <div class="scoreBottomContainer">
+	                <div class="scoreBottom">0-1</div>
+	            </div>
+	            <div class="rightPartBottom">VILLARREAL CF</div>
+	        </div>
+	    </div>
+
+		<!-- ------------- -->
+	    <!-- Scoreboard Timer -->
+	    <div id="scoreboardTimer" class="scoreboardTimer">
+	        <div class="timer">
+	            <span class="minute">00</span>:<span class="second">00</span>
+	        </div>
+	        <div class="teamAContainer">
+	            <div class="nameTeamA">RED</div>
+	            <div class="colorTeamA">
+	                <div class="colorTeamAbar1"></div>
+	                <div class="colorTeamAbar2"></div>                
+	            </div>
+	        </div>
+	        <div id="scoreTeamA">0</div>
+	        <div id="scoreTeamB">0</div>
+	        <div class="teamBContainer">
+	            <div class="nameTeamB">BLUE</div>
+	            <div class="colorTeamB">
+	                <div class="colorTeamBbar1"></div>
+	                <div class="colorTeamBbar2"></div>
+	            </div>
+	        </div>  
+	    </div>
+
+	    <!-- ------------- -->
+	    <!-- Player Info -->
+	    <div id="playerInfo" class="playerInfo">
+	        <div class="greenbar-left"></div>
+	        <div id="playerInfoRedText" class="left-text"></div>
+	        <div class="redbar-left"></div>
+	        <div class="greenbar-right"></div>
+	        <div id="playerInfoBlueText" class="right-text"></div>
+	        <div class="redbar-right"></div>
+	    </div>
+
+		<!-- ------------- -->
+	    <!-- Skill Change Value -->
+	    <div id="skill-change-value-container">
+	        <div id="qty-subtract" class="skill-change-value">    
+	            <a class="btn">-</a>
+	        </div>
+	        <div id="qty-addition" class="skill-change-value">    
+	            <a class="btn">+</a>
+	        </div>
+	    </div>
+
+	    <!-- ------------- -->
+	    <!-- Skill -->
+	    <div id="skill" class="skill">
+	        <div id="cross-close" class="cross-close">&larr;</div>
+	        <div class="skill-wrap lost">
+	            <div class="skill-value">
+	                <p>20.00</p>
+	                <div class="letter-holder">
+	                    Off-side
+	                </div>
+	            </div>
+	        </div>
+	        <div class="skill-wrap lost">
+	            <div class="skill-value">
+	                <p>15.00</p>
+	                <div class="letter-holder">
+	                    Pressing
+	                </div>
+	            </div>
+	        </div>
+	        <div class="skill-wrap lost">
+	            <div class="skill-value">
+	                <p>18.00</p>
+	                <div class="letter-holder">
+	                    Aggressive defense
+	                </div>
+	            </div>
+	        </div>
+	        <div class="skill-wrap gain">
+	            <div class="skill-value">
+	                <p>17.00</p>
+	                <div class="letter-holder">
+	                    Clearance
+	                </div>
+	            </div>
+	        </div>
+	        <div class="skill-wrap lost">
+	            <div class="skill-value">
+	                <p>20.00</p>
+	                <div class="letter-holder">
+	                    Defensive possesion
+	                </div>
+	            </div>
+	        </div>
+	        <div class="skill-wrap gain">
+	            <div class="skill-value">
+	                <p>15.00</p>
+	                <div class="letter-holder">
+	                    Wing play
+	                </div>
+	            </div>
+	        </div>
+	        <div class="skill-wrap gain">
+	            <div class="skill-value">
+	                <p>11.00</p>
+	                <div class="letter-holder">
+	                    Through ball
+	                </div>
+	            </div>
+	        </div>
+	        <div class="skill-wrap gain">
+	            <div class="skill-value">
+	                <p>20.00</p>
+	                <div class="letter-holder">
+	                    Give-and-go offense
+	                </div>
+	            </div>
+	        </div>
+	        <div class="skill-wrap lost">
+	            <div class="skill-value">
+	                <p>18.00</p>
+	                <div class="letter-holder">
+	                    Direct football
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+
 	</body>
 
-</html>
+	<!-- original position: /build/OrbitControls.js -->
+	<script type="text/javascript" src="js/three.js"></script>
+	<!-- original position: /examples/js/controls/OrbitControls.js -->
+	<script type="text/javascript" src="js/OrbitControls.js"></script>
+	<!-- original position: /examples/js/libs/dat.gui.min.js -->
+	<script type="text/javascript" src="js/dat.gui.min.js"></script>
 
-<!-- --------    -------- -->
-<!-- -------- AI -------- -->
-<!-- --------    -------- -->
+	<!-- ----- Scoreboard ----- -->
+	<script type="text/javascript" src="js/scoreboard.js"></script>
+	<script type="text/javascript" src="js/skill.js"></script>
+	<script type="text/javascript" src="js/tactics.js"></script>	
 
-<script>
-	"use strict";
-	function pause(){
-		cancelAnimationFrame( RAF );
-		cancelAnimationFrame( RAF_AI );
-	};
+	<!-- --------    -------- -->
+	<!-- -------- AI -------- -->
+	<!-- --------    -------- -->
 
-	var selects = document.getElementsByClassName( "onoffbtn" );
-	for( let i = 0, il = selects.length; i < il; i++ ){
-		selects[i].addEventListener( "click", function(){
-			if ( this.classList )
-			this.classList.toggle( "active" );
-		});
-	};
-
-	window.console = {
-		log: function( str ){
-			var node = document.createElement( "div" );
-			node.appendChild( document.createTextNode( str ) );
-			document.getElementById("myLog").appendChild( node );
-			document.getElementById("myLog").scrollTop = document.getElementById("myLog").scrollHeight;
-		},
-		warn: function( str ){
-			console.log( str );
-		}
-	};
-
-</script>
-
-<!-- original position: /build/OrbitControls.js -->
-<script src="js/three.js"></script>
-<!-- original position: /examples/js/controls/OrbitControls.js -->
-<script src="js/OrbitControls.js"></script>
-<!-- original position: /examples/js/libs/dat.gui.min.js -->
-<script src="js/dat.gui.min.js"></script>
-
-<!-- ----- User Interface ----- -->
-<script src="js/scoreboard.js"></script>
-
-<!-- ----- Scene 3D ----- -->
-<script src="js/Scene3D.js"></script>
-<script src="js/ControlPanel.js"></script>
-<script src="js/CharacterController.js"></script>
-<script src="js/VirtualInput.js"></script>
-<script src="js/camera.js"></script>
-<script src="js/menu.js"></script>
-
-<script>
-	
-	document.querySelector('#closeJoystick').addEventListener('click', function() {
-		if (document.querySelector(".virtualInput-joystick").style.visibility == "hidden") {
-			document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "visible";
-			document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "visible";
-			document.querySelectorAll(".virtualInput-button")[0].style.visibility = "visible";
-			document.querySelectorAll(".virtualInput-button")[1].style.visibility = "visible";
-			document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "visible";
-		} else {
-			document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "hidden";
-			document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "hidden";	
-			document.querySelectorAll(".virtualInput-button")[0].style.visibility = "hidden";
-			document.querySelectorAll(".virtualInput-button")[1].style.visibility = "hidden";
-			document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "hidden";			
+	<script>
+		"use strict";
+		function pause(){
+			cancelAnimationFrame( RAF );
+			cancelAnimationFrame( RAF_AI );
 		};
-	});
 
-	document.querySelector('.nav-toggle').addEventListener( "click", function( e ){
-		e.currentTarget.classList.toggle('open');
-		document.querySelector('.menu-container').classList.toggle('nav-open');
-	});
+		var selects = document.getElementsByClassName( "onoffbtn" );
+		for( let i = 0, il = selects.length; i < il; i++ ){
+			selects[i].addEventListener( "click", function(){
+				if ( this.classList )
+				this.classList.toggle( "active" );
+			});
+		};
 
-	// resize
-	window.addEventListener( 'resize', function () {
-		scene3D.camera.aspect = window.innerWidth / window.innerHeight;
-		scene3D.camera.updateProjectionMatrix();
-		scene3D.renderer.setSize( window.innerWidth, window.innerHeight );
-	}, false);
+		window.console = {
+			log: function( str ){
+				var node = document.createElement( "div" );
+				node.appendChild( document.createTextNode( str ) );
+				document.getElementById("myLog").appendChild( node );
+				document.getElementById("myLog").scrollTop = document.getElementById("myLog").scrollHeight;
+			},
+			warn: function( str ){
+				console.log( str );
+			}
+		};
 
-    //--------------- 3D & Camera ------------
-	let presetButton = document.getElementsByClassName( "preset-button" );
+	</script>
 
-	let scene3D = new Camera();
+	<!-- ----- Scene 3D ----- -->
+	<script type="text/javascript" src="js/Scene3D.js"></script>
+	<script type="text/javascript" src="js/ControlPanel.js"></script>
+	<script type="text/javascript" src="js/CharacterController.js"></script>
+	<script type="text/javascript" src="js/VirtualInput.js"></script>
+	<script type="text/javascript" src="js/camera.js"></script>
+	<script type="text/javascript" src="js/menu.js"></script>
 
-	presetButton[0].addEventListener( "click", function() {
-	 	scene3D.tween( cameraPresets[0], 1000, Easing.easeOutCubic );
-	}, false );
+	<script>
+		
+		document.querySelector('#closeJoystick').addEventListener('click', function() {
+			if (document.querySelector(".virtualInput-joystick").style.visibility == "hidden") {
+				document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "visible";
+				document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "visible";
+				document.querySelectorAll(".virtualInput-button")[0].style.visibility = "visible";
+				document.querySelectorAll(".virtualInput-button")[1].style.visibility = "visible";
+				document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "visible";
+			} else {
+				document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "hidden";
+				document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "hidden";	
+				document.querySelectorAll(".virtualInput-button")[0].style.visibility = "hidden";
+				document.querySelectorAll(".virtualInput-button")[1].style.visibility = "hidden";
+				document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "hidden";			
+			};
+		});
 
-	presetButton[1].addEventListener( "click", function() {
-	 	scene3D.tween( cameraPresets[1], 1000, Easing.easeOutCubic );
-	}, false );
-	 
-	presetButton[2].addEventListener( "click", function() {
-		scene3D.tween( cameraPresets[2], 1000, Easing.easeOutCubic );
-	}, false );
+		document.querySelector('.nav-toggle').addEventListener( "click", function( e ){
+			e.currentTarget.classList.toggle('open');
+			document.querySelector('.menu-container').classList.toggle('nav-open');
+		});
 
-	presetButton[3].addEventListener( "click", function() {
-		scene3D.tween( cameraPresets[3], 1000, Easing.easeOutCubic );
-	}, false );
+		// resize
+		window.addEventListener( 'resize', function () {
+			scene3D.camera.aspect = window.innerWidth / window.innerHeight;
+			scene3D.camera.updateProjectionMatrix();
+			scene3D.renderer.setSize( window.innerWidth, window.innerHeight );
+		}, false);
 
-	presetButton[4].addEventListener( "click", function() {
-		scene3D.direct( hellPreset );
-	}, false );
+	    //--------------- 3D & Camera ------------
+		let presetButton = document.getElementsByClassName( "preset-button" );
 
-	presetButton[5].addEventListener( "click", function() {
-		scene3D.tween( cameraPresets[4], 1000, Easing.easeOutCubic );
-	}, false );
+		let scene3D = new Camera();
 
-	presetButton[6].addEventListener( "click", function() {
-		scene3D.followObject = scene3D.followObject == true ? false : true;
-	}, false );	
+		presetButton[0].addEventListener( "click", function() {
+		 	scene3D.tween( cameraPresets[0], 1000, Easing.easeOutCubic );
+		}, false );
 
-</script>
+		presetButton[1].addEventListener( "click", function() {
+		 	scene3D.tween( cameraPresets[1], 1000, Easing.easeOutCubic );
+		}, false );
+		 
+		presetButton[2].addEventListener( "click", function() {
+			scene3D.tween( cameraPresets[2], 1000, Easing.easeOutCubic );
+		}, false );
 
-<!-- ----- AI ----- -->
+		presetButton[3].addEventListener( "click", function() {
+			scene3D.tween( cameraPresets[3], 1000, Easing.easeOutCubic );
+		}, false );
 
-<!-- Globals -->
-<script type="text/javascript" src="js/AI/Global.js"></script>
-<script type="text/javascript" src="js/AI/DEFINE.js"></script>
+		presetButton[4].addEventListener( "click", function() {
+			scene3D.direct( hellPreset );
+		}, false );
 
-<!-- Class extended -->
-<script type="text/javascript" src="js/AI/BaseGameEntity.js"></script>
-<script type="text/javascript" src="js/AI/MovingEntity.js"></script>
-<script type="text/javascript" src="js/AI/PlayerBase.js"></script>
+		presetButton[5].addEventListener( "click", function() {
+			scene3D.tween( cameraPresets[4], 1000, Easing.easeOutCubic );
+		}, false );
 
-<!-- SimpleSoccer -->
-<script type="text/javascript" src="js/AI/FieldPlayer.js"></script>
-<script type="text/javascript" src="js/AI/Goal.js"></script>
-<script type="text/javascript" src="js/AI/GoalKeeper.js"></script>
-<script type="text/javascript" src="js/AI/ParamLoader.js"></script>
-<script type="text/javascript" src="js/AI/SoccerBall.js"></script>
-<script type="text/javascript" src="js/AI/SoccerPitch.js"></script>
-<script type="text/javascript" src="js/AI/SoccerTeam.js"></script>
-<script type="text/javascript" src="js/AI/SteeringBehaviors.js"></script>
-<script type="text/javascript" src="js/AI/SupportSpotCalculator.js"></script>
+		presetButton[6].addEventListener( "click", function() {
+			scene3D.followObject = scene3D.followObject == true ? false : true;
+		}, false );	
 
-<!-- SimpleSoccer.FieldPlayerStates -->
-<script type="text/javascript" src="js/AI/ChaseBall.js"></script>
-<script type="text/javascript" src="js/AI/Dribble.js"></script>
-<script type="text/javascript" src="js/AI/GlobalPlayerState.js"></script>
-<script type="text/javascript" src="js/AI/KickBall.js"></script>
-<script type="text/javascript" src="js/AI/ReceiveBall.js"></script>
-<script type="text/javascript" src="js/AI/ReturnToHomeRegion.js"></script>
-<script type="text/javascript" src="js/AI/SupportAttacker.js"></script>
-<script type="text/javascript" src="js/AI/Wait.js"></script>
+	</script>
 
-<!-- SimpleSoccer.GoalKeeperStates -->
-<script type="text/javascript" src="js/AI/GlobalKeeperState.js"></script>
-<script type="text/javascript" src="js/AI/InterceptBall.js"></script>
-<script type="text/javascript" src="js/AI/PutBallBackInPlay.js"></script>
-<script type="text/javascript" src="js/AI/ReturnHome.js"></script>
-<script type="text/javascript" src="js/AI/TendGoal.js"></script>
+	<!-- ----- AI ----- -->
 
-<!-- SimpleSoccer.TeamStates -->
-<script type="text/javascript" src="js/AI/Attacking.js"></script>
-<script type="text/javascript" src="js/AI/Defending.js"></script>
-<script type="text/javascript" src="js/AI/PrepareForKickOff.js"></script>
-<script type="text/javascript" src="js/AI/TeamStates.js"></script>
+	<!-- Globals -->
+	<script type="text/javascript" src="js/AI/Global.js"></script>
+	<script type="text/javascript" src="js/AI/DEFINE.js"></script>
 
-<!-- Common.D2 -->
-<script type="text/javascript" src="js/AI/C2DMatrix.js"></script>
-<script type="text/javascript" src="js/AI/InvertedAABBox2D.js"></script>
-<script type="text/javascript" src="js/AI/Transformation.js"></script>
-<script type="text/javascript" src="js/AI/Vector2D.js"></script>
-<script type="text/javascript" src="js/AI/Wall2D.js"></script>
-<script type="text/javascript" src="js/AI/Geometry.js"></script>
+	<!-- Class extended -->
+	<script type="text/javascript" src="js/AI/BaseGameEntity.js"></script>
+	<script type="text/javascript" src="js/AI/MovingEntity.js"></script>
+	<script type="text/javascript" src="js/AI/PlayerBase.js"></script>
 
-<!-- Common.FSM -->
-<script type="text/javascript" src="js/AI/StateMachine.js"></script>
+	<!-- SimpleSoccer -->
+	<script type="text/javascript" src="js/AI/FieldPlayer.js"></script>
+	<script type="text/javascript" src="js/AI/Goal.js"></script>
+	<script type="text/javascript" src="js/AI/GoalKeeper.js"></script>
+	<script type="text/javascript" src="js/AI/ParamLoader.js"></script>
+	<script type="text/javascript" src="js/AI/SoccerBall.js"></script>
+	<script type="text/javascript" src="js/AI/SoccerPitch.js"></script>
+	<script type="text/javascript" src="js/AI/SoccerTeam.js"></script>
+	<script type="text/javascript" src="js/AI/SteeringBehaviors.js"></script>
+	<script type="text/javascript" src="js/AI/SupportSpotCalculator.js"></script>
 
-<!-- Common.Game -->
-<script type="text/javascript" src="js/AI/EntityFunctionTemplates.js"></script>
-<script type="text/javascript" src="js/AI/EntityManager.js"></script>
-<script type="text/javascript" src="js/AI/Region.js"></script>
+	<!-- SimpleSoccer.FieldPlayerStates -->
+	<script type="text/javascript" src="js/AI/ChaseBall.js"></script>
+	<script type="text/javascript" src="js/AI/Dribble.js"></script>
+	<script type="text/javascript" src="js/AI/GlobalPlayerState.js"></script>
+	<script type="text/javascript" src="js/AI/KickBall.js"></script>
+	<script type="text/javascript" src="js/AI/ReceiveBall.js"></script>
+	<script type="text/javascript" src="js/AI/ReturnToHomeRegion.js"></script>
+	<script type="text/javascript" src="js/AI/SupportAttacker.js"></script>
+	<script type="text/javascript" src="js/AI/Wait.js"></script>
 
-<!-- Common.Messaging -->
-<script type="text/javascript" src="js/AI/TreeSet.js"></script>
-<script type="text/javascript" src="js/AI/MessageDispatcher.js"></script>
-<script type="text/javascript" src="js/AI/Telegram.js"></script>
+	<!-- SimpleSoccer.GoalKeeperStates -->
+	<script type="text/javascript" src="js/AI/GlobalKeeperState.js"></script>
+	<script type="text/javascript" src="js/AI/InterceptBall.js"></script>
+	<script type="text/javascript" src="js/AI/PutBallBackInPlay.js"></script>
+	<script type="text/javascript" src="js/AI/ReturnHome.js"></script>
+	<script type="text/javascript" src="js/AI/TendGoal.js"></script>
 
-<!-- Common.Time -->
-<script type="text/javascript" src="js/AI/CrudeTimer.js"></script>
-<script type="text/javascript" src="js/AI/PrecisionTimer.js"></script>
-<script type="text/javascript" src="js/AI/Regulator.js"></script>
+	<!-- SimpleSoccer.TeamStates -->
+	<script type="text/javascript" src="js/AI/Attacking.js"></script>
+	<script type="text/javascript" src="js/AI/Defending.js"></script>
+	<script type="text/javascript" src="js/AI/PrepareForKickOff.js"></script>
+	<script type="text/javascript" src="js/AI/TeamStates.js"></script>
 
-<!-- Common.Misc -->
-<script type="text/javascript" src="js/AI/Cgdi.js"></script>
-<script type="text/javascript" src="js/AI/CppToJava.js"></script>
-<script type="text/javascript" src="js/AI/FrameCounter.js"></script>
-<script type="text/javascript" src="js/AI/utils.js"></script>
+	<!-- Common.D2 -->
+	<script type="text/javascript" src="js/AI/C2DMatrix.js"></script>
+	<script type="text/javascript" src="js/AI/InvertedAABBox2D.js"></script>
+	<script type="text/javascript" src="js/AI/Transformation.js"></script>
+	<script type="text/javascript" src="js/AI/Vector2D.js"></script>
+	<script type="text/javascript" src="js/AI/Wall2D.js"></script>
+	<script type="text/javascript" src="js/AI/Geometry.js"></script>
 
-<script>
-	var cxClient = 460;//600
-	var cyClient = 290;//380
+	<!-- Common.FSM -->
+	<script type="text/javascript" src="js/AI/StateMachine.js"></script>
 
-	let Color = {
-		WHITE: "255, 255, 255",
-		BLACK: "0, 0, 0"
-	};
+	<!-- Common.Game -->
+	<script type="text/javascript" src="js/AI/EntityFunctionTemplates.js"></script>
+	<script type="text/javascript" src="js/AI/EntityManager.js"></script>
+	<script type="text/javascript" src="js/AI/Region.js"></script>
 
-	let canvas = document.createElement( "canvas" );
-	document.body.appendChild( canvas );
-	//canvas.style.position = "absolute";
-	//canvas.style.top = "20px";
-	//canvas.style.left = "20px";
-	//canvas.style.zIndex = "-97";
+	<!-- Common.Messaging -->
+	<script type="text/javascript" src="js/AI/TreeSet.js"></script>
+	<script type="text/javascript" src="js/AI/MessageDispatcher.js"></script>
+	<script type="text/javascript" src="js/AI/Telegram.js"></script>
 
-	canvas.id = "canvasPitchAI";
-    canvas.style.position = "fixed";
-    canvas.style.bottom = "10px";
-    canvas.style.left = "50%";
-    canvas.style.margin = "0 auto";
-    canvas.style.zIndex = "30";
-    canvas.style.transform = "translate( -50%, 0 )";
+	<!-- Common.Time -->
+	<script type="text/javascript" src="js/AI/CrudeTimer.js"></script>
+	<script type="text/javascript" src="js/AI/PrecisionTimer.js"></script>
+	<script type="text/javascript" src="js/AI/Regulator.js"></script>
 
-	canvas.width = cxClient;
-	canvas.height = cyClient;
-	context = canvas.getContext( '2d' );
-	context.clearRect( 0, 0, canvas.width, canvas.height ); 
+	<!-- Common.Misc -->
+	<script type="text/javascript" src="js/AI/Cgdi.js"></script>
+	<script type="text/javascript" src="js/AI/CppToJava.js"></script>
+	<script type="text/javascript" src="js/AI/FrameCounter.js"></script>
+	<script type="text/javascript" src="js/AI/utils.js"></script>
 
-	//---------------- init -----------------
-    gdi.StartDrawing( context );
-    
-    //gdi.fillRect( Color.WHITE, 0, 0, canvas.width, canvas.height );
+	<script>
+		var cxClient = 460;//600
+		var cyClient = 290;//380
 
-	var g_SoccerPitch = new SoccerPitch( cxClient, cyClient );
-	
-	//g_SoccerPitch.Render();
+		let Color = {
+			WHITE: "255, 255, 255",
+			BLACK: "0, 0, 0"
+		};
 
-    gdi.StopDrawing( context );
+		let canvas = document.createElement( "canvas" );
+		document.body.appendChild( canvas );
+		//canvas.style.position = "absolute";
+		//canvas.style.top = "20px";
+		//canvas.style.left = "20px";
+		//canvas.style.zIndex = "-97";
 
-    //--------------- update ---------------
-    let timer = new PrecisionTimer();
-    //start the timer
-    timer.Start();
+		canvas.id = "canvasPitchAI";
+	    canvas.style.position = "fixed";
+	    canvas.style.bottom = "10px";
+	    canvas.style.left = "50%";
+	    canvas.style.margin = "0 auto";
+	    canvas.style.zIndex = "30";
+	    canvas.style.transform = "translate( -50%, 0 )";
 
-    window.addEventListener( "load", function(){
+		canvas.width = cxClient;
+		canvas.height = cyClient;
+		context = canvas.getContext( '2d' );
+		context.clearRect( 0, 0, canvas.width, canvas.height ); 
 
-		( function step() {
-	   		RAF_AI = requestAnimationFrame( step );
+		//---------------- init -----------------
+	    gdi.StartDrawing( context );
+	    
+	    //gdi.fillRect( Color.WHITE, 0, 0, canvas.width, canvas.height );
 
-		    //update
-		    if ( timer.ReadyForNextFrame() ) {
-		    	
-		    	if ( EXECUTERAF === true ){
-			        g_SoccerPitch.Update();
-			        //render
-			        g_SoccerPitch.Render();
-			        //panel.revalidate();
-			        //panel.repaint();
+		var g_SoccerPitch = new SoccerPitch( cxClient, cyClient );
+		
+		//g_SoccerPitch.Render();
 
-			        // 3D render
-			        scene3D.scope.Render();
+	    gdi.StopDrawing( context );
 
-		    	};
-		    };
-			
-		}());
+	    //--------------- update ---------------
+	    let timer = new PrecisionTimer();
+	    //start the timer
+	    timer.Start();
 
-	});
+	    window.addEventListener( "load", function(){
 
-</script>
+			( function step() {
+		   		RAF_AI = requestAnimationFrame( step );
+
+			    //update
+			    if ( timer.ReadyForNextFrame() ) {
+			    	
+			    	if ( EXECUTERAF === true ){
+				        g_SoccerPitch.Update();
+				        //render
+				        g_SoccerPitch.Render();
+				        //panel.revalidate();
+				        //panel.repaint();
+
+				        // 3D render
+				        scene3D.scope.Render();
+
+			    	};
+			    };
+				
+			}());
+
+		});
+
+	</script>
+
+</html>

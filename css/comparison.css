@@ -1,0 +1,79 @@
+#comparison{
+    justify-content: center;
+}
+
+.comparisonTitleContainer {
+    position: absolute;
+    display: flex;
+    font-family: "Roboto";
+    font-size: 40px;
+    justify-content: space-between;
+    width: 1200px;
+    height: 75px;
+    border-radius: 55px;
+    opacity: .8;
+    top: 90px;
+    color: #fff;
+}
+
+.comparisonTitleLeft {
+    padding: 10px 0px 0px 50px;
+    display: flex;
+    width: 530px;
+    justify-content: flex-start;
+}
+
+.comparisonTitleRight {
+    padding: 10px 50px 0px 0px;
+    display: flex;
+    width: 530px;
+    justify-content: flex-end;
+}
+
+.centerComparison {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    font-family: "Roboto";
+    font-size: 22px;
+    font-weight: 600;
+    top: 180px;
+}
+
+.centerComparisonRow {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-items: center;  
+    width: 800px;
+    height: 50px;
+    border-radius: 5px;
+    opacity: .8;
+    color: #fff;
+}
+
+.leftComparison {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0px 0px 0px 10px;
+}
+
+.comparisonContainer {
+    padding: 7px 0 0 0;
+    height: 36px;
+    width: 1000px;
+    display: flex;
+    border-radius: 5px;
+    justify-content: center;
+    background-color: rgba( 18, 18, 18, 0.8 );
+    margin: 0px 20px 0 20px;
+}
+
+.rightComparison {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0px 10px 0px 0px;
+}

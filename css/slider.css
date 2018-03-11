@@ -1,0 +1,107 @@
+#gameStrategy{
+  display: none;
+  flex-direction: column;
+  font-size: 22px;
+  width: 100%;
+  z-index: 10;
+}
+
+.strategyPlayContainer,
+.strategyAttackContainer, 
+.strategyDefenseContainer,
+.teamTendency{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+}
+
+.teamTendency{
+  padding: 45px;
+}
+
+.strategyLabel {
+  display: flex;
+  padding: 15px 0 15px 100px;
+  width: 800px;
+  margin: auto;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  font-size: 44px;
+}
+
+input[type="range"] { 
+    margin: auto;
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    height: 40px;
+    width: 400px;
+    cursor: pointer;
+    border-radius: 0; /* iOS */
+}
+
+::-webkit-slider-runnable-track {
+    background: rgba( 255, 0, 0, .8 );
+}
+
+/*
+ * 1. Set to 0 width and remove border for a slider without a thumb
+ */
+::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; /* 1 */
+    height: 40px;
+    background: #fff;
+    box-shadow: -100vw 0 0 100vw rgba( 0, 0, 255, .6 );
+    border: 4px solid #333; /* 1 */
+}
+
+::-moz-range-track {
+    height: 40px;
+    background: rgba( 255, 0, 0, .8 );
+}
+
+::-moz-range-thumb {
+    background: #fff;
+    height: 40px;
+    width: 20px;
+    border: 4px solid #333;
+    border-radius: 0 !important;
+    box-shadow: -100vw 0 0 100vw rgba( 0, 0, 255, .6 );
+    box-sizing: border-box;
+}
+
+::-ms-fill-lower { 
+    background: rgba( 0, 0, 255, .8 );;
+}
+
+::-ms-thumb { 
+    background: #fff;
+    border: 2px solid #333;
+    height: 40px;
+    width: 20px;
+    box-sizing: border-box;
+}
+
+::-ms-ticks-after { 
+    display: none; 
+}
+
+::-ms-ticks-before { 
+    display: none; 
+}
+
+::-ms-track { 
+    background: rgba( 255, 0, 0, .8 );
+    color: transparent;
+    height: 40px;
+    border: none;
+}
+
+::-ms-tooltip { 
+    display: none;
+}

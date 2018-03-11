@@ -75,8 +75,7 @@ class Scene3D{
 		let ctx = this.renderer.context;
 		ctx.getShaderInfoLog = function () { return '' };
 
-		let container = document.getElementById( 'container' );
-		container.appendChild( this.renderer.domElement );
+		document.body.appendChild( this.renderer.domElement );
 
 		// load mesh
 		//var url = '../lib/three.js-master/examples/models/skinned/marine/marine_anims_core.json';

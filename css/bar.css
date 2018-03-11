@@ -1,0 +1,23 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400);
+
+.bar-text {
+  font: 16px/1.4em "Montserrat", Arial, sans-serif;
+  fill: #000;
+  transform: translateY(0.25em);
+}
+
+.bar-number {
+  font-size: 0.7em;
+  line-height: 1;
+  transform: translateY(-0.25em);
+}
+
+.bar-label {
+  font-size: 0.7em;
+  line-height: 1;
+  transform: translateY(-0.25em);
+}
+
+button {
+  height: 20px;
+}

@@ -1,0 +1,179 @@
+.pitch{
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	top: -110px;
+	z-index: 1;
+	-webkit-transform: translateZ( 600px );
+}
+
+.pitch svg{
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	z-index: 1;
+	transform: perspective( 1200px ) rotateX( 45deg );
+}
+
+#formationH {
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-left: auto;
+	margin-right: auto;
+	top: 0px;
+	z-index: 3;
+}
+
+#formationV {
+	position: absolute;
+	align-items: center;
+	right: 100px;
+	top: 80px;
+	z-index: 3;
+	-webkit-transform: translateZ( 600px );
+}
+
+.formationText {
+	position: relative;
+	font-size: 20px;
+	font-family: Helvetica, Sans-serif;
+	display: flex;
+	width: 100px;
+	align-items: center;
+	justify-content: center;
+	margin: 10px 5px 0px 5px;
+	cursor: pointer;
+	border: 2px solid transparent;
+	-webkit-user-select: none;
+   	-moz-user-select: none;
+   	-ms-user-select: none;
+  	user-select: none;
+}
+
+/*
+* Jersey
+*/
+
+#formationJerseyContainerV{
+	padding: 60px 10px 0 0;
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	z-index: 2;
+	-webkit-transform: translateZ( 600px );
+}
+
+#formationJerseyContainerH{
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+	display: flex;
+}
+
+.jerseyFormationRowH {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.jerseyFormationRowV {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.jerseyNoteTop {
+	background-color: red;
+	position: relative;
+	top: -25px;
+	left: 4px;
+	width: 83px;
+	height: 15px;
+	text-align: center;
+	padding: 5px 0 0 0px;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	background-color: rgba( 0, 0, 0, .5 ); 
+}
+
+.jerseyNoteBottom{
+	background-color: blue;
+	position: relative;
+	top: -25px;
+	left: 4px;
+	width: 75px;
+	height: 15px;
+	padding: 5px 0 0 8px;	
+	border-top: 2px solid #66ff33;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+
+.jerseyContainer {
+	max-width: 70px;
+	z-index: 2;	
+	font-size: 11px;
+	font-weight: 600;
+	color: #fff
+}
+
+.jersey {
+	padding: 10px;
+	width: 100%;
+	cursor: pointer;
+}
+
+.shadow {
+	display: block;
+	fill: rgba(0, 0, 0, 0.3);
+}
+
+.jersey_base {
+	display: block;
+	stroke-width: 20px;
+}
+
+.jersey_name {
+	font-family: sans-serif;
+	text-anchor: middle;
+	alignment-baseline: middle;
+	font-size: 10rem;
+	fill: #fff;
+}
+
+.goalKeeperContainer {
+	display: flex;
+	justify-content: center;
+	z-index: 2;	
+	font-size: 9px;
+	font-weight: 600;
+	color: #fff;
+}
+
+/*
+* Pitch
+*/
+
+.pitchGrass,.pitchSegment{fill:none;}
+
+.pitchRect{
+	fill:url(#pitchGrass);
+}
+
+.pitchSegment{
+	stroke:#fff;
+	stroke-miterlimit:10;
+	stroke-width:2px;
+}

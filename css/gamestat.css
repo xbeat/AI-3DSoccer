@@ -1,0 +1,95 @@
+#gameStatistic{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-top: 100px; 
+}
+
+.scoreGameStatistics {
+    position: absolute;
+    display: flex;
+    font-family: "Roboto";
+    font-size: 35px;
+    justify-content: center;
+    width: 1000px;
+    height: 75px;
+    top: 100px;
+    color: #fff;
+}
+
+.leftPartGameStatistics {
+    padding: 10px 0px 0px 50px;
+    display: flex;
+    width: 530px;
+    justify-content: flex-start;
+}
+
+.scoreStatContainer {
+    padding: 5px 0px 0px 0px;
+    height: 60px;
+    width: 135px;
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+}
+
+.scoreLeft {
+    display: flex;
+    justify-content: center;
+    border: 2px solid #669999;
+    width: 40px;
+    margin-right: 5px; 
+    border-radius: 5px;
+    background-color: rgba( 18, 18, 18, 0.8 );
+}
+
+.scoreRight {
+    display: flex;
+    justify-content: center;
+    border: 2px solid #669999;
+    width: 40px;
+    margin-left: 5px; 
+    border-radius: 5px;    
+    background-color: rgba( 18, 18, 18, 0.8 );
+}
+
+.rightPartGameStatistics {
+    padding: 10px 50px 0px 0px;
+    display: flex;
+    width: 530px;
+    justify-content: flex-end;
+}
+
+.gameStatisticsContainer{
+    display: flex;
+    position: absolute;
+    top: 250px;    
+}
+
+.gameStat-container {
+    display: flex;
+}
+
+.gameStat-leftPart, 
+.gameStat-rightPart {
+
+    display: flex;
+    flex-direction: column;
+}
+
+.gauge-gameStat-container{
+    display: flex;
+    width: 600px;
+    justify-content: center;
+}
+
+#bar-gameStat-left,
+#gauge-gameStat-leftL,
+#gauge-gameStat-leftR,
+#bar-gameStat-right,
+#gauge-gameStat-rightL,
+#gauge-gameStat-rightR {
+    padding: 30px;
+    display: flex; 
+    justify-content: center;
+}

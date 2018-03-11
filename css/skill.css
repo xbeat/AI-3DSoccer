@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css?family=Miriam+Libre');
+
+.btn {
+   text-align: center;
+   line-height: 90px;
+   color: #fff;
+   cursor: pointer;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+   font-size: 80px;
+}
+
+#skill-change-value-container {
+   position: absolute;
+   margin: auto;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   width: 250px;
+   height: 120px;   
+   font-family: 'Miriam Libre', sans-serif;  
+   opacity: 0;
+   transition: opacity .5s;
+   z-index: -100;
+}
+
+.skill-change-value {
+   display: inline;
+   float: left;
+   justify-content: center;
+   margin: 10px;
+   height: 100px;
+   width: 100px;
+   background-color: rgba( 78, 78, 78, 0.6 );
+   border-radius: 15px;
+   display: flex;
+   font-size: 140px;
+   font-weight: 500;
+}
+
+.skill {
+   position: absolute;
+   left: 20px;
+   bottom: 20px;
+   padding: 15px;
+   background-color: rgba( 78, 78, 78, 0.6 );
+   animation: pop .55s;
+   border-radius: 5px;
+   display: flex;
+   font-family: 'Miriam Libre', sans-serif;
+   font-size: 20px;
+   font-weight: 500;
+   color: #777;
+}
+
+.skill-wrap {
+   width: 80px;
+   height: 90px;
+   margin: 0 10px 0 0;
+   border-radius: 5px;
+   flex-shrink: 0;
+   flex-grow: 0;
+   cursor: pointer;
+}
+
+.skill-wrap p {
+   margin: 0;
+   text-align: center;
+}
+
+.skill-value {
+   margin: 10px 0 0 0;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}
+
+.skill-wrap.lost {
+   background-color: #f55d5d;
+   color: #000;
+}
+
+.skill-wrap.gain {
+   background-color: #85FFBD;
+   color: #000;
+}
+
+.letter-holder {
+   font-size: 12px;
+   text-align: center;
+}
+
+@keyframes shrink {
+   0% {
+      width: 800px;
+   }
+   100% {
+      width: 10px;
+   }
+}
+
+@keyframes expand {
+   0% {
+      width: 10px;
+   }
+   100% {
+      width: 800px;
+   }
+}
+
+@keyframes pop {
+   0% {
+      transform: scale( 0.8 );
+   }
+   80% {
+      transform: scale( 1.1 );
+   }
+   90% {
+      transform: scale( 0.95 );
+   }
+   100% {
+      transform: scale( 1 );
+   }
+}
+
+.cross-close {
+   font-weight: bolder;
+   font-size: 15px;
+   border-radius: 50%;
+   height: 30px;
+   width: 30px;
+   text-align: center;
+   line-height: 32px;
+   position: absolute;
+   left: 820px;
+   top: -15px;
+   background-color: rgb( 78, 78, 78 );
+   color: #ddd;
+   transition: all .5s;
+}
+
+.cross-close:hover {
+   color: #222;
+   background-color: rgb( 255, 255, 255 );
+   cursor: pointer;
+}
+
+@keyframes spin { 
+   0% {
+      transform:rotate( 0deg ); 
+   } 
+   100% {
+      transform:rotate( 180deg ); 
+   } 
+}
+
+@keyframes unspin { 
+   0% {
+      transform:rotate( 180deg ); 
+   } 
+   100% {
+      transform:rotate( 0deg ); 
+   } 
+}

@@ -1,0 +1,129 @@
+
+/* 
+* dashboard
+*/
+
+.content {
+    position: absolute;
+    top: 200px; 
+    padding-top: 30px;
+    background-color: rgba( 53, 61, 62, .7);
+    color: #fff;
+    height: 900px;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    align-content: center;
+    /*
+    filter: blur(10px);
+    */
+}
+
+.content.active {
+    display: flex;
+}
+
+.playerStatisticsColumn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 7px 10px;
+}
+
+.table {
+    width: 550px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    /*border:3px solid rgba(39, 44, 48, 0.36); */
+    margin-left: 20px;
+}
+
+.table .head {
+    font-weight: 400;
+    font-size: 50px;
+    text-transform: uppercase;
+    text-align: center;
+    min-height: 50px;
+}
+
+.playerBio ul,
+.playerDetail ul,
+.teamStat ul,
+.teamRank ul {
+    list-style: none;
+    padding: 20px;
+}
+
+.playerBio ul li,
+.playerDetail ul li,
+.teamStat ul li,
+.teamRank ul li {
+    margin-bottom: 5px;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 19px;
+    color: #dedede;
+    padding: 5px;
+}
+
+.playerBio ul li:nth-child(odd),
+.playerDetail ul li:nth-child(odd),
+.teamStat ul li:nth-child(odd),
+.teamRank ul li:nth-child(odd) {
+    color: #0c0c0c;
+    background-color: rgba( 240, 240, 240, .5);
+}
+
+.gameStrategyContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 11;
+}
+
+.titleHead {
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    font-weight: 400;
+    font-size: 54px;
+    text-transform: uppercase;
+    text-align: center;
+    min-height: 60px;
+    margin-bottom: 20px;
+}
+
+.containerTactics{
+    width: 100%;
+}
+
+.closeTab{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    margin: 15px;
+    border-radius: 50%;
+    transition: transform .4s;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    color: #fff;
+    background: #a542fd;
+    z-index: 15;
+}
