@@ -44,7 +44,7 @@ class Transformation {
         //scale
         if ( ( scale.x != 1.0 ) || ( scale.y != 1.0 ) ) {
             matTransform.Scale( scale.x, scale.y );
-        }
+        };
 
         //rotate
         matTransform.Rotate( forward, side );

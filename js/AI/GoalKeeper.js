@@ -111,7 +111,7 @@ class GoalKeeper extends PlayerBase {
         gdi.Circle( this.Pos(), 6 );
         
         const playerPos = scene3D.convertRange( this.Pos() );
-        scene3D.players[ this.id ].position.set( playerPos.x, 5, playerPos.y );
+        scene3D.players[ this.id ].position.set( playerPos.x, 0, playerPos.y );
 
         //draw the ID
         if ( Prm.bIDs ) {

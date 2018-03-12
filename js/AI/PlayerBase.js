@@ -50,6 +50,7 @@ class PlayerBase extends MovingEntity {
             new Vector2D( 3, -10 ),
             new Vector2D( -3, -8 )
         ];
+        
         let NumPlayerVerts = player.length;
 
         for ( let vtx = 0; vtx < NumPlayerVerts; ++vtx ) {
@@ -78,7 +79,6 @@ class PlayerBase extends MovingEntity {
     };
 
     finalize() {
-        super.finalize();
         this.m_pSteering = null;
         //new AutoList().remove( this );
     };

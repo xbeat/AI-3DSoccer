@@ -9,7 +9,7 @@
 	margin: -100px auto;
 	left: 0;
 	right: 0;	
-	background: rgba(255, 255, 255, 0.3);
+	background: rgba( 65, 12, 51, 0.8 );
 	border-radius: 18px;
 	padding: 0;
 	transition: margin .5s;
@@ -32,7 +32,7 @@
 	margin: -170px auto;
 	left: 0;
 	right: 0;
-	background: rgba(255, 255, 255, 0.3);
+	background: rgba( 65, 12, 51, 0.8 );
 	border-radius: 18px;
 	padding: 0;
 	transition: margin .5s;

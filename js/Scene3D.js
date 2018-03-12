@@ -14,6 +14,7 @@ class Scene3D{
 		this.walkWeight = new Array();
 		this.runWeight = new Array();
 		this.actions = new Array();
+		this.maxPlayers = 18;
 		
 		this.scope = this;
 		this.scene = null;
@@ -99,7 +100,7 @@ class Scene3D{
 				return;
 			};
 
-			for ( let i = 0; i < 10; i++ ){ 
+			for ( let i = 0; i < scope.maxPlayers; i++ ){ 
 				scope.addPlayer( i, player );
 			};
 
@@ -202,7 +203,7 @@ class Scene3D{
 		this.scene.add( this.players[ id ] );
 
 		// Create the control panel
-		if ( id > 4 && id < 10 ){
+		if ( id > ( this.maxPlayers / 2 ) - 1 && id < this.maxPlayers ){
 		
 			//https://stackoverflow.com/questions/11919694/how-to-clone-an-object3d-in-three-js
 			this.players[ id ].material.map = new THREE.TextureLoader().load( 'models/player/BodyDressed_UnitedUniformRed.png' );
@@ -257,7 +258,6 @@ class Scene3D{
 		});
     };
 
-
 	deepClone( initalObj, finalObj = {} ) {
 		var obj = finalObj;
 		for ( var i in initalObj ) {
@@ -269,12 +269,12 @@ class Scene3D{
 
 		    if ( typeof prop === 'object' ) {
 		        if( prop.constructor === Array ) {
-		            obj[i] = this.deepClone( prop, [] );
+		            obj[ i ] = this.deepClone( prop, [] );
 		        } else {
-		            obj[i] = Object.create( prop );
+		            obj[ i ] = Object.create( prop );
 		        };
 		    } else {
-		        obj[i] = prop;
+		        obj[ i ] = prop;
 		    };
 		};
 		return obj;
@@ -316,9 +316,9 @@ class Scene3D{
 	
 	};
 
-	getAngle( vector ){
-		let angle = Math.atan2( vector.y, vector.x );
-   		if ( angle < 0 ) angle += 2 * Math.PI;
+	getAngle( position, velocity ){
+		let angle = Math.atan2( position.y - velocity.y, position.x - velocity.x );
+   		//if ( angle < 0 ) angle += 2 * Math.PI;
     	return angle;
 	};
 
@@ -328,7 +328,7 @@ class Scene3D{
 		// Render loop
 		//RAF = requestAnimationFrame( function() { scope.render(); } );
 
-		for ( let i = 0; i < this.players.length; i++ ){ 
+		for ( let i = 0; i < this.maxPlayers; i++ ){ 
 		
 			this.idleWeight[ i ] = this.idleAction[ i ].getEffectiveWeight();
 			this.walkWeight[ i ] = this.walkAction[ i ].getEffectiveWeight();
@@ -352,7 +352,7 @@ class Scene3D{
 		};
 
 		// Update the animation mixer, and render this frame
-		for ( let i = 0; i < this.players.length; i++ ){ 
+		for ( let i = 0; i < this.maxPlayers; i++ ){ 
 			this.mixer[ i ].update( mixerUpdateDelta );
 		};
 

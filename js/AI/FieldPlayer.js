@@ -31,7 +31,7 @@ class FieldPlayer extends PlayerBase {
                 max_speed,
                 max_turn_rate,
                 scale,
-                role);
+                role );
 
     
         this.id = id;
@@ -57,7 +57,6 @@ class FieldPlayer extends PlayerBase {
     //----------------------------------------------------------------------------
     
     finalize() {
-        super.finalize();
         this.m_pKickLimiter = null;
         this.m_pStateMachine = null;
     };
@@ -109,7 +108,7 @@ class FieldPlayer extends PlayerBase {
         this.m_vVelocity.Truncate( this.m_dMaxSpeed );
         //update the position
         this.m_vPosition.add( this.m_vVelocity );
-
+       
         //enforce a non-penetration constraint if desired
         if ( Prm.bNonPenetrationConstraint ) {
             EntityFunctionTemplates.EnforceNonPenetrationContraint( this, Global.AllPlayers );
@@ -146,12 +145,20 @@ class FieldPlayer extends PlayerBase {
         };
         gdi.Circle( this.Pos(), 6 );
 
-        //Player Position
-        const playerPos = scene3D.convertRange( this.Pos() );
-        scene3D.players[ this.id ].position.set( playerPos.x, 5, playerPos.y );
+       //Update Player Position
+        const playerPos = scene3D.convertRange( this.m_vPosition );
+        // Set new Player position
+        scene3D.players[ this.id ].position.set( playerPos.x, 0, playerPos.y );
 
-        //Player Heading
-        scene3D.players[ this.id ].rotation.y = scene3D.getAngle( this.Heading() );
+        // Get two point from body to get angle of rotation
+        let angleRotation = Math.atan2( this.m_vecPlayerVBTrans[2].y - this.m_vecPlayerVBTrans[1].y, 
+                                        this.m_vecPlayerVBTrans[2].x - this.m_vecPlayerVBTrans[1].x );
+        //Player Rotation
+        if ( this.Team().Color() == SoccerTeam.blue() ) {
+            scene3D.players[ this.id ].rotation.y = angleRotation * -1;
+        } else {
+            scene3D.players[ this.id ].rotation.y = angleRotation * -1;
+        };
 
         //render the state
         if ( Prm.bStates ) {

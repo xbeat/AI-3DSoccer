@@ -43,9 +43,7 @@ class BaseGameEntity {
         this.SetID( ID );
     };
 
-    finalize() {
-        super.finalize();
-    };
+    finalize() {};
 
     Update() {};
 
