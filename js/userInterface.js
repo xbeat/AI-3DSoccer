@@ -1,5 +1,29 @@
+const originalConsole = window.console;
+
 function manageConsole(){
+
 	document.getElementById( "myConsoleLog" ).classList.toggle( "myConsoleLogHide" );
+
+	if ( document.getElementById( "myConsoleLog" ).classList.contains( "myConsoleLogHide" ) ){
+
+		window.console = originalConsole;
+
+	} else {
+		
+		window.console = {
+			log: function( str ){
+				var node = document.createElement( "div" );
+				node.appendChild( document.createTextNode( str ) );
+				document.getElementById("myConsoleLog").appendChild( node );
+				document.getElementById("myConsoleLog").scrollTop = document.getElementById("myConsoleLog").scrollHeight;
+			},
+			warn: function( str ){
+				console.log( str );
+			}
+		};
+
+	};
+
 };
 
 function managePlayerInfo(){
@@ -24,6 +48,76 @@ function displayBgData(){
     document.getElementsByTagName( "body" )[0].style.zIndex = "-1";
 };
 
+
+let icons = document.getElementsByClassName("icon");
+for( let i = 0; i < icons.length; i++ ){
+	icons[i].addEventListener( "mouseover", function(){
+		this.style.transform = "scale(1.1)";
+	});
+
+	icons[i].addEventListener( "mouseleave", function(){
+		this.style.transform = "scale(1)";
+	});	
+
+};
+
+document.getElementById("camera").addEventListener( "click", function(){
+	//document.getElementById("wrapperMain").style.margin = "-100px auto";
+	document.getElementById("wrapperCamera").style.margin = "30px auto";
+});
+
+let closeTab = document.getElementsByClassName("closeTab");
+for( let i = 0; i < closeTab.length; i++ ){
+	closeTab[i].addEventListener( "click", function(){
+		resetTab();
+	});
+};
+
+function resetTab(){
+	let content = document.getElementsByClassName("content");
+	for( let i = 0; i < content.length; i++ ){
+			content[i].style.display = "none";
+	};
+};
+
+document.getElementById("tabPlayerData").addEventListener( "click", function(){
+	resetTab();
+	document.getElementById( "playerData" ).style.display = "flex";
+});
+
+document.getElementById("tabPlayerStatistics").addEventListener( "click", function(){
+	resetTab();
+	document.getElementById( "playerStatistics" ).style.display = "flex";
+});
+
+document.getElementById("tabTeamStatistics").addEventListener( "click", function(){
+	resetTab();
+	document.getElementById( "teamStatistics" ).style.display = "flex";
+});
+
+document.getElementById("tabPlayerComparison").addEventListener( "click", function(){
+	resetTab();
+	document.getElementById( "playerComparison" ).style.display = "flex";
+});
+
+document.getElementById("tabGameStatistics").addEventListener( "click", function(){
+	resetTab();
+	document.getElementById( "gameStatistics" ).style.display = "flex";
+});
+
+document.getElementById("tabGameTactics").addEventListener( "click", function(){
+	resetTab();
+	document.getElementById( "gameTactics" ).style.display = "flex";
+});
+
+document.getElementById("tabGameStrategy").addEventListener( "click", function(){
+	resetTab();
+	document.getElementById( "gameStrategy" ).style.display = "flex";
+});
+
+document.getElementById("closeCamera").addEventListener( "click", function(){
+	document.getElementById("wrapperCamera").style.margin = "-170px auto";
+});
 
 function manageStatistics(){
 	document.getElementsByClassName( "centerStat" )[ 0 ].classList.toggle( "centerStatShow" );
@@ -90,7 +184,7 @@ class ScoreboardTimer{
 		document.getElementsByClassName('second')[ 0 ].innerText = this.second;
 		document.getElementsByClassName('minute')[ 0 ].innerText = this.minute;
 	};
-}
+};
 
 
 let	scoreboardTimer = new ScoreboardTimer(

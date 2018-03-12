@@ -23,7 +23,6 @@
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/userInterface.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/virtualInput.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/sidemenu.css" />
-		<link rel="stylesheet" type="text/css" media="screen,print" href="css/menu.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/scoreboard.css">
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/dashboard.css">
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/AI.css">
@@ -48,19 +47,6 @@
 		</div>
 		<div id="data">####</div>
    
-		<!-- MAIN MENU -->
-		<div id="wrapperMain" class="wrapperMain">
-			<div class="icon settings" id="tabPlayerData">A</div><!-- PLAYER BIO -->
-			<div class="icon mail" id="tabPlayerStatistics">B</div><!-- PLAYER STATISTICS -->
-			<div class="icon phone" id="tabTeamStatistics">C</div><!-- TEAMS STATISTICS -->
-			<div class="icon mail" id="tabPlayerComparison">D</div><!-- PLAYER COMPARISON -->
-			<div class="icon phone" id="tabGameStatistics">E</div><!-- GAME STATISTICS -->
-			<div class="icon" id="camera">F</div><!-- CAMERA -->
-			<div class="icon phone" id="tabGameTactics">G</div><!-- GAME TACTICS -->
-			<div class="icon phone" id="tabGameStrategy">H</div><!-- GAME STRATEGY -->
-			<div id="closeMenu" class="icon phone">X</div><!-- CLOSE -->
-		</div>
-
 		<!-- CAMERA MENU -->
 		<div id="wrapperCamera" class="wrapperCamera">
 			<div class="preset-button icon phone">1</div>
@@ -124,13 +110,48 @@
 					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Toggle Joystick</p></button></a>
 			    </div>	 
 
-			     <div id="toggleConsole" class="sideMenuButtonContainer">
+			    <div id="toggleConsole" class="sideMenuButtonContainer">
 					<a onClick="manageConsole()" class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Toggle Console</p></button></a>
 				</div>
 
 			     <div id="clearConsole" class="sideMenuButtonContainer">
 					<a onClick="document.getElementById('myConsoleLog').innerHTML = 'Console Ready' " class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Clear Console</p></button></a>
+				</div>				
+
+				<!-- ----- GAME DATA ----- -->
+
+			    <div id="tabPlayerData" class="sideMenuButtonContainer">
+					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Player Data</p></button></a>
 				</div>
+
+			    <div id="tabPlayerStatistics" class="sideMenuButtonContainer">
+					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Player Statistics</p></button></a>
+				</div>
+
+			    <div id="tabTeamStatistics" class="sideMenuButtonContainer">
+					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Teams Statistics</p></button></a>
+				</div>
+
+			    <div id="tabPlayerComparison" class="sideMenuButtonContainer">
+					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Player Comparison</p></button></a>
+				</div>
+
+			    <div id="tabGameStatistics" class="sideMenuButtonContainer">
+					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Game Statistics</p></button></a>
+				</div>
+
+			    <div id="camera" class="sideMenuButtonContainer">
+					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Camera</p></button></a>
+				</div>
+
+			    <div id="tabGameTactics" class="sideMenuButtonContainer">
+					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Game Tactics</p></button></a>
+				</div>
+
+			    <div id="tabGameStrategy" class="sideMenuButtonContainer">
+					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Game Strategy</p></button></a>
+				</div>
+
 
 				<!-- --- AI Settings --- -->
 
@@ -927,7 +948,7 @@
 	<script type="text/javascript" src="js/dat.gui.min.js"></script>
 
 	<!-- ----- Scoreboard ----- -->
-	<script type="text/javascript" src="js/scoreboard.js"></script>
+	<script type="text/javascript" src="js/userInterface.js"></script>
 	<script type="text/javascript" src="js/skill.js"></script>
 	<script type="text/javascript" src="js/tactics.js"></script>	
 
@@ -950,20 +971,6 @@
 			});
 		};
 
-		/*
-		window.console = {
-			log: function( str ){
-				var node = document.createElement( "div" );
-				node.appendChild( document.createTextNode( str ) );
-				document.getElementById("myConsoleLog").appendChild( node );
-				document.getElementById("myConsoleLog").scrollTop = document.getElementById("myConsoleLog").scrollHeight;
-			},
-			warn: function( str ){
-				console.log( str );
-			}
-		};
-		*/
-
 	</script>
 
 	<!-- ----- Scene 3D ----- -->
@@ -972,8 +979,7 @@
 	<script type="text/javascript" src="js/PlayerController.js"></script>
 	<script type="text/javascript" src="js/VirtualInput.js"></script>
 	<script type="text/javascript" src="js/camera.js"></script>
-	<script type="text/javascript" src="js/menu.js"></script>
-
+	
 	<script>
 		
 		document.querySelector('#closeJoystick').addEventListener('click', function() {
