@@ -1,7 +1,7 @@
 # <p align="center"><a href="https://xbe.at"><img src="https://xbe.at/img/LogoBeat.svg"></a></p>
 
-This is a game written in JavaScript and artificial intelligence using three.js for the 3D part.
-
+A 3D javascript game w/ artificial intelligence using three.js.<br>
+<a href="https://xbe.at">DEMO</a>
 ## Objective
 
 ## Playing
