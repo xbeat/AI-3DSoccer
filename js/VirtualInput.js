@@ -225,7 +225,6 @@ class Joystick extends EventDispatcher {
 		this.removeListenerMulti( document.body, this.end, this.staticonbuttonup );
 	};
 
-
 	getLength( x, y ) {
 		return Math.sqrt(Math.pow( x, 2 ) + Math.pow( y, 2 ) );
 	};
@@ -282,7 +281,7 @@ class Joystick extends EventDispatcher {
 		};
 
 		x = ( this.event.clientX - this.offset.left - this.halfWidth ) / this.halfWidth * 2;
-		y = ( -( this.event.clientY - this.offset.top) + this.halfWidth ) / this.halfWidth * 2;
+		y = ( -( this.event.clientY - this.offset.top ) + this.halfWidth ) / this.halfWidth * 2;
 
 		return { x: x, y: y };
 	};
@@ -303,10 +302,8 @@ class Joystick extends EventDispatcher {
 	};
 
 	setCSSPosition( x, y ) {
-		this.button.style.left =
-		this.halfWidth + x * this.frameRadius - this.buttonRadius + "px";
-		this.button.style.top =
-		this.halfWidth - y * this.frameRadius - this.buttonRadius + "px";
+		this.button.style.left = this.halfWidth + ( x * this.frameRadius ) - this.buttonRadius + "px";
+		this.button.style.top =	this.halfWidth - ( y * this.frameRadius ) - this.buttonRadius + "px";
 	};
 
 };

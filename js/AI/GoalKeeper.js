@@ -113,6 +113,11 @@ class GoalKeeper extends PlayerBase {
         const playerPos = scene3D.convertRange( this.Pos() );
         scene3D.players[ this.id ].position.set( playerPos.x, 0, playerPos.y );
 
+        //Ring glow ( player selected )
+        if ( this.id == scene3D.playerSelected ){
+            scene3D.ring.position.set( playerPos.x, 0, playerPos.y );
+        };
+
         //draw the ID
         if ( Prm.bIDs ) {
             gdi.TextColor( 250, 250, 250 );

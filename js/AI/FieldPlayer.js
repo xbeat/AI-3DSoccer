@@ -150,6 +150,11 @@ class FieldPlayer extends PlayerBase {
         // Set new Player position
         scene3D.players[ this.id ].position.set( playerPos.x, 0, playerPos.y );
 
+        //Ring glow ( player selected )
+        if ( this.id == scene3D.playerSelected ){
+            scene3D.ring.position.set( playerPos.x, 0, playerPos.y );
+        };
+
         // Get two point from body to get angle of rotation
         let angleRotation = Math.atan2( this.m_vecPlayerVBTrans[2].y - this.m_vecPlayerVBTrans[1].y, 
                                         this.m_vecPlayerVBTrans[2].x - this.m_vecPlayerVBTrans[1].x );

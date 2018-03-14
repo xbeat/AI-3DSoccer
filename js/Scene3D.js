@@ -29,7 +29,7 @@ class Scene3D{
 		this.playerController = new Array();
 		this.players = new Array();
 		this.skeleton = new Array();
-		this.playerManual = 1;
+		this.playerSelected = 0;
 
 		this.scene = new THREE.Scene();
 		this.scene.add ( new THREE.AmbientLight( 0xffffff ) );
@@ -66,7 +66,7 @@ class Scene3D{
 		let radius = 60;
 
 		this.camera = new THREE.PerspectiveCamera( 45, aspect, 1, 20000 );
-		this.camera.position.set( 0.0, radius * 3, radius * 3.5 );
+		this.camera.position.set( 0.0, radius * 6, radius * 6.5 );
 
 		this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
 		this.controls.target.set( 0, radius, 0 );
@@ -172,6 +172,19 @@ class Scene3D{
 		this.ball3D.scale.set( 6, 6, 6 );
 		this.ball3D.position.set( 0, 5, 0 );
 
+
+		//------------ Ring -------------
+		let ringGeom = new THREE.RingGeometry( 30, 70, 32 );
+		let ringMaterial = new THREE.MeshLambertMaterial( { color: 0xff0000, transparent: true, opacity: 0.5 } );
+
+		this.ring = new THREE.Mesh( ringGeom, ringMaterial );
+		this.ring.name = 'ring';
+		this.ring.position.set( 0, 1, 0 );
+		this.ring.rotation.x = -0.5 * Math.PI;
+
+		this.scene.add( this.ring );
+
+		//------ Virtual Joystick -------
 		this.addVirtualJoystick();     
 
 	};
@@ -365,11 +378,11 @@ class Scene3D{
 
 		//console.log(`delta ${delta} scale ${scale} stepsize ${stepSize}`);
 		
-		//for ( let i = 0; i < this.players.length; i++ ){ 
+		for ( let i = 0; i < this.players.length; i++ ){ 
 	    
-	    	this.playerController[ this.playerManual ].update( stepSize, scale );
+	    	this.playerController[ i ].update( stepSize, scale );
 		
-		//};
+		};
 
 	    //gui.setSpeed( blendMesh.speed );
 

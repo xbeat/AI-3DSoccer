@@ -10,7 +10,7 @@ class Skill{
 		this.updating = false;
 		this.skillOpen = false;
 		this.skillValue = document.getElementsByClassName( "skill-value" );
-		this.controlPanel = controlPanel;
+		this.controlPanel = controlPanel;	
 		let scope = this;
 
 		document.getElementById( "qty-subtract" ).addEventListener( "click", function() {
@@ -42,6 +42,7 @@ class Skill{
 				//https://stackoverflow.com/questions/10003683/javascript-get-number-from-string
 				this.SkillId = this.buttonSelected.id.replace( /^\D+/g, '' );
 				scope.controlPanel.setPlayerId( this.SkillId );
+				scene3D.playerSelected = this.SkillId;
 
 				if ( this.skillOpen == false ){
 					this.skillOpen = true;

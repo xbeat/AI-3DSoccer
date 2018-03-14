@@ -1,6 +1,6 @@
 #joystick1,
 #joystick2{
-  bottom: 90px;
+  bottom: 210px;
 }
 
 #joystick1{ left: 50px; }
@@ -17,17 +17,17 @@
 }
 
 #button1{
-  bottom: 300px;
+  bottom: 420px;
   right: 180px;
 }
 
 #button2{
-  bottom: 300px;
+  bottom: 420px;
   right: 80px;
 }
 
 #button3{
-  bottom: 400px;
+  bottom: 500px;
   right: 80px;
 }
 
