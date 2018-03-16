@@ -184,8 +184,6 @@ class Scene3D{
 
 		this.scene.add( this.ring );
 
-		//------ Virtual Joystick -------
-		this.addVirtualJoystick();     
 
 	};
 
@@ -246,30 +244,6 @@ class Scene3D{
 		//this.Render();
 
 	};
-
-    addVirtualJoystick(){
-		this.joystick1 = new Joystick( document.body, 120, { id: 'joystick1' } );
-		this.joystick2 = new Joystick( document.body, 120, { id: 'joystick2' } );
-		this.button1 = new Button( document.body, 70, { id: "button1", label: "button1" } );
-		this.button2 = new Button( document.body, 70, { id: "button2", label: "button2" } );
-		this.button3 = new SquareButton( document.body, 70, { id: "button3", label: "button3" } );
-
-		this.xSpeed = 0.01;
-		this.ySpeed = 0.01;
-		this.zoomFactor = 0.01;
-
-		this.button1.addEventListener( "press", function() {
-		    console.log("button1");
-		});
-
-		this.button2.addEventListener( "press", function() {
-		    console.log("button2");
-		});
-
-		this.button3.addEventListener( "press", function() {
-		    console.log("button3");
-		});
-    };
 
 	deepClone( initalObj, finalObj = {} ) {
 		var obj = finalObj;
@@ -389,44 +363,6 @@ class Scene3D{
 	    //THREE.AnimationHandler.update( stepSize );
 	    //blendMesh.updateSkeletonHelper();		
 		this.renderer.render( this.scene, this.camera );
-
-
-		if ( this.joystick1.isActive == true ){
-
-		    let characterFrontAngle = this.joystick1.getAngle() + THREE.Math.degToRad( -90 );
-		    let cameraFrontAngle = 10;
-		    let direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;
-
-		    /*
-		    if ( Math.sign( this.position.y ) == 1 )  {
-		        neck.rotation.y += degInRad(1);
-		    } else if ( Math.sign( this.position.y ) == -1 ) {
-		        neck.rotation.y -= degInRad(1);
-		    };
-
-		    if ( Math.sign( this.position.x ) == 1 ) {
-		        neck.rotation.x += degInRad(1);
-		    } else if ( Math.sign( this.position.x ) == -1 ) {
-		        neck.rotation.x -= degInRad(1);
-		    };
-		    */
-
-		    if ( Math.sign( this.joystick1.position.y ) == 1 || Math.sign( this.joystick1.position.x ) == 1 )  {
-		        this.camera.zoom += this.zoomFactor;
-		        this.camera.updateProjectionMatrix();
-		    } else if ( Math.sign( this.joystick1.position.y ) == -1 || Math.sign( this.joystick1.position.x ) == -1 ) {
-		        this.camera.zoom -= this.zoomFactor;
-		        this.camera.updateProjectionMatrix();
-		    };
-
-		};
-
-		if ( this.joystick2.isActive == true ){
-			//let xt = this.joystick2.position.x ;
-			//let xy = this.joystick2.position.y * .5;
-			//this.cube.rotation.x += this.xSpeed;
-			//this.cube.rotation.y += this.ySpeed;
-		};
 
 	};
 

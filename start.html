@@ -21,7 +21,6 @@
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/gamestat.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/slider.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/userInterface.css" />
-		<link rel="stylesheet" type="text/css" media="screen,print" href="css/virtualInput.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/sidemenu.css" />
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/scoreboard.css">
 		<link rel="stylesheet" type="text/css" media="screen,print" href="css/dashboard.css">
@@ -105,10 +104,6 @@
 			    <div class="sideMenuButtonContainer">
 					<a class="btn"><button onClick="managePitch()" class="sideMenuButton"><p class="sideMenuElement">Toggle Pitch</p></button></a>
 			    </div>	
-
-			    <div id="closeJoystick" class="sideMenuButtonContainer">
-					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Toggle Joystick</p></button></a>
-			    </div>	 
 
 			    <div id="toggleConsole" class="sideMenuButtonContainer">
 					<a onClick="manageConsole()" class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Toggle Console</p></button></a>
@@ -977,27 +972,10 @@
 	<script type="text/javascript" src="js/Scene3D.js"></script>
 	<script type="text/javascript" src="js/ControlPanel.js"></script>
 	<script type="text/javascript" src="js/PlayerController.js"></script>
-	<script type="text/javascript" src="js/VirtualInput.js"></script>
 	<script type="text/javascript" src="js/camera.js"></script>
 	
 	<script>
 		
-		document.querySelector('#closeJoystick').addEventListener('click', function() {
-			if (document.querySelector(".virtualInput-joystick").style.visibility == "hidden") {
-				document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "visible";
-				document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "visible";
-				document.querySelectorAll(".virtualInput-button")[0].style.visibility = "visible";
-				document.querySelectorAll(".virtualInput-button")[1].style.visibility = "visible";
-				document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "visible";
-			} else {
-				document.querySelectorAll(".virtualInput-joystick")[0].style.visibility = "hidden";
-				document.querySelectorAll(".virtualInput-joystick")[1].style.visibility = "hidden";	
-				document.querySelectorAll(".virtualInput-button")[0].style.visibility = "hidden";
-				document.querySelectorAll(".virtualInput-button")[1].style.visibility = "hidden";
-				document.querySelectorAll(".virtualInput-squareButton")[0].style.visibility = "hidden";			
-			};
-		});
-
 		document.querySelector('.nav-toggle').addEventListener( "click", function( e ){
 			e.currentTarget.classList.toggle('open');
 			document.querySelector('.menu-container').classList.toggle('nav-open');
