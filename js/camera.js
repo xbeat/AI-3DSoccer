@@ -17,7 +17,7 @@ class Camera extends Scene3D {
 
 	onComplete() {
 		console.log( "complete" );
-		this.followObject = true;
+		//this.followObject = true;
 	};
 
 	tween( cameraPresets, duration, ease ) {
@@ -52,7 +52,6 @@ class Camera extends Scene3D {
 		let now = Date.now();
 		let t = this.duration > 0 ? ( now - this.start ) / this.duration : 1;
 		let progress = this.ease( t );
-		const scope = this;
 
 		this.position.x = this.lerp( this.cameraStart.position.x, this.cameraEnd.position.x, progress );
 		this.position.y = this.lerp( this.cameraStart.position.y, this.cameraEnd.position.y, progress );
@@ -68,7 +67,8 @@ class Camera extends Scene3D {
 		} else {
 			// Run update callback and loop until finished
 			this.onUpdate();
-			requestAnimationFrame( function() { scope.animate(); } );
+			const animate = this.animate.bind( this ); 
+			requestAnimationFrame( animate );
 		};
 
 	};

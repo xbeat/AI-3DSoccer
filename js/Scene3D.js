@@ -15,6 +15,8 @@ class Scene3D{
 		this.runWeight = new Array();
 		this.actions = new Array();
 		this.maxPlayers = 18;
+		this.CameraLookAt = new THREE.Vector3(0, 0, 0);
+		this.followObject = false;
 		
 		this.scope = this;
 		this.scene = null;
@@ -357,6 +359,16 @@ class Scene3D{
 	    	this.playerController[ i ].update( stepSize, scale );
 		
 		};
+
+		this.camera.getWorldDirection( this.CameraLookAt );
+		
+		if ( this.followObject ){
+			this.camera.lookAt( this.ball3D.position );
+        } else {
+			//this.camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
+			this.camera.lookAt( this.CameraLookAt );
+        };
+
 
 	    //gui.setSpeed( blendMesh.speed );
 
