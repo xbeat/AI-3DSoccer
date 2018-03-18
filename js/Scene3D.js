@@ -19,11 +19,6 @@ class Scene3D{
 		this.followObject = false;
 		
 		this.scope = this;
-		this.scene = null;
-		this.camera = null;
-		this.controls = null; 
-		this.renderer = null;
-		this.skeleton = null;
 		this.mixer = new Array();
 		this.clock = new THREE.Clock();
 		this.singleStepMode = false;
@@ -37,18 +32,18 @@ class Scene3D{
 		this.scene.add ( new THREE.AmbientLight( 0xffffff ) );
 
 		let lightOffset = new THREE.Vector3( 0, 1000, 1000.0 );	
-		let light = new THREE.DirectionalLight( 0x666666, 1.5 );
+		let light = new THREE.DirectionalLight( 0x666666, 2.0 );
 		light.position.copy( lightOffset );
 		light.castShadow = true;
-		light.shadow.mapSize.width = 4096;
+		light.shadow.mapSize.width = 2048;
 		light.shadow.mapSize.height = 2048;
 		light.shadow.camera.near = 10;
 		light.shadow.camera.far = 10000;
 		light.shadow.bias = 0.00001;
-		light.shadow.camera.right = 4000;
-		light.shadow.camera.left = -4000;
-		light.shadow.camera.top = 4000;
-		light.shadow.camera.bottom = -4000;
+		light.shadow.camera.right = 3200;
+		light.shadow.camera.left = -3400;
+		light.shadow.camera.top = 1500;
+		light.shadow.camera.bottom = -2500;
 
 		//let helper = new THREE.CameraHelper( light.shadow.camera );
 		//this.scene.add( helper );
@@ -56,10 +51,8 @@ class Scene3D{
 		this.scene.add( light );
 		
 		this.renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
-		this.renderer.setClearColor( "#dddddd", 1 );
 		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.setSize( window.innerWidth, window.innerHeight );
-		this.renderer.autoClear = false;
 		this.renderer.shadowMap.enabled = true;
 		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -73,7 +66,7 @@ class Scene3D{
 		this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
 		this.controls.target.set( 0, radius, 0 );
 		this.controls.enabled = true;
-		//controls.enablePan = true;	
+		//this.controls.enablePan = true;	
 					
 		this.controlPanel = new ControlPanel( this );
 		let skill = new Skill( this.controlPanel );
@@ -366,7 +359,7 @@ class Scene3D{
 			this.camera.lookAt( this.ball3D.position );
         } else {
 			//this.camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
-			this.camera.lookAt( this.CameraLookAt );
+			//this.camera.lookAt( this.CameraLookAt );
         };
 
 
