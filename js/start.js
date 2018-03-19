@@ -102,7 +102,7 @@ document.addEventListener( "DOMContentLoaded", function( event ) {
 			        //panel.repaint();
 
 			        // 3D render
-			        scene3D.scope.Render();
+			        scene3D.Render();
 
 		    	};
 		    };
