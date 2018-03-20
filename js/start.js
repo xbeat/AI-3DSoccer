@@ -9,6 +9,7 @@ let EXECUTERAF = false;
 let cxClient = 460;//600
 let cyClient = 290;//380
 let scene3D = null;
+//let heatMap = null;
 
 let Color = {
 	WHITE: "255, 255, 255",
@@ -55,6 +56,7 @@ timer.Start();
 document.addEventListener( "DOMContentLoaded", function( event ) {
 	
 	scene3D = new Camera();
+	//heatMap = new HeatMap( 'heatMapCanvas', 18, undefined )
 
 	presetButton[0].addEventListener( "click", function() {
 	 	scene3D.tween( cameraPresets[0], 1000, Easing.easeOutCubic );

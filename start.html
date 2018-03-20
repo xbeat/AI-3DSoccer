@@ -127,6 +127,9 @@
 					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Game Strategy</p></button></a>
 				</div>
 
+			    <div id="tabHeatMap" class="sideMenuButtonContainer">
+					<a class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Heat Map</p></button></a>
+				</div>
 
 				<!-- --- AI Settings --- -->
 
@@ -721,6 +724,15 @@
 
 		</div>
 
+		<!-- ------- Heat Map ------ -->
+		<div class="content" id="heatMap">
+
+			<div class="titleHead">HEAT MAP ( disabled )</div>
+			<div class="closeTab">X</div>
+			<canvas id="heatMapCanvas"></canvas>
+		
+		</div>
+
 		<!--
 		  --------------
 			SCOREBOARD 
@@ -913,7 +925,7 @@
 	        </div>
 	    </div>
 
-		<!-- CAMERA MENU -->
+		<!-- ----- CAMERA MENU ----- -->
 		<div id="wrapperCamera" class="wrapperCamera">
 			<div class="preset-button icon phone">1</div>
 			<div class="preset-button icon phone">2</div>
@@ -965,6 +977,7 @@
 	<script type="text/javascript" src="js/ControlPanel.js"></script>
 	<script type="text/javascript" src="js/PlayerController.js"></script>
 	<script type="text/javascript" src="js/camera.js"></script>
+	<!-- <script type="text/javascript" src="js/heatmap.js"></script> -->
 	
 	<script>
 		

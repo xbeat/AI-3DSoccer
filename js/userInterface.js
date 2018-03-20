@@ -115,6 +115,11 @@ document.getElementById("tabGameStrategy").addEventListener( "click", function()
 	document.getElementById( "gameStrategy" ).style.display = "flex";
 });
 
+document.getElementById("tabHeatMap").addEventListener( "click", function(){
+	resetTab();
+	document.getElementById( "heatMap" ).style.display = "flex";
+});
+
 document.getElementById("closeCamera").addEventListener( "click", function(){
 	document.getElementById("wrapperCamera").style.margin = "-170px auto";
 });

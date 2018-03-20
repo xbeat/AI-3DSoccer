@@ -150,9 +150,13 @@ class FieldPlayer extends PlayerBase {
         // Set new Player position
         scene3D.players[ this.id ].position.set( playerPos.x, 0, playerPos.y );
 
-        //Ring glow ( player selected )
+        //Ring glow & heatmap ( player selected )
         if ( this.id == scene3D.playerSelected ){
             scene3D.ring.position.set( playerPos.x, 0, playerPos.y );
+
+        	//heatMap.addData( [this.m_vPosition.x, this.m_vPosition.y, 1] );
+        	//heatMap.draw();
+
         };
 
         // Get two point from body to get angle of rotation
