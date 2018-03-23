@@ -68,7 +68,8 @@ class Scene3D{
 		this.controls.enabled = true;
 		//this.controls.enablePan = true;	
 					
-		this.controlPanel = new ControlPanel( this );
+		//this.controlPanel = new ControlPanel( this );
+		
 		let skill = new Skill( this.controlPanel );
 
 		let ctx = this.renderer.context;
@@ -221,12 +222,16 @@ class Scene3D{
 
 		//this.idleAction[ id ] = this.mixer[ id ].clipAction( 'idle' );
 		//this.walkAction[ id ] = this.mixer[ id ].clipAction( 'walk' );
-		//this.runAction[ id ] = this.mixer[ id ].clipAction( 'run' );
+		///this.runAction[ id ] = this.mixer[ id ].clipAction( 'run' );
 		//this.actions[ id ] = [ this.idleAction[ id ], this.walkAction[ id ], this.runAction[ id ] ];
 
 		//this.controlPanel.setPlayerId( id );
 		//this.controlPanel.activateAllActions();
 		
+		this.mixer[ id ].clipAction( 'idle' ).play();
+		this.mixer[ id ].clipAction( 'walk' ).play();
+		this.mixer[ id ].clipAction( 'run' ).play();
+
 		//this.playerController[ id ] = new PlayerController( this.players[ id ], this.actions[ id ], this.controlPanel );
 
 		//window.addEventListener( 'keydown', this.playerController[ id ].onKeyDown.bind( this.playerController[ id ] ), false );
@@ -319,19 +324,19 @@ class Scene3D{
 		//};
 
 		// Update the panel values if weights are modified from "outside" (by crossfadings)
-		this.controlPanel.updateWeightSliders();
+		//this.controlPanel.updateWeightSliders();
 
 		// Enable/disable crossfade controls according to current weight values
-		this.controlPanel.updateCrossFadeControls();
+		//this.controlPanel.updateCrossFadeControls();
 
 		// Get the time elapsed since the last frame, used for mixer update (if not in single step mode)
 		let mixerUpdateDelta = this.clock.getDelta();
 
 		// If in single step mode, make one step and then do nothing (until the user clicks again)
-		if ( this.singleStepMode ) {
-			mixerUpdateDelta = this.sizeOfNextStep;
-			this.sizeOfNextStep = 0;
-		};
+		//if ( this.singleStepMode ) {
+		//	mixerUpdateDelta = this.sizeOfNextStep;
+		//	this.sizeOfNextStep = 0;
+		//};
 
 		// Update the animation mixer, and render this frame
 		for ( let i = 0; i < this.maxPlayers; i++ ){ 
