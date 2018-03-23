@@ -219,19 +219,19 @@ class Scene3D{
 		// Initialize mixer and clip actions
 		this.mixer[ id ] = new THREE.AnimationMixer( this.players[ id ] );
 
-		this.idleAction[ id ] = this.mixer[ id ].clipAction( 'idle' );
-		this.walkAction[ id ] = this.mixer[ id ].clipAction( 'walk' );
-		this.runAction[ id ] = this.mixer[ id ].clipAction( 'run' );
-		this.actions[ id ] = [ this.idleAction[ id ], this.walkAction[ id ], this.runAction[ id ] ];
+		//this.idleAction[ id ] = this.mixer[ id ].clipAction( 'idle' );
+		//this.walkAction[ id ] = this.mixer[ id ].clipAction( 'walk' );
+		//this.runAction[ id ] = this.mixer[ id ].clipAction( 'run' );
+		//this.actions[ id ] = [ this.idleAction[ id ], this.walkAction[ id ], this.runAction[ id ] ];
 
-		this.controlPanel.setPlayerId( id );
-		this.controlPanel.activateAllActions();
+		//this.controlPanel.setPlayerId( id );
+		//this.controlPanel.activateAllActions();
 		
-		this.playerController[ id ] = new PlayerController( this.players[ id ], this.actions[ id ], this.controlPanel );
+		//this.playerController[ id ] = new PlayerController( this.players[ id ], this.actions[ id ], this.controlPanel );
 
-		window.addEventListener( 'keydown', this.playerController[ id ].onKeyDown.bind( this.playerController[ id ] ), false );
-		window.addEventListener( 'keyup', this.playerController[ id ].onKeyUp.bind( this.playerController[ id ] ), false );
-		window.addEventListener( 'change-duration', this.playerController[ id ].onDurationChange.bind( this.playerController[ id ] ), false );
+		//window.addEventListener( 'keydown', this.playerController[ id ].onKeyDown.bind( this.playerController[ id ] ), false );
+		//window.addEventListener( 'keyup', this.playerController[ id ].onKeyUp.bind( this.playerController[ id ] ), false );
+		//window.addEventListener( 'change-duration', this.playerController[ id ].onDurationChange.bind( this.playerController[ id ] ), false );
 		
 		//wait until all is loaded
 		EXECUTERAF = true;
@@ -310,13 +310,13 @@ class Scene3D{
 		// Render loop
 		//RAF = requestAnimationFrame( function() { scope.render(); } );
 
-		for ( let i = 0; i < this.maxPlayers; i++ ){ 
+		//for ( let i = 0; i < this.maxPlayers; i++ ){ 
 		
-			this.idleWeight[ i ] = this.idleAction[ i ].getEffectiveWeight();
-			this.walkWeight[ i ] = this.walkAction[ i ].getEffectiveWeight();
-			this.runWeight[ i ] = this.runAction[ i ].getEffectiveWeight();
+		//	this.idleWeight[ i ] = this.idleAction[ i ].getEffectiveWeight();
+		//	this.walkWeight[ i ] = this.walkAction[ i ].getEffectiveWeight();
+		//	this.runWeight[ i ] = this.runAction[ i ].getEffectiveWeight();
 		
-		};
+		//};
 
 		// Update the panel values if weights are modified from "outside" (by crossfadings)
 		this.controlPanel.updateWeightSliders();
@@ -341,17 +341,17 @@ class Scene3D{
 		//updateCamera();
 		
 		// update character position
-	    let scale = 1; //gui.getTimeScale();		        
-	    let delta = 0.033; //clock.getDelta();
-	    let stepSize = delta * scale;
+	    //let scale = 1; //gui.getTimeScale();		        
+	    //let delta = 0.033; //clock.getDelta();
+	    //let stepSize = delta * scale;
 
 		//console.log(`delta ${delta} scale ${scale} stepsize ${stepSize}`);
 		
-		for ( let i = 0; i < this.players.length; i++ ){ 
+		//for ( let i = 0; i < this.players.length; i++ ){ 
 	    
-	    	this.playerController[ i ].update( stepSize, scale );
+	    //	this.playerController[ i ].update( stepSize, scale );
 		
-		};
+		//};
 
 		this.camera.getWorldDirection( this.CameraLookAt );
 		
