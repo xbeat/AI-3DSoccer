@@ -169,6 +169,45 @@ class FieldPlayer extends PlayerBase {
             scene3D.players[ this.id ].rotation.y = angleRotation * -1;
         };
 
+        //find speed
+		let speed = Math.sqrt( this.m_vVelocity.y * this.m_vVelocity.y  + this.m_vVelocity.x * this.m_vVelocity.x );
+
+		//convert rvelocity range
+		let speedMinFrom = 0;
+		let speedMaxFrom = this.m_dMaxSpeed;
+
+		let speedMinTo = 0 
+		let speedMaxTO = 1;
+
+		if ( speed != 0 ) {
+			speed = Math.abs( ( speed - speedMinFrom ) * ( speedMaxTO - speedMinTo ) / ( speedMinFrom - speedMaxFrom ) + speedMinTo );
+		};
+
+		// animate player
+		if( speed == 0 ) {  //idle
+			scene3D.mixer[ this.id ].clipAction( 'idle' ).setEffectiveWeight( 1 );    				
+			scene3D.mixer[ this.id ].clipAction( 'walk' ).setEffectiveWeight( 0 );
+			scene3D.mixer[ this.id ].clipAction( 'run' ).setEffectiveWeight( 0 );
+		};
+
+		if( speed == 1 ) {  //run
+			scene3D.mixer[ this.id ].clipAction( 'idle' ).setEffectiveWeight( 0 );    				
+			scene3D.mixer[ this.id ].clipAction( 'walk' ).setEffectiveWeight( 0 );
+			scene3D.mixer[ this.id ].clipAction( 'run' ).setEffectiveWeight( 1 );
+		};
+
+		if( speed > 0 && speed <= 0.5 ) { // from idle to walk < - > from walk to idle
+			scene3D.mixer[ this.id ].clipAction( 'idle' ).setEffectiveWeight( 1 - ( speed / 0.5 ) );    				
+			scene3D.mixer[ this.id ].clipAction( 'walk' ).setEffectiveWeight( speed / 0.5  );
+			scene3D.mixer[ this.id ].clipAction( 'run' ).setEffectiveWeight( 0 );
+		};
+
+		if( speed > 0.5 && speed < 1 ) { // from walk to run < - > from run to walk
+			scene3D.mixer[ this.id ].clipAction( 'idle' ).setEffectiveWeight( 0 );    				
+			scene3D.mixer[ this.id ].clipAction( 'walk' ).setEffectiveWeight( 1 - ( ( speed - 0.5 ) / 0.5 ) );
+			scene3D.mixer[ this.id ].clipAction( 'run' ).setEffectiveWeight( ( speed - 0.5 ) / 0.5 );
+		};
+
         //render the state
         if ( Prm.bStates ) {
             gdi.TextColor( 250, 250, 250 );

@@ -25,6 +25,7 @@ class ControlPanel {
 			'show skeleton':         false,
 			'use controls':          true,
 			'speed by menu':         false,
+			'stop animation':        false,
 			'deactivate all':        this.deactivateAllActions.bind( this ),
 			'activate all':          this.activateAllActions.bind( this ),
 			'pause/continue':        this.pauseContinue.bind( this ),
@@ -46,6 +47,7 @@ class ControlPanel {
 		folder1.add( this.settings, 'show skeleton' ).onChange( this.showSkeleton.bind( this ) );
 		folder1.add( this.settings, 'use controls' ).onChange( this.useControls.bind( this ) );
 		folder1.add( this.settings, 'speed by menu' );
+		folder1.add( this.settings, 'stop animation' );
 		folder2.add( this.settings, 'deactivate all' );
 		folder2.add( this.settings, 'activate all' );
 		folder3.add( this.settings, 'pause/continue' );
