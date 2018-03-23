@@ -1,7 +1,3 @@
-/**
- * Scene3d.js
- * Class to manage 3D
- */
 
 class Scene3D{
 
