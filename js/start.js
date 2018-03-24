@@ -3,7 +3,7 @@
 
 // ------------ Globals ------------
 let RAF_AI;
-let RAF;
+//let RAF;
 let EXECUTERAF = false;
 
 let cxClient = 460;//600
@@ -69,31 +69,34 @@ document.addEventListener( "DOMContentLoaded", function( event ) {
 	scene3D = new Camera();
 	//heatMap = new HeatMap( 'heatMapCanvas', 18, undefined )
 
-	presetButton[0].addEventListener( "click", function() {
+	//--------------- Camera -------------
+	let presetCameraButton = document.getElementsByClassName( "presetCameraButton" );
+
+	presetCameraButton[0].addEventListener( "click", function() {
 	 	scene3D.tween( cameraPresets[0], 1000, Easing.easeOutCubic );
 	}, false );
 
-	presetButton[1].addEventListener( "click", function() {
+	presetCameraButton[1].addEventListener( "click", function() {
 	 	scene3D.tween( cameraPresets[1], 1000, Easing.easeOutCubic );
 	}, false );
 	 
-	presetButton[2].addEventListener( "click", function() {
+	presetCameraButton[2].addEventListener( "click", function() {
 		scene3D.tween( cameraPresets[2], 1000, Easing.easeOutCubic );
 	}, false );
 
-	presetButton[3].addEventListener( "click", function() {
+	presetCameraButton[3].addEventListener( "click", function() {
 		scene3D.tween( cameraPresets[3], 1000, Easing.easeOutCubic );
 	}, false );
 
-	presetButton[4].addEventListener( "click", function() {
+	presetCameraButton[4].addEventListener( "click", function() {
 		scene3D.direct( heavenPreset );
 	}, false );
 
-	presetButton[5].addEventListener( "click", function() {
+	presetCameraButton[5].addEventListener( "click", function() {
 		scene3D.tween( cameraPresets[4], 1000, Easing.easeOutCubic );
 	}, false );
 
-	presetButton[6].addEventListener( "click", function() {
+	presetCameraButton[6].addEventListener( "click", function() {
 		scene3D.followObject = scene3D.followObject == true ? false : true;
 	}, false );	
 

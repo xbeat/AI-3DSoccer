@@ -183,7 +183,7 @@ class SoccerTeam {
                     Prm.PlayerMaxSpeedWithoutBall,
                     Prm.PlayerMaxTurnRate,
                     Prm.PlayerScale,
-                    PlayerBase.player_role().attacker,
+                    PlayerBase.player_role().defender,
                     12 ) );
 
             this.m_Players.push( new FieldPlayer( this,

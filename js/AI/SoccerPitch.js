@@ -126,8 +126,14 @@ class SoccerPitch {
         this.m_pBlueTeam.Update();
 
         //if a goal has been detected reset the pitch ready for kickoff
-        if ( this.m_pBlueGoal.Scored( this.m_pBall ) || this.m_pRedGoal.Scored( this.m_pBall ) ) {
+        if ( this.m_pBlueGoal.Scored( this.m_pBall ) || this.m_pRedGoal.Scored( this.m_pBall ) || this.gameReset == true ) {
             this.m_bGameOn = false;
+
+            if ( this.gameReset == true ){
+				this.gameReset = false;
+	            this.m_pBlueGoal.m_iNumGoalsScored = 0;
+    	        this.m_pRedGoal.m_iNumGoalsScored = 0;            
+            };
 
             //update score
             // the score is inversed because the team that make the score 

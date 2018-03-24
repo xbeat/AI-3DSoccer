@@ -1,3 +1,6 @@
+<script>
+	'use strict';
+</script>
 <html lang="en">
 	<head>
 
@@ -31,13 +34,15 @@
 			<img class="xbeat-logo-up" src="../img/LogoBeat.svg" title="logo">
 		</div>
 
+		<!--
 		<div id="info">
 			<br>camera orbit/zoom/pan with left/middle/right mouse button
 			<br>orbit/zoom/pan with 1-finger move/pinch/3-finger move
 			<br><br>Note: crossfades are possible with blend weights being set to (1,0,0), (0,1,0) or (0,0,1)
 		</div>
 		<div id="data">####</div>
-   
+   		-->
+
 		<!-- Sidebar Menu -->
 		<div class="nav-toggle hamburger">
 		  <span></span>
@@ -49,7 +54,7 @@
 
 			<nav>
 			    <div id="stopRaf" class="sideMenuButtonContainer">
-					<a onClick="pause()" class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Stop RAF</p></button></a>
+					<a onClick="ScoreboardTimer.pause()" class="btn"><button class="sideMenuButton"><p class="sideMenuElement">Pause Game</p></button></a>
 			    </div>
 
 			    <!-- Time Control -->
@@ -137,14 +142,6 @@
 
 					<form class="formParams">
 	
-					    <div class="switch-field">
-					      <div class="switch-title">Raf</div>
-					      <input type="radio" id="switch_raf_on" onclick = "EXECUTERAF = true" name="switch_raf" value="on" checked/>
-					      <label for="switch_raf_on">On</label>
-					      <input type="radio" id="switch_raf_off" onclick = "EXECUTERAF = false" name="switch_raf" value="off" />
-					      <label for="switch_raf_off">Off</label>
-					    </div>
-
 					    <div class="switch-field">
 					      <div class="switch-title">Show IDs</div>
 					      <input type="radio" id="switch_ids_on" onclick = "Prm.bIDs = true" name="switch_ids" value="on" />
@@ -927,13 +924,13 @@
 
 		<!-- ----- CAMERA MENU ----- -->
 		<div id="wrapperCamera" class="wrapperCamera">
-			<div class="preset-button icon phone">1</div>
-			<div class="preset-button icon phone">2</div>
-			<div class="preset-button icon phone">3</div>
-			<div class="preset-button icon phone">H</div>
-			<div class="preset-button icon phone">5</div>
-			<div class="preset-button icon phone">6</div>
-			<div class="preset-button icon phone">F</div>	
+			<div class="presetCameraButton icon phone">1</div>
+			<div class="presetCameraButton icon phone">2</div>
+			<div class="presetCameraButton icon phone">3</div>
+			<div class="presetCameraButton icon phone">H</div>
+			<div class="presetCameraButton icon phone">5</div>
+			<div class="presetCameraButton icon phone">6</div>
+			<div class="presetCameraButton icon phone">F</div>	
 			<div id="closeCamera" class="icon phone">X</div>		
 		</div>
 
@@ -951,27 +948,6 @@
 	<script type="text/javascript" src="js/skill.js"></script>
 	<script type="text/javascript" src="js/tactics.js"></script>	
 
-	<!-- --------    -------- -->
-	<!-- -------- AI -------- -->
-	<!-- --------    -------- -->
-
-	<script>
-		"use strict";
-		function pause(){
-			cancelAnimationFrame( RAF );
-			cancelAnimationFrame( RAF_AI );
-		};
-
-		var selects = document.getElementsByClassName( "onoffbtn" );
-		for( let i = 0, il = selects.length; i < il; i++ ){
-			selects[i].addEventListener( "click", function(){
-				if ( this.classList )
-				this.classList.toggle( "active" );
-			});
-		};
-
-	</script>
-
 	<!-- ----- Scene 3D ----- -->
 	<script type="text/javascript" src="js/Scene3D.js"></script>
 	<!-- <script type="text/javascript" src="js/ControlPanel.js"></script> -->
@@ -981,8 +957,16 @@
 	
 	<script>
 		
-		document.querySelector('.nav-toggle').addEventListener( "click", function( e ){
-			e.currentTarget.classList.toggle('open');
+		var selects = document.getElementsByClassName( "onoffbtn" );
+		for( let i = 0, il = selects.length; i < il; i++ ){
+			selects[i].addEventListener( "click", function(){
+				if ( this.classList )
+				this.classList.toggle( "active" );
+			});
+		};
+
+		document.querySelector( '.nav-toggle' ).addEventListener( "click", function( e ){
+			e.currentTarget.classList.toggle( 'open' );
 			document.querySelector('.menu-container').classList.toggle('nav-open');
 		});
 
@@ -992,13 +976,12 @@
 			scene3D.camera.updateProjectionMatrix();
 			scene3D.renderer.setSize( window.innerWidth, window.innerHeight );
 		}, false);
-
-	    //--------------- Camera ------------
-		let presetButton = document.getElementsByClassName( "preset-button" );
 		
 	</script>
-
-	<!-- ----- AI ----- -->
+	
+	<!-- --------    -------- -->
+	<!-- -------- AI -------- -->
+	<!-- --------    -------- -->
 
 	<!-- Globals -->
 	<script type="text/javascript" src="js/AI/Global.js"></script>
