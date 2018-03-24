@@ -52,6 +52,17 @@ let timer = new PrecisionTimer();
 //start the timer
 timer.Start();
 
+let	scoreboardTimer = new ScoreboardTimer(
+	function( time ) {
+		if( time >= 2700 ) { 
+			timer.stop();
+			alert('time out');
+		};
+	}
+);
+
+scoreboardTimer.start();
+
 //----------- Entry Point -----------
 document.addEventListener( "DOMContentLoaded", function( event ) {
 	

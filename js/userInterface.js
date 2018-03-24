@@ -147,7 +147,7 @@ class ScoreboardTimer{
 		this.status = 0;
 		this.timer_id;
 		this.callback = callback;
-		this.reset();
+		this.generateTime();
 	};
 
 	start() {
@@ -159,6 +159,8 @@ class ScoreboardTimer{
 				if( typeof( this.callback ) === 'function') this.callback( this.time );
 			}.bind( this ), 1000);
 		};
+
+		EXECUTERAF = true;
 	};
 
 	stop() {
@@ -171,6 +173,24 @@ class ScoreboardTimer{
 	reset()	{
 		this.time = 0;
 		this.generateTime();
+
+        g_SoccerPitch.m_bGameOn = false;
+
+        //update score
+        // the score is inversed because the team that make the score 
+        // has not access to the other team object ( Goal.js:25 )
+        document.getElementById("scoreTeamA").innerText = 0;
+        g_SoccerPitch.m_pBlueGoal.m_iNumGoalsScored = 0;
+        document.getElementById("scoreTeamB").innerText = 0;
+        g_SoccerPitch.m_pRedGoal.m_iNumGoalsScored = 0;            
+
+        //reset the ball                                                      
+        g_SoccerPitch.m_pBall.PlaceAtPosition( new Vector2D( g_SoccerPitch.m_cxClient / 2.0, g_SoccerPitch.m_cyClient / 2.0 ) );
+
+        //get the teams ready for kickoff
+        g_SoccerPitch.m_pRedTeam.GetFSM().ChangeState( PrepareForKickOff.Instance() );
+        g_SoccerPitch.m_pBlueTeam.GetFSM().ChangeState( PrepareForKickOff.Instance() );
+
 	};
 
 	getTime() {
@@ -191,12 +211,3 @@ class ScoreboardTimer{
 	};
 };
 
-
-let	scoreboardTimer = new ScoreboardTimer(
-	function( time ) {
-		if( time >= 2700 ) { 
-			timer.stop();
-			alert('time out');
-		};
-	}
-);

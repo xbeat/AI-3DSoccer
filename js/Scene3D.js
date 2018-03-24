@@ -235,7 +235,7 @@ class Scene3D{
 		//window.addEventListener( 'change-duration', this.playerController[ id ].onDurationChange.bind( this.playerController[ id ] ), false );
 		
 		//wait until all is loaded
-		EXECUTERAF = true;
+		//EXECUTERAF = true;
 
 		//this.Render();
 

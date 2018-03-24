@@ -8,7 +8,7 @@ class PrepareForKickOff {
 
     //this is a singleton
     static Instance() {
-        return new PrepareForKickOff();;
+        return new PrepareForKickOff();
     };
 
     Enter( team ) {
