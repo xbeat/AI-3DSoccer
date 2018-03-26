@@ -41,7 +41,7 @@ class Skill{
 
 				//https://stackoverflow.com/questions/10003683/javascript-get-number-from-string
 				this.SkillId = this.buttonSelected.id.replace( /^\D+/g, '' );
-				scope.controlPanel.setPlayerId( parseInt ( this.SkillId ) + 3 );
+				scope.setPlayerId( parseInt ( this.SkillId ) + 3 );
 				scene3D.playerSelected = parseInt ( this.SkillId ) + 3;
 
 				if ( this.skillOpen == false ){
@@ -128,7 +128,11 @@ class Skill{
 		};		
 
 	};
-   
+
+	setPlayerId( id ){
+		this.playerId = id;
+	};
+
 	addQty( val ) {
 
 		if( isNaN( val ) ) {
