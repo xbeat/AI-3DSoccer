@@ -27,24 +27,25 @@ class Scene3D{
 		this.scene = new THREE.Scene();
 		this.scene.add ( new THREE.AmbientLight( 0xffffff ) );
 
-		let lightOffset = new THREE.Vector3( 0, 1000, 1000.0 );	
-		let light = new THREE.DirectionalLight( 0x666666, 2.0 );
-		light.position.copy( lightOffset );
-		light.castShadow = true;
-		light.shadow.mapSize.width = 2048;
-		light.shadow.mapSize.height = 2048;
-		light.shadow.camera.near = 10;
-		light.shadow.camera.far = 10000;
-		light.shadow.bias = 0.00001;
-		light.shadow.camera.right = 3200;
-		light.shadow.camera.left = -3400;
-		light.shadow.camera.top = 1500;
-		light.shadow.camera.bottom = -2500;
+		this.lightOffset = new THREE.Vector3( 0, 1000, 1000.0 ); 
+		this.light = new THREE.DirectionalLight( 0x888888, 1 );
+		this.light.position.copy( this.lightOffset );
+		this.light.castShadow = true;
+		this.light.shadow.mapSize.width = 2048;
+		this.light.shadow.mapSize.height = 2048;
+		this.light.shadow.camera.near = 10;
+		this.light.shadow.camera.far = 10000;
+		this.light.shadow.bias = 0.00001;
+		this.light.shadow.camera.right = 3200;
+		this.light.shadow.camera.left = -3400;
+		this.light.shadow.camera.top = 1500;
+		this.light.shadow.camera.bottom = -2500;
+		this.scene.add( this.light );
 
 		//let helper = new THREE.CameraHelper( light.shadow.camera );
 		//this.scene.add( helper );
 
-		this.scene.add( light );
+		this.scene.add( this.light );
 		
 		this.renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 		this.renderer.setPixelRatio( window.devicePixelRatio );
@@ -73,7 +74,7 @@ class Scene3D{
 
 		document.body.appendChild( this.renderer.domElement );
 
-		// load mesh
+		// ------------- load Player -------------
 		//var url = '../lib/three.js-master/examples/models/skinned/marine/marine_anims_core.json';
 		let url = 'models/player/Player.json';
 		let scope = this;
@@ -98,8 +99,7 @@ class Scene3D{
 
 		});
 		
-		//  ------- Pitch ---------
-			
+		//  ------------ Pitch ----------------			
 		new THREE.ObjectLoader().load( "models/pitch/stadium.json", function( pitch ) {
 			
 			// Pitch Base look in the plus			
@@ -116,7 +116,7 @@ class Scene3D{
 
 		});
 
-		// Create Sky Scene
+		// --------- Create Sky Scene -----------
 		let path = "models/skyscene/";
 		let format = '.jpg';
 		let urls = [
