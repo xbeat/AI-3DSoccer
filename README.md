@@ -2,47 +2,6 @@
 
 A 3D javascript game w/ artificial intelligence using three.js.<br>
 <a href="https://xbe.at" target="_blank">DEMO</a>
-## Objective
-
-## Playing
-
-## Scoring
-
-## Perspective
-
-## Abilities
-
-### Actions
-
-#### Camera
-
-> **Note on xbeat**
-
-> Since.
-
-## Spaces
-
-
-## Tips & hints
-
-### General
-
-### ES2015+
-
-* If you want some code to be executed at the beginning of each level, define a [constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor) in the `Player` class, like this:
-
-```javascript
-class Player {
-  constructor() {
-    // This code will be executed only once, at the beginning of the level
-    this._health = 20;
-  }
-
-  playTurn(warrior) {
-    // Cool code goes here
-  }
-}
-```
 
 ## Credits
 
