@@ -6,8 +6,8 @@ A 3D javascript game w/ artificial intelligence using three.js.<br>
 ## Credits
 
 This game was developed by [@xbeat](https://github.com/xbeat).<br>
-Using Three.js by mrdoob<br>
-AI part from "Programming Game AI by Example" by Mat Buckland<br>
+3D from Three.js by mrdoob<br>
+AI from "Programming Game AI by Example" by Mat Buckland<br>
 
 ## License
 
