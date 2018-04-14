@@ -5,9 +5,9 @@ A 3D javascript game w/ artificial intelligence using three.js.<br>
 
 ## Credits
 
-This game was developed by [@xbeat](https://github.com/xbeat).
-Three.js mrdoob
-Programming Game AI by Example Mat Buckland
+This game was developed by [@xbeat](https://github.com/xbeat).<br>
+Three.js mrdoob<br>
+Programming Game AI by Example Mat Buckland<br>
 
 ## License
 
