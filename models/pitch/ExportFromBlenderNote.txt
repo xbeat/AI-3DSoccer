@@ -1,7 +1,7 @@
 1) Esportare da Blender come file json (three) incorporando le immagini ( vedere screenshot ).
 2) Importare nell'editor di three.js
 	*Inserire una luce emisfero 
-	color: #ffffff
+	color: #000000
 	Ground color: #ffffff 
 3) Selezionare la rete ( oggetto SketchUp_001 ) e modificare il materiale come segue:
 	1) Color: #000000
