@@ -1,0 +1,16 @@
+1) Esportare da Blender come file json (three) incorporando le immagini ( vedere screenshot ).
+2) Importare nell'editor di three.js
+	*Inserire una luce emisfero 
+	color: #ffffff
+	Ground color: #ffffff 
+3) Selezionare la rete ( oggetto SketchUp_001 ) e modificare il materiale come segue:
+	1) Color: #000000
+	2) Emissive: #000000
+	3) Blending: NORMAL ( default: NO )
+	4) Opacity: 1.00
+	5) Transparent: selezionato
+	6) Alpha test: 0
+4) Selezionare il bordo ( SketchUp_198 ) ed deselezionare la trasparenza ( l'oggetto non è trasparente perchè si vede )
+
+5) Eliminare la luce
+6) Esportate la scena
