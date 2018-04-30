@@ -114,7 +114,7 @@ class EntityFunctionTemplates {
             };
 
             //calculate the distance between the positions of the entities
-            let ToEntity = sub( entity.Pos(), curOb.Pos() );
+            let ToEntity = Vector2D.sub( entity.Pos(), curOb.Pos() );
 
             let DistFromEachOther = ToEntity.Length();
 
@@ -126,7 +126,7 @@ class EntityFunctionTemplates {
 
             if ( AmountOfOverLap >= 0 ) {
                 //move the entity a distance away equivalent to the amount of overlap.
-                entity.SetPos( add( entity.Pos(), mul( div( ToEntity, DistFromEachOther ),
+                entity.SetPos( Vector2D.add( entity.Pos(), Vector2D.mul( Vector2D.div( ToEntity, DistFromEachOther ),
                         AmountOfOverLap ) ) );
             };
         };//next entity
