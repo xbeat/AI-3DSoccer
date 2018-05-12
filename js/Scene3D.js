@@ -64,11 +64,11 @@ class Scene3D{
 		this.controls.target.set( 0, radius, 0 );
 		this.controls.enabled = true;
 		//this.controls.enablePan = true;	
+
+		let skill = new Skill( this.controlPanel );
 					
 		//this.controlPanel = new ControlPanel( this );
 		
-		let skill = new Skill( this.controlPanel );
-
 		let ctx = this.renderer.context;
 		ctx.getShaderInfoLog = function () { return '' };
 
