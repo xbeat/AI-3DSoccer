@@ -28,6 +28,7 @@ class SoccerBall extends MovingEntity {
         //keeps a record of the ball's position at the last update
         this.m_vOldPos;
         //a local reference to the Walls that make up the pitch boundary
+        this.m_HeightRatio;
 
     };
 
@@ -149,7 +150,10 @@ class SoccerBall extends MovingEntity {
         gdi.Circle( this.m_vPosition, this.m_dBoundingRadius );
 
         const ballPos = scene3D.convertRange( this.m_vPosition );
-        scene3D.ball3D.position.set( ballPos.x, 5, ballPos.y );
+
+        let height = this.m_vVelocity.LengthSq() * this.m_HeightRatio; 
+
+        scene3D.ball3D.position.set( ballPos.x, height, ballPos.y );
 
         /*
         gdi.GreenBrush();
@@ -178,6 +182,8 @@ class SoccerBall extends MovingEntity {
 
         //update the velocity
         this.m_vVelocity = acceleration;
+
+        this.m_HeightRatio = utils.RandInRange( 0, 40 );
     };
 
     /**
